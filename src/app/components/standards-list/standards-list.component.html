@@ -1,0 +1,119 @@
+<mat-accordion>
+  <mat-expansion-panel [expanded]="panelOpenState"
+                       (opened)="panelOpenState = true"
+                       (closed)="panelOpenState = false">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Иловакунии стандарт
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <form class="example-form">
+      <mat-form-field class="example-full-width">
+        <input matInput name="special" [(ngModel)]="standardList.specialty"
+               placeholder="Ихтисос" aria-label="Number" [formControl]="myControl"
+               [matAutocomplete]="auto" value="">
+        <mat-autocomplete  #auto="matAutocomplete">
+          <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+            {{ option }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-select [(value)]="standardList.degreeOfStudying"
+                    placeholder="Дараҷаи таҳсилот">
+          <mat-option value="undergraduate">бакалавр</mat-option>
+          <mat-option value="graduate">магистр</mat-option>
+          <mat-option value="phd">PhD</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <input type="number" [max]="4" [min]="2" name="time"
+               [value]="2" [(ngModel)]="standardList.timeOfStudying" matInput
+               placeholder="Мӯҳлати таҳсил">
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-select [(value)]="standardList.typeOfStudying"
+                    placeholder="Шакли таҳсил">
+          <mat-option value="dayTime">рӯзона</mat-option>
+          <mat-option value="partTime">ғоибона</mat-option>
+          <mat-option value="distance">фосилавӣ</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <input matInput [matDatepicker]="picker" placeholder="Санаи қабул"
+               name="special" [(ngModel)]="standardList.dateOfAcceptance">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <span class="text-right">
+        <button (click)="addStandard();" mat-raised-button class="bg-dark text-colored">
+          <mat-icon>add_circle_outline</mat-icon> Илова намудан
+        </button>
+      </span>
+    </form>
+  </mat-expansion-panel>
+</mat-accordion>
+
+<div class="example-header">
+  <mat-form-field class="full-width">
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+  </mat-form-field>
+</div>
+<div class="example-container mat-elevation-z8">
+
+  <mat-table class="table-hover" [(dataSource)]="dataSource" matSort>
+
+    <ng-container matColumnDef="number">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> № </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.number}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="specialty">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Ихтисос </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.specialty}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="degreeOfStudying">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Дараҷаи таҳсилот </mat-header-cell>
+      <mat-cell *matCellDef="let row;"> {{row.degreeOfStudying}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="timeOfStudying">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Мӯҳлати таҳсил </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.timeOfStudying}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="typeOfStudying">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Шакли таҳсил </mat-header-cell>
+      <mat-cell *matCellDef="let row">{{row.typeOfStudying}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="dateOfAcceptance">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Санаи қабул </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.dateOfAcceptance}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Амалиёт </mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <input type="number" value="{{row.id}}" hidden #id>
+        <mat-icon class="md-24 hovered-color" (click)="editSt(id.value);">edit</mat-icon>
+        <mat-icon class="md-24 hovered-color" (click)="deleteSt(id.value);">delete</mat-icon>
+        <mat-icon class="md-24 hovered-color" (click)="createComponentDynamically(standardCmp);">open_with</mat-icon>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;">
+    </mat-row>
+  </mat-table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+</div>
+<div #standard></div>

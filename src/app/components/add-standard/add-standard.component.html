@@ -1,0 +1,92 @@
+<h1 mat-dialog-title>Иловакунии фанни нав</h1>
+<div mat-dialog-content>
+  <!--<mat-card class="container">-->
+    <form class="example-form">
+      <mat-form-field class="example-full-width">
+        <input matInput name="data" [(ngModel)]="data.name" placeholder="Номи фанн" value="">
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-select [(value)]="data.idType" placeholder="Бахш">
+          <mat-option *ngFor="let type of subjectTypes" [value]="type.id">
+            {{ type.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <table class="text-center">
+        <tr>
+          <td></td>
+          <td class="border-bottom" colspan="2">Шаклҳои назорат аз рӯи семестрҳо</td>
+        </tr>
+        <tr>
+          <td>
+            <mat-form-field>
+              <input type="number" [max]="4" [min]="2" name="credits" matInput
+                     [(ngModel)]="data.credits" placeholder="Ҳаҷми кредитҳо">
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field>
+              <input type="text" matInput name="exam" [(ngModel)]="data.typeOfMonitoring.exam" placeholder="Имтиҳон" value="">
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field>
+              <input type="text" matInput name="goUpIWS" [(ngModel)]="data.typeOfMonitoring.goUpIWS" placeholder="Ҳимояи КМД" value="">
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr class="border-bottom">
+          <td colspan="3">Ба омӯзгор</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td class="border-bottom" colspan="2">Аз ҷумла</td>
+        </tr>
+        <tr>
+          <td>
+            <mat-form-field>
+              <input type="number" matInput name="total" [(ngModel)]="data.toTeacher.total" placeholder="Ҳамагӣ" value="">
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field>
+              <input type="number" matInput name="audit" [(ngModel)]="data.toTeacher.including.audit" placeholder="Аудиторӣ" value="">
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field>
+              <input type="number" matInput name="kmro" [(ngModel)]="data.toTeacher.including.kmro" placeholder="КМРО" value="">
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td class="border-bottom" colspan="2">Тақсимоти кредитҳо ба курсҳо ва семестрҳо</td>
+        </tr>
+        <tr>
+          <td>
+            <mat-form-field>
+              <input type="number" matInput name="iws" [(ngModel)]="data.IWS" placeholder="КМД" value="">
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field>
+              <input type="number" matInput name="terms" [(ngModel)]="terms" placeholder="Семестрҳо" value="">
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field>
+              <input type="number" matInput name="termCredits" [(ngModel)]="credits" placeholder="Кредитҳо" value="">
+            </mat-form-field>
+          </td>
+        </tr>
+      </table>
+    </form>
+</div>
+<div mat-dialog-actions>
+  <button  [mat-dialog-close]="data2" cdkFocusInitial (click)="addSubject();" mat-raised-button class="bg-dark text-colored example-full-width">
+    <mat-icon>add_circle_outline</mat-icon> Илова намудан
+  </button>
+</div>
