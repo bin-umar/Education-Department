@@ -22,6 +22,15 @@ export class AuthService {
   constructor(public http: HttpClient) {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.token = currentUser && currentUser.token;
+    if (!this.token) {
+      this.getToken('jaxa', 'jaxa97').subscribe(result => {
+        if (result) {
+          console.log('Done authorization!');
+        } else {
+          console.log('Username is incorrect');
+        }
+      });
+    }
   }
 
   getToken(username: string, password: string): Observable<boolean> {
@@ -44,6 +53,12 @@ export class AuthService {
         return false;
       }
     });
+  }
+
+  logout(): void {
+    // clear token remove user from local storage to log user out
+    this.token = null;
+    localStorage.removeItem('currentUser');
   }
 
 }

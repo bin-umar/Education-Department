@@ -26,3 +26,13 @@ export interface IAuth {
     hash: string
   };
 }
+
+export interface ISpec {
+  error: boolean;
+  data: [{
+    fID: number;
+    fSpec_NameRus: string;
+    fSpec_NameTaj: string;
+    fSpec_Shifr: string;
+  }];
+}

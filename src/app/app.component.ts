@@ -35,16 +35,6 @@ export class AppComponent implements OnInit {
                private auth: AuthService) {}
 
   ngOnInit() {
-    this.auth.getToken('jaxa', 'jaxa97').subscribe(result => {
-      if (result) {
-        this.mainService.getSpecialityList().subscribe((data) => {
-          console.log(data);
-        });
-      } else {
-        console.log('Username is incorrect');
-      }
-    });
-
     this.createComponentDynamically(this.standardsListCmp);
   }
 

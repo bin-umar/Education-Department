@@ -9,7 +9,8 @@ import { Observable } from "rxjs/Observable";
 import { startWith } from "rxjs/operators/startWith";
 import { map } from "rxjs/operators/map";
 import { StandardComponent } from "../standard/standard.component";
-import {AddStandardComponent} from "../add-standard/add-standard.component";
+import { AddStandardComponent } from "../add-standard/add-standard.component";
+import { MainService } from "../../shared/main.service";
 
 @Component({
   selector: 'app-standards-list',
@@ -39,9 +40,7 @@ export class StandardsListComponent implements OnInit {
     typeOfStudying: 'dayTime',
     dateOfAcceptance: ''
   };
-  options = ['530102', '530101', '400102', '700200', '712512', '569152',
-    '530112', '530103', '530104', '530105', '530106', '530107',
-    '530108', '530109', '400103', '400104', '400105', '400106'];
+  options = [];
   users: StandardList[] = [];
 
 
@@ -56,12 +55,25 @@ export class StandardsListComponent implements OnInit {
   myControl: FormControl = new FormControl();
   filteredOptions: Observable<string[]>;
 
+  constructor(private componentFactoryResolver: ComponentFactoryResolver,
+              private mainService: MainService) {
+    for (let i = 1; i <= 10; i++) { this.users.push(createNewUser(i)); }
+    this.dataSource = new MatTableDataSource(this.users);
+  }
+
   ngOnInit() {
     this.filteredOptions = this.myControl.valueChanges
       .pipe(
         startWith(''),
         map(val => this.filter(val))
       );
+
+    this.mainService.getSpecialityList().subscribe((response) => {
+      console.log(response);
+      response.data.forEach(item => {
+        this.options.push(item.fSpec_Shifr);
+      });
+    });
   }
 
   filter(val: string): string[] {
@@ -75,11 +87,6 @@ export class StandardsListComponent implements OnInit {
     // this.standardList.degreeOfStudying.val = this.selectedDegree;
     console.log(this.standardList);
     // console.log(this.users);
-  }
-
-  constructor(private componentFactoryResolver: ComponentFactoryResolver) {
-    for (let i = 1; i <= 10; i++) { this.users.push(createNewUser(i)); }
-    this.dataSource = new MatTableDataSource(this.users);
   }
 
   /**
