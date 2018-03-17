@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
+import { ISubject, ISubType } from './interfaces';
 
 @Injectable()
 export class AppService {
 
-  subjects = [
+  subjects: ISubject[] = [
     {
       name: 'Забони хориҷӣ',
       idType: 1,
@@ -204,7 +205,7 @@ export class AppService {
     }
   ];
 
-  subjectTypes = [
+  subjectTypes: ISubType[] = [
     {
       id: 1,
       name: 'Бахши фанҳои гуманитарӣ',
@@ -231,6 +232,8 @@ export class AppService {
       showConfigIcons: false
     },
   ];
+
+  degrees = ['бакалавр', 'магистр', 'PhD'];
 
   constructor() { }
 

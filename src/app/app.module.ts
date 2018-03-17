@@ -25,7 +25,8 @@ import { StandardsListComponent } from './components/standards-list/standards-li
 import { StandardComponent } from './components/standard/standard.component';
 import { AddStandardComponent } from './components/add-standard/add-standard.component';
 import { AuthService } from './shared/auth.service';
-import { MainService} from './shared/main.service';
+import { MainService } from './shared/main.service';
+import {AppService} from "./shared/app.service";
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { MainService} from './shared/main.service';
   ],
   providers: [
     AuthService,
-    MainService
+    MainService,
+    AppService
   ],
   bootstrap: [AppComponent]
 })

@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component, ComponentFactoryResolver, ComponentRef,
   OnInit, Output, Type, ViewChild, ViewContainerRef
 } from '@angular/core';
@@ -21,7 +22,9 @@ import { MainService } from "../../shared/main.service";
   ]
 })
 
-export class StandardsListComponent implements OnInit {
+export class StandardsListComponent implements
+  OnInit,
+  AfterViewInit {
 
   @Output() cmpName: any = "Стандартҳо";
 
@@ -62,18 +65,18 @@ export class StandardsListComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    this.mainService.getSpecialityList().subscribe((response) => {
+      response.data.forEach(item => {
+        this.options.push(item.fSpec_Shifr);
+      });
+    });
+
     this.filteredOptions = this.myControl.valueChanges
       .pipe(
         startWith(''),
         map(val => this.filter(val))
       );
-
-    this.mainService.getSpecialityList().subscribe((response) => {
-      console.log(response);
-      response.data.forEach(item => {
-        this.options.push(item.fSpec_Shifr);
-      });
-    });
   }
 
   filter(val: string): string[] {

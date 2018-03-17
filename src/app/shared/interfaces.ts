@@ -18,6 +18,13 @@ export interface ISubject {
     terms: number[],
     credits: number[]
   };
+  showConfigIcons: boolean;
+}
+
+export interface ISubType {
+  id: number;
+  name: string;
+  showConfigIcons: boolean;
 }
 
 export interface IAuth {
@@ -34,5 +41,17 @@ export interface ISpec {
     fSpec_NameRus: string;
     fSpec_NameTaj: string;
     fSpec_Shifr: string;
+  }];
+}
+
+export interface IStandard {
+  error: boolean;
+  data: [{
+    ids: number;
+    fSpec_NameRus: string;
+    fSpec_NameTaj: string;
+    profession: string;
+    timeOfStudying: number;
+    typeOfStudying: number;
   }];
 }

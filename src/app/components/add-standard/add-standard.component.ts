@@ -40,7 +40,8 @@ export class AddStandardComponent implements OnInit {
     creditDividing: {
       terms: [],
       credits: []
-    }
+    },
+    showConfigIcons: false
   };
 
   onNoClick(): void {

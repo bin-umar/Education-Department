@@ -1,6 +1,7 @@
 import {
   Component,
   OnInit,
+  OnDestroy,
   ViewContainerRef,
   ViewChild,
   ComponentFactoryResolver,
@@ -20,7 +21,10 @@ import { AuthService } from './shared/auth.service';
     StandardsListComponent
   ]
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements
+  OnInit,
+  OnDestroy {
+
   standardsListCmp = StandardsListComponent;
   component = "";
   // cmp;
@@ -32,10 +36,22 @@ export class AppComponent implements OnInit {
 
   constructor (private componentFactoryResolver: ComponentFactoryResolver,
                private mainService: MainService,
-               private auth: AuthService) {}
+               private auth: AuthService) {
 
-  ngOnInit() {
-    this.createComponentDynamically(this.standardsListCmp);
+    this.auth.getToken('jaxa', 'jaxa97').subscribe(result => {
+      if (result) {
+        this.createComponentDynamically(this.standardsListCmp);
+      } else {
+        console.log('Username is incorrect');
+      }
+    });
+
+  }
+
+  ngOnInit() {}
+
+  ngOnDestroy() {
+    this.auth.logout();
   }
 
   createComponentDynamically(cmp) {
