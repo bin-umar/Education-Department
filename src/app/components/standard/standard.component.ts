@@ -1,9 +1,8 @@
 import {Component, Input, OnInit, Output} from '@angular/core';
-import {StandardList} from '../standards-list/standards-list.component';
 import {MatDialog} from '@angular/material';
 import {AddStandardComponent} from '../add-standard/add-standard.component';
 import {AppService} from '../../shared/app.service';
-import {ISubject, ISubType} from '../../shared/interfaces';
+import {ISubject, ISubType, StandardList} from '../../shared/interfaces';
 
 @Component({
   selector: 'app-standard',
@@ -13,7 +12,7 @@ import {ISubject, ISubType} from '../../shared/interfaces';
 export class StandardComponent implements OnInit {
 
   @Input() Standard: StandardList = {
-    id: '',
+    id: 0,
     number: 1,
     specialty: '',
     degreeOfStudying: '',
@@ -48,7 +47,7 @@ export class StandardComponent implements OnInit {
 
     // this.subjects = this.appService.subjects;
     // this.subjectTypes = this.appService.subjectTypes;
-    this.isDataAvailable = true;
+    // this.isDataAvailable = true;
   }
 
   sum(id, prop) {

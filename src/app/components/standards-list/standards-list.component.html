@@ -9,44 +9,44 @@
     </mat-expansion-panel-header>
 
     <form class="example-form">
-      <mat-form-field class="example-full-width">
-        <input matInput name="special" [(ngModel)]="standardList.specialty"
+      <mat-form-field class="full-width">
+        <input matInput name="special" [(ngModel)]="selectedSpec"
                placeholder="Ихтисос" aria-label="Number" [formControl]="myControl"
-               [matAutocomplete]="auto" value="">
-        <mat-autocomplete  #auto="matAutocomplete">
+               [matAutocomplete]="auto" value="" required>
+        <mat-autocomplete  #auto="matAutocomplete" [displayWith]="displayFn">
           <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-            {{ option }}
+            {{ option.fSpec_Shifr + " " + option.fSpec_NameRus }}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
 
       <mat-form-field class="example-full-width">
         <mat-select [(value)]="standardList.degreeOfStudying"
-                    placeholder="Дараҷаи таҳсилот">
-          <mat-option value="undergraduate">бакалавр</mat-option>
-          <mat-option value="graduate">магистр</mat-option>
-          <mat-option value="phd">PhD</mat-option>
+                    placeholder="Дараҷаи таҳсилот" required>
+          <mat-option value="0">бакалавр</mat-option>
+          <mat-option value="1">магистр</mat-option>
+          <mat-option value="2">PhD</mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field class="example-full-width">
         <input type="number" [max]="4" [min]="2" name="time"
                [value]="2" [(ngModel)]="standardList.timeOfStudying" matInput
-               placeholder="Мӯҳлати таҳсил">
+               placeholder="Мӯҳлати таҳсил" required>
       </mat-form-field>
 
       <mat-form-field class="example-full-width">
         <mat-select [(value)]="standardList.typeOfStudying"
-                    placeholder="Шакли таҳсил">
-          <mat-option value="dayTime">рӯзона</mat-option>
-          <mat-option value="partTime">ғоибона</mat-option>
-          <mat-option value="distance">фосилавӣ</mat-option>
+                    placeholder="Шакли таҳсил" required>
+          <mat-option value="0">рӯзона</mat-option>
+          <mat-option value="1">ғоибона</mat-option>
+          <mat-option value="2">фосилавӣ</mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field class="example-full-width">
         <input matInput [matDatepicker]="picker" placeholder="Санаи қабул"
-               name="special" [(ngModel)]="standardList.dateOfAcceptance">
+               name="special" [(ngModel)]="standardList.dateOfAcceptance" required>
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
@@ -96,7 +96,7 @@
 
     <ng-container matColumnDef="dateOfAcceptance">
       <mat-header-cell *matHeaderCellDef mat-sort-header> Санаи қабул </mat-header-cell>
-      <mat-cell *matCellDef="let row"> {{row.dateOfAcceptance}} </mat-cell>
+      <mat-cell *matCellDef="let row"> {{row.dateOfAcceptance | date:'mediumDate'}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="actions">

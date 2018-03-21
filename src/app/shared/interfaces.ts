@@ -36,22 +36,44 @@ export interface IAuth {
 
 export interface ISpec {
   error: boolean;
-  data: [{
-    fID: number;
-    fSpec_NameRus: string;
-    fSpec_NameTaj: string;
-    fSpec_Shifr: string;
-  }];
+  data: [ISpec];
+}
+
+export interface ISpec {
+  fID: number;
+  fSpec_NameRus: string;
+  fSpec_NameTaj: string;
+  fSpec_Shifr: string;
+}
+
+export class Spec {
+  constructor(
+    public fID: number,
+    public fSpec_NameRus: string,
+    public fSpec_NameTaj: string,
+    public fSpec_Shifr: string
+  ) { }
 }
 
 export interface IStandard {
   error: boolean;
   data: [{
     ids: number;
-    fSpec_NameRus: string;
-    fSpec_NameTaj: string;
-    profession: string;
+    fSpec_Shifr: string;
     timeOfStudying: number;
-    typeOfStudying: number;
+    typeOfStudying: string;
+    degreeOfStudying: string;
+    dateOfAcceptance: string;
   }];
+}
+
+export interface StandardList {
+  id: number;
+  number: number;
+  specialty: string;
+  degreeOfStudying: string;
+  profession: string;
+  timeOfStudying: number;
+  typeOfStudying: string;
+  dateOfAcceptance: Date;
 }
