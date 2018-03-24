@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ISubject, ISubType } from './interfaces';
+import { ISubject, ISubType } from '../models/interfaces';
 
 @Injectable()
 export class AppService {
@@ -234,6 +234,7 @@ export class AppService {
   ];
 
   degrees = ['бакалавр', 'магистр', 'PhD'];
+  types = ['рӯзона', 'ғоибона', 'фосилавӣ'];
 
   constructor() { }
 

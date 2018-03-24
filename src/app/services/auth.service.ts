@@ -6,7 +6,7 @@ import {
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/map';
 
-import { IAuth } from './interfaces';
+import { IAuth } from '../models/interfaces';
 import { Observable } from "rxjs/Observable";
 
 @Injectable()

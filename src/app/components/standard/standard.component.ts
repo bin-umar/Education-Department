@@ -1,8 +1,8 @@
 import {Component, Input, OnInit, Output} from '@angular/core';
 import {MatDialog} from '@angular/material';
-import {AddStandardComponent} from '../add-standard/add-standard.component';
-import {AppService} from '../../shared/app.service';
-import {ISubject, ISubType, StandardList} from '../../shared/interfaces';
+import {AddStandardComponent} from '../../dialogs/add-standard/add-standard.component';
+import {AppService} from '../../services/app.service';
+import {ISubject, ISubType, StandardList} from '../../models/interfaces';
 
 @Component({
   selector: 'app-standard',
@@ -19,7 +19,7 @@ export class StandardComponent implements OnInit {
     profession: '',
     timeOfStudying: 0,
     typeOfStudying: '',
-    dateOfAcceptance: ''
+    dateOfAcceptance: new Date
   };
   @Output() cmpName = "Стандарт";
 

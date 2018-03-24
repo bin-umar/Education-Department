@@ -23,17 +23,20 @@ import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { StandardsListComponent } from './components/standards-list/standards-list.component';
 import { StandardComponent } from './components/standard/standard.component';
-import { AddStandardComponent } from './components/add-standard/add-standard.component';
-import { AuthService } from './shared/auth.service';
-import { MainService } from './shared/main.service';
-import {AppService} from "./shared/app.service";
+import { AddStandardComponent } from './dialogs/add-standard/add-standard.component';
+import { AuthService } from './services/auth.service';
+import { MainService } from './services/main.service';
+import { AppService } from './services/app.service';
+import { DataService } from './services/data.service';
+import { DeleteDialogComponent } from './dialogs/delete/delete.dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AddStandardComponent,
     StandardComponent,
-    StandardsListComponent
+    StandardsListComponent,
+    DeleteDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -57,12 +60,14 @@ import {AppService} from "./shared/app.service";
     MatDialogModule
   ],
   entryComponents: [
-    AddStandardComponent
+    AddStandardComponent,
+    DeleteDialogComponent
   ],
   providers: [
     AuthService,
     MainService,
-    AppService
+    AppService,
+    DataService
   ],
   bootstrap: [AppComponent]
 })

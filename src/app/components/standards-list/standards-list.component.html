@@ -8,7 +8,7 @@
       </mat-panel-title>
     </mat-expansion-panel-header>
 
-    <form class="example-form">
+    <form class="example-form" (ngSubmit)="submit" #formControl="ngForm">
       <mat-form-field class="full-width">
         <input matInput name="special" [(ngModel)]="selectedSpec"
                placeholder="Ихтисос" aria-label="Number" [formControl]="myControl"
@@ -52,8 +52,11 @@
       </mat-form-field>
 
       <span class="text-right">
-        <button (click)="addStandard();" mat-raised-button class="bg-dark text-colored">
-          <mat-icon>add_circle_outline</mat-icon> Илова намудан
+        <button [hidden]="!add" [disabled]="!formControl.valid" (click)="addStandard();" mat-raised-button class="bg-dark text-colored">
+          <mat-icon>add_circle_outline</mat-icon> Добавить
+        </button>
+        <button [hidden]="add" (click)="saveModifiedSt();" mat-raised-button class="bg-dark text-colored">
+          <mat-icon>save</mat-icon> Сохранить
         </button>
       </span>
     </form>
@@ -62,7 +65,7 @@
 
 <div class="example-header">
   <mat-form-field class="full-width">
-    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+    <input matInput #filter placeholder="Filter">
   </mat-form-field>
 </div>
 <div class="example-container mat-elevation-z8">
@@ -101,10 +104,10 @@
 
     <ng-container matColumnDef="actions">
       <mat-header-cell *matHeaderCellDef mat-sort-header> Амалиёт </mat-header-cell>
-      <mat-cell *matCellDef="let row">
+      <mat-cell *matCellDef="let row; let i=index;">
         <input type="number" value="{{row.id}}" hidden #id>
         <mat-icon class="md-24 hovered-color" (click)="editSt(id.value);">edit</mat-icon>
-        <mat-icon class="md-24 hovered-color" (click)="deleteSt(id.value);">delete</mat-icon>
+        <mat-icon class="md-24 hovered-color" (click)="deleteSt(row);">delete</mat-icon>
         <mat-icon class="md-24 hovered-color" (click)="createComponentDynamically(standardCmp);">open_with</mat-icon>
       </mat-cell>
     </ng-container>
@@ -114,6 +117,9 @@
     </mat-row>
   </mat-table>
 
-  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+  <mat-paginator [length]="dataSource.filteredData.length"
+                 [pageIndex]="0"
+                 [pageSize]="10"
+                 [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
 </div>
 <div #standard></div>

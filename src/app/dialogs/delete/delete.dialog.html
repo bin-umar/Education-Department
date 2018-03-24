@@ -1,0 +1,36 @@
+<div class="container">
+  <h3 mat-dialog-title>Стандарти зеринро хориҷ кардан мехоҳед?</h3>
+  <div mat-dialog-content>
+      <table id="standard-info">
+        <tr>
+          <td>барои ихтисоси</td>
+          <td>{{data.specialty}}</td>
+        </tr>
+        <tr>
+          <td>Дараҷаи таҳсилот:</td>
+          <td>{{data.degreeOfStudying}}</td>
+        </tr>
+        <tr>
+          <td>Касб:</td>
+          <td>{{data.profession}}</td>
+        </tr>
+        <tr>
+          <td>Мӯҳлати таҳсил:</td>
+          <td>{{data.timeOfStudying}}</td>
+        </tr>
+        <tr>
+          <td>Шакли таҳсил:</td>
+          <td>{{data.typeOfStudying}}</td>
+        </tr>
+        <tr>
+          <td>Санаи қабул:</td>
+          <td>{{data.dateOfAcceptance}}</td>
+        </tr>
+      </table>
+  </div>
+
+  <div mat-dialog-actions>
+    <button mat-button [mat-dialog-close]="1">Удалить</button>
+    <button mat-button (click)="onNoClick()" tabindex="-1">Отмена</button>
+  </div>
+</div>

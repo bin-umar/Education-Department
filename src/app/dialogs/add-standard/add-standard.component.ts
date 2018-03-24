@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
-import { ISubject } from "../../shared/interfaces";
-import { AppService } from "../../shared/app.service";
+import { MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import { ISubject } from "../../models/interfaces";
+import { AppService } from "../../services/app.service";
 
 @Component({
   selector: 'app-add-standard',

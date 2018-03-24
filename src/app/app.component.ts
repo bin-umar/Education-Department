@@ -10,8 +10,8 @@ import {
 } from '@angular/core';
 
 import { StandardsListComponent } from "./components/standards-list/standards-list.component";
-import { MainService } from './shared/main.service';
-import { AuthService } from './shared/auth.service';
+import { MainService } from './services/main.service';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -42,7 +42,7 @@ export class AppComponent implements
       if (result) {
         this.createComponentDynamically(this.standardsListCmp);
       } else {
-        console.log('Username is incorrect');
+        console.log('Username or password is incorrect');
       }
     });
 
