@@ -1,9 +1,11 @@
-import {Injectable} from '@angular/core';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from '@angular/common/http';
-import {IStandard, ResAddStandard, StandardList} from "../models/interfaces";
-import {AuthService} from "./auth.service";
-import {MainService} from "./main.service";
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from '@angular/common/http';
+
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+
+import { IStandard, ResAddStandard, StandardList} from '../models/interfaces';
+import { AuthService } from './auth.service';
+import { MainService } from './main.service';
 
 @Injectable()
 export class DataService {
@@ -48,7 +50,6 @@ export class DataService {
       });
   }
 
-  // DEMO ONLY, you can find working methods below
   addStandard(standard: StandardList) {
     const body = new HttpParams()
       .set('ids', '')
@@ -70,8 +71,25 @@ export class DataService {
     });
   }
 
-  updateSt (stList: StandardList): void {
-    this.dialogData = stList;
+  updateSt (standard: StandardList) {
+    const body = new HttpParams()
+      .set('ids', standard.id.toString())
+      .set('idSpec', standard.specialty)
+      .set('degreeOfStudying', standard.degreeOfStudying)
+      .set('timeOfStudying', standard.timeOfStudying.toString())
+      .set('typeOfStudying', standard.typeOfStudying.toString())
+      .set('dateOfAcceptance', MainService.getDate(standard.dateOfAcceptance))
+      .set('route', 'standards')
+      .set('operation', 'update')
+      .set('token', this.auth.token);
+
+    return this.auth.http.post(this.auth.host, body.toString(),
+      {
+        headers: new HttpHeaders()
+          .set('Content-Type', 'application/x-www-form-urlencoded')
+      }).map((response: ResAddStandard) => {
+      return response;
+    });
   }
 
   deleteSt (id: number) {
@@ -91,48 +109,5 @@ export class DataService {
   }
 }
 
-
 const DEGREES = ['бакалавр', 'магистр', 'PhD'];
 const TYPES = ['рӯзона', 'ғоибона', 'фосилавӣ'];
-
-/* REAL LIFE CRUD Methods I've used in my projects. ToasterService uses Material Toasts for displaying messages:
-
-    // ADD, POST METHOD
-    addItem(kanbanItem: KanbanItem): void {
-    this.httpClient.post(this.API_URL, kanbanItem).subscribe(data => {
-      this.dialogData = kanbanItem;
-      this.toasterService.showToaster('Successfully added', 3000);
-      },
-      (err: HttpErrorResponse) => {
-      this.toasterService.showToaster('Error occurred. Details: ' + err.name + ' ' + err.message, 8000);
-    });
-   }
-
-    // UPDATE, PUT METHOD
-     updateItem(kanbanItem: KanbanItem): void {
-    this.httpClient.put(this.API_URL + kanbanItem.id, kanbanItem).subscribe(data => {
-        this.dialogData = kanbanItem;
-        this.toasterService.showToaster('Successfully edited', 3000);
-      },
-      (err: HttpErrorResponse) => {
-        this.toasterService.showToaster('Error occurred. Details: ' + err.name + ' ' + err.message, 8000);
-      }
-    );
-  }
-
-  // DELETE METHOD
-  deleteItem(id: number): void {
-    this.httpClient.delete(this.API_URL + id).subscribe(data => {
-      console.log(data['']);
-        this.toasterService.showToaster('Successfully deleted', 3000);
-      },
-      (err: HttpErrorResponse) => {
-        this.toasterService.showToaster('Error occurred. Details: ' + err.name + ' ' + err.message, 8000);
-      }
-    );
-  }
-*/
-
-
-
-

@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
+
 import { AuthService } from './auth.service';
-import { HttpHeaders, HttpParams } from '@angular/common/http';
-import {
-  ISpec,
-  IStandard, ResAddStandard, StandardList
-} from '../models/interfaces';
+import {ISpec, ISubjectList, ISubjectResponse, ISubType, ResSubType, StSubjectResp} from '../models/interfaces';
 
 @Injectable()
 export class MainService {
+
+  subjectTypes: ISubType[] = [];
+
+  degrees = ['бакалавр', 'магистр', 'PhD'];
+  types = ['рӯзона', 'ғоибона', 'фосилавӣ'];
 
   constructor(private auth: AuthService) {}
 
@@ -28,6 +30,44 @@ export class MainService {
       this.auth.host + '/self.php?route=spec&operation=list&token=' + this.auth.token
     ).map((response: ISpec) => {
       return response;
+    });
+  }
+
+  getSubjectsList() {
+    return this.auth.http.get(
+      this.auth.host + '/self.php?route=subjects&operation=list&token=' + this.auth.token
+    ).map((response: ISubjectResponse) => {
+      return response;
+    });
+  }
+
+  getSubjectsByStandardId(id: number) {
+    return this.auth.http.get(
+      this.auth.host + '/self.php?route=stsubjects&operation=one' +
+      '&id=' + id + '&token=' + this.auth.token
+    ).map((response: StSubjectResp) => {
+      return response;
+    });
+  }
+
+  getSubjectTypesList() {
+    return this.auth.http.get(
+      this.auth.host + '/self.php?route=subtype&operation=list&token=' + this.auth.token
+    ).map((response: ResSubType) => {
+      if (!response.error) {
+
+        response.data.forEach(item => {
+          this.subjectTypes.push({
+            id: item.id,
+            name: item.name,
+            showConfigIcons: false
+          });
+        });
+        return true;
+
+      } else {
+        return false;
+      }
     });
   }
 }

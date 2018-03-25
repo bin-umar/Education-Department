@@ -9,7 +9,11 @@
       <i>"Тасдиқ мекунам"</i>
     </h6>
     <h6>Вазорати маориф ва илми Ҷумҳурии Тоҷикистон</h6>
-    <h6>"_______"__________2016</h6>
+    <h6>
+      "{{Standard.dateOfAcceptance | date:'dd'}}"
+      "{{Standard.dateOfAcceptance | date:'MM'}}"
+      {{Standard.dateOfAcceptance | date:'yyyy'}}
+    </h6>
   </div>
 
   <div class="standard-info">
@@ -45,8 +49,10 @@
       <i>"Мувофиқа карда шуд"</i>
     </h6>
     <h6>Ректори ДТТ ба номи академик М.С.Осимӣ</h6>
-    <h6>"_______"__________2016
-      {{Standard.dateOfAcceptance}}
+    <h6>
+      "{{Standard.dateOfAcceptance | date:'dd'}}"
+      "{{Standard.dateOfAcceptance | date:'MM'}}"
+      {{Standard.dateOfAcceptance | date:'yyyy'}}
     </h6>
   </div>
 </mat-card>
@@ -111,7 +117,6 @@
       <th>18</th>
       <th>19</th>
     </tr>
-    <!--[ngIf]="idStandard === standard.idStandard"-->
     <ng-template ngFor let-j="index" let-type [ngForOf]="subjectTypes">
       <tr class="showConfig bg-eee" [class.hovered]="type.showConfigIcons">
         <td colspan="2">{{romanize(j + 1) + "." + type.name}}</td>

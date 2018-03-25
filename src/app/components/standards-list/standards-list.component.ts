@@ -29,7 +29,6 @@ import { StandardComponent } from '../standard/standard.component';
 import { MainService } from '../../services/main.service';
 import { Spec, StandardList } from '../../models/interfaces';
 import { AuthService } from '../../services/auth.service';
-import { AppService } from '../../services/app.service';
 import { DeleteDialogComponent } from '../../dialogs/delete/delete.dialog.component';
 
 @Component({
@@ -47,10 +46,7 @@ export class StandardsListComponent implements OnInit {
   @ViewChild('standard', {read: ViewContainerRef}) parent: ViewContainerRef;
   @ViewChild('filter') filterInput: ElementRef;
 
-  type: Type<StandardComponent>;
   cmpRef: ComponentRef<StandardComponent>;
-  standardCmp = StandardComponent;
-
   myControl: FormControl = new FormControl();
   filteredOptions: Observable<Spec[]>;
 
@@ -61,28 +57,16 @@ export class StandardsListComponent implements OnInit {
   displayedColumns = ['number', 'specialty', 'degreeOfStudying'
     , 'timeOfStudying', 'typeOfStudying', 'dateOfAcceptance', 'actions'];
   selectedSpec: Spec;
-  standardList: StandardList = {
-    id: null,
-    number: null,
-    specialty: null,
-    degreeOfStudying: null,
-    profession: null,
-    timeOfStudying: null,
-    typeOfStudying: null,
-    dateOfAcceptance: new Date()
-  };
+  standardList: StandardList;
 
   options: Spec[] = [];
-  standards: StandardList[] = [];
   add = true;
-  index: number;
-  id: number;
+  isSubjectTypesLoaded = false;
 
   constructor(private componentFactoryResolver: ComponentFactoryResolver,
               private mainService: MainService,
               public httpClient: HttpClient,
               private auth: AuthService,
-              private appService: AppService,
               private dataService: DataService,
               public dialog: MatDialog) {
   }
@@ -90,6 +74,7 @@ export class StandardsListComponent implements OnInit {
   formControl = new FormControl('', [ Validators.required ]);
 
   ngOnInit() {
+    this.setStToDefault();
 
     this.mainService.getSpecialityList().subscribe((response) => {
       response.data.forEach(item => {
@@ -104,6 +89,10 @@ export class StandardsListComponent implements OnInit {
         );
     });
 
+    this.mainService.getSubjectTypesList().subscribe(data => {
+      this.isSubjectTypesLoaded = data;
+    });
+
     this.loadData();
   }
 
@@ -116,80 +105,132 @@ export class StandardsListComponent implements OnInit {
     return spec ? spec.fSpec_Shifr + " " + spec.fSpec_NameRus : undefined;
   }
 
+  setStToDefault() {
+    this.selectedSpec = {
+      fID: null,
+      fSpec_NameRus: '',
+      fSpec_NameTaj: '',
+      fSpec_Shifr: ''
+    };
+
+    this.standardList = {
+      id: null,
+      number: null,
+      specialty: null,
+      degreeOfStudying: null,
+      profession: null,
+      timeOfStudying: null,
+      typeOfStudying: null,
+      dateOfAcceptance: null
+    };
+  }
+
   addStandard() {
     this.standardList.specialty = this.selectedSpec.fID.toString();
     this.dataService.addStandard(this.standardList).subscribe((res) => {
       this.exampleDatabase.dataChange.value.push({
         id: res.data.id,
-        number: this.dataSource.filteredData.length,
+        number: this.dataSource.filteredData.length + 1,
         specialty: this.selectedSpec.fSpec_Shifr,
-        degreeOfStudying: this.appService.degrees[this.standardList.degreeOfStudying],
+        degreeOfStudying: this.mainService.degrees[this.standardList.degreeOfStudying],
         profession: this.standardList.profession,
         timeOfStudying: this.standardList.timeOfStudying,
-        typeOfStudying: this.appService.types[this.standardList.typeOfStudying],
+        typeOfStudying: this.mainService.types[this.standardList.typeOfStudying],
         dateOfAcceptance: this.standardList.dateOfAcceptance
       });
 
       this.refreshTable();
-      this.standards.push(this.standardList);
+      this.setStToDefault();
     });
   }
 
-  editSt(id: number) {
+  editSt(row: StandardList) {
     this.add = false;
     this.panelOpenState = true;
-    this.standardList = this.standards[this.findIndexById(id)];
+
+    const sIndex = this.options.findIndex(x => x.fSpec_Shifr === row.specialty);
+    const tIndex = this.mainService.types.findIndex(x => x === row.typeOfStudying);
+    const dIndex = this.mainService.degrees.findIndex(x => x === row.degreeOfStudying);
+
+    this.selectedSpec = this.options[sIndex];
+    this.standardList = {
+      id: row.id,
+      number: row.number,
+      specialty: row.specialty,
+      degreeOfStudying: dIndex.toString(),
+      profession: row.profession,
+      timeOfStudying: row.timeOfStudying,
+      typeOfStudying: tIndex.toString(),
+      dateOfAcceptance: row.dateOfAcceptance
+    };
   }
 
   deleteSt(row: StandardList) {
 
-    this.index = row.number - 1;
-    this.id = row.id;
     const dialogRef = this.dialog.open(DeleteDialogComponent, { data: row });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result === 1) {
-        this.dataService.deleteSt(this.id).subscribe( data => {
-
+        this.dataService.deleteSt(row.id).subscribe( data => {
+          const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.id === row.id);
+          // for delete we use splice in order to remove single object from DataService
+          this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
+          this.refreshTable();
         });
-        const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.id === this.id);
-        // for delete we use splice in order to remove single object from DataService
-        this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
-        this.refreshTable();
       }
     });
   }
 
-  findIndexById(id: number) {
-    return this.standards.findIndex(x => +x.id === +id);
+  openSt(row: StandardList) {
+
+    if (this.isSubjectTypesLoaded) {
+      if (this.cmpRef) { this.cmpRef.destroy(); }
+
+      const sIndex = this.options.findIndex(x => x.fSpec_Shifr === row.specialty);
+      const speciality = this.options[sIndex];
+
+      const childComponent = this.componentFactoryResolver.resolveComponentFactory(StandardComponent);
+      const CmpRef = this.parent.createComponent(childComponent);
+
+      CmpRef.instance.Standard = {
+        id: row.id,
+        number: row.number,
+        specialty: speciality.fSpec_Shifr + " " + speciality.fSpec_NameRus,
+        degreeOfStudying: row.degreeOfStudying,
+        profession: row.profession,
+        timeOfStudying: row.timeOfStudying,
+        typeOfStudying: row.typeOfStudying,
+        dateOfAcceptance: new Date(row.dateOfAcceptance)
+      };
+
+      this.cmpRef = CmpRef;
+    } else {
+      console.log("Subject Types haven't been loaded yet");
+    }
   }
 
-  openSt(id: number) {
-    this.createComponentDynamically(this.standardList);
-  }
+  saveModifiedSt() {
+    this.standardList.specialty = this.selectedSpec.fID.toString();
+    this.standardList.dateOfAcceptance = new Date(this.standardList.dateOfAcceptance);
 
-  saveModifiedSt() {  }
+    this.dataService.updateSt(this.standardList).subscribe((res) => {
+      // this.exampleDatabase.dataChange.value.push({
+      //   id: res.data.id,
+      //   number: this.dataSource.filteredData.length + 1,
+      //   specialty: this.selectedSpec.fSpec_Shifr,
+      //   degreeOfStudying: this.appService.degrees[this.standardList.degreeOfStudying],
+      //   profession: this.standardList.profession,
+      //   timeOfStudying: this.standardList.timeOfStudying,
+      //   typeOfStudying: this.appService.types[this.standardList.typeOfStudying],
+      //   dateOfAcceptance: this.standardList.dateOfAcceptance
+      // });
 
-  createComponentDynamically(cmp) {
-    if (this.cmpRef) { this.cmpRef.destroy(); }
-    this.type = cmp;
+      // this.exampleDatabase
+      console.log(res);
 
-    const childComponent = this.componentFactoryResolver.resolveComponentFactory(this.type);
-    const CmpRef = this.parent.createComponent(childComponent);
-    CmpRef.instance.Standard = {
-      id: 0,
-      number: 1,
-      specialty: '530102 - Автоматонии системаҳои коркарди маълумот',
-      degreeOfStudying: 'бакалавр',
-      profession: 'Муҳандис доир ба технологияҳои иттилоотӣ',
-      timeOfStudying: 4,
-      typeOfStudying: 'рӯзона',
-      dateOfAcceptance: new Date()
-    };
-    // this.component = CmpRef.instance.cmpName;
-    // this.cmp = CmpRef.instance.openStandard;
-
-    this.cmpRef = CmpRef;
+      this.refreshTable();
+      this.setStToDefault();
+    });
   }
 
   // If you don't need a filter or a pagination this can be simplified, you just use code from else block

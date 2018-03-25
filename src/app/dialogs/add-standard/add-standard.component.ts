@@ -1,66 +1,99 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Inject,
+  ElementRef,
+  ViewChild
+} from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
-import { ISubject } from "../../models/interfaces";
-import { AppService } from "../../services/app.service";
+import { FormControl } from '@angular/forms';
+
+import { Observable } from 'rxjs/Observable';
+import { startWith } from 'rxjs/operators/startWith';
+import { map } from 'rxjs/operators/map';
+
+import { MainService } from '../../services/main.service';
+import { ISubject, ISubjectList } from '../../models/interfaces';
 
 @Component({
   selector: 'app-add-standard',
   templateUrl: './add-standard.component.html',
-  styleUrls: ['./add-standard.component.css'],
-  providers: [ AppService ]
+  styleUrls: ['./add-standard.component.css']
 })
 export class AddStandardComponent implements OnInit {
 
+  @ViewChild('filter') filterInput: ElementRef;
+
   subjectTypes;
+  selectedSubject: ISubjectList = {
+    id: null,
+    name: ''
+  };
+
+  options: ISubjectList[] = [];
+  filteredOptions: Observable<ISubjectList[]>;
+
+  myControl: FormControl = new FormControl();
+  add = true;
+
+  credits: string;
+  terms: string;
 
   constructor(public dialogRef: MatDialogRef<AddStandardComponent>,
               @Inject(MAT_DIALOG_DATA) public data: ISubject,
-              private appService: AppService) {
-    this.subjectTypes = this.appService.subjectTypes;
+              private mainService: MainService) {
+    this.subjectTypes = this.mainService.subjectTypes;
   }
 
-  credits: number[] = [];
-  terms: number[] = [];
-  data2: ISubject = {
-    name: '',
-    idType: null,
-    credits: null,
-    typeOfMonitoring: {
-      exam: '',
-      goUpIWS: ''
-    },
-    toTeacher: {
-      total: null,
-      including: {
-        audit: null,
-        kmro: null
-      }
-    },
-    IWS: null,
-    creditDividing: {
-      terms: [],
-      credits: []
-    },
-    showConfigIcons: false
-  };
+  ngOnInit() {
+    this.mainService.getSubjectsList().subscribe( res => {
+      res.data.forEach( item => {
+        this.options.push({
+          id: item.id,
+          name: item.name
+        });
+      });
+    });
+
+    this.filteredOptions = this.myControl.valueChanges
+      .pipe(
+        startWith<string | ISubjectList>(''),
+        map(value => typeof value === 'string' ? value : value.name),
+        map(val => val ? this.filter(val) : this.options.slice())
+      );
+  }
+
+  filter(val: string): ISubjectList[] {
+    return this.options.filter(option =>
+      option.name.toLowerCase().indexOf(val.toLowerCase()) === 0);
+  }
+
+  displayFn(subject?: ISubjectList): string | undefined {
+    return subject ? subject.name : undefined;
+  }
 
   onNoClick(): void {
     this.dialogRef.close();
   }
 
   addSubject() {
-    this.data2 = this.data;
-    this.data2.creditDividing.terms = this.terms;
-    this.data2.creditDividing.credits = this.credits;
-  }
+    const credits = this.credits.split(",");
+    const terms = this.terms.split(",");
 
-  ngOnInit() {
-    this.dialogRef.beforeClose().subscribe(() => {
-      this.data2 = this.data;
-      this.data2.creditDividing.terms = this.terms;
-      this.data2.creditDividing.credits = this.credits;
-      return this.data2;
-    });
+    if (credits.length === terms.length) {
+      for (let i = 0; i < credits.length; i++) {
+        this.data.creditDividing.credits.push(Number(credits[i]));
+        this.data.creditDividing.terms.push(Number(terms[i]));
+      }
+
+      this.data.name = this.selectedSubject.name;
+    } else {
+      console.log("Terms isn't equal to credits. Make them equal");
+    }
+    // this.data.creditDividing.credits
+    // this.data2 = this.data;
+    // this.data2.creditDividing.terms = this.terms;
+    // this.data2.creditDividing.credits = this.credits;
   }
 
 }

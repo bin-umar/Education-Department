@@ -1,14 +1,14 @@
 <mat-accordion>
   <mat-expansion-panel [expanded]="panelOpenState"
                        (opened)="panelOpenState = true"
-                       (closed)="panelOpenState = false">
+                       (closed)="panelOpenState = false; add = true; setStToDefault()">
     <mat-expansion-panel-header>
       <mat-panel-title>
         Иловакунии стандарт
       </mat-panel-title>
     </mat-expansion-panel-header>
 
-    <form class="example-form" (ngSubmit)="submit" #formControl="ngForm">
+    <form class="example-form" #formControl="ngForm">
       <mat-form-field class="full-width">
         <input matInput name="special" [(ngModel)]="selectedSpec"
                placeholder="Ихтисос" aria-label="Number" [formControl]="myControl"
@@ -104,11 +104,11 @@
 
     <ng-container matColumnDef="actions">
       <mat-header-cell *matHeaderCellDef mat-sort-header> Амалиёт </mat-header-cell>
-      <mat-cell *matCellDef="let row; let i=index;">
+      <mat-cell *matCellDef="let row;">
         <input type="number" value="{{row.id}}" hidden #id>
-        <mat-icon class="md-24 hovered-color" (click)="editSt(id.value);">edit</mat-icon>
+        <mat-icon class="md-24 hovered-color" (click)="editSt(row);">edit</mat-icon>
         <mat-icon class="md-24 hovered-color" (click)="deleteSt(row);">delete</mat-icon>
-        <mat-icon class="md-24 hovered-color" (click)="createComponentDynamically(standardCmp);">open_with</mat-icon>
+        <mat-icon class="md-24 hovered-color" (click)="openSt(row);">open_with</mat-icon>
       </mat-cell>
     </ng-container>
 

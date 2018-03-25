@@ -1,8 +1,9 @@
-import {Component, Input, OnInit, Output} from '@angular/core';
-import {MatDialog} from '@angular/material';
-import {AddStandardComponent} from '../../dialogs/add-standard/add-standard.component';
-import {AppService} from '../../services/app.service';
-import {ISubject, ISubType, StandardList} from '../../models/interfaces';
+import { Component, Input, OnInit, Output } from '@angular/core';
+import { MatDialog } from '@angular/material';
+
+import { ISubject, ISubType, StandardList } from '../../models/interfaces';
+import { MainService } from '../../services/main.service';
+import { AddStandardComponent } from '../../dialogs/add-standard/add-standard.component';
 
 @Component({
   selector: 'app-standard',
@@ -11,43 +12,64 @@ import {ISubject, ISubType, StandardList} from '../../models/interfaces';
 })
 export class StandardComponent implements OnInit {
 
-  @Input() Standard: StandardList = {
-    id: 0,
-    number: 1,
-    specialty: '',
-    degreeOfStudying: '',
-    profession: '',
-    timeOfStudying: 0,
-    typeOfStudying: '',
-    dateOfAcceptance: new Date
-  };
+  @Input() Standard: StandardList;
   @Output() cmpName = "Стандарт";
 
-  subjects: ISubject[];
-  subjectTypes: ISubType[];
-  isDataAvailable = false;
-
+  subjects: ISubject[] = [];
+  subjectTypes: ISubType[] = [];
+  isDataAvailable = true;
   standard = {
     idStandard: 1,
     subjects: this.subjects,
     subjectTypes: this.subjectTypes
   };
+  credits: number[];
+  terms: number[];
 
   constructor(public dialog: MatDialog,
-              private appService: AppService) { }
+              private mainService: MainService) { }
 
   ngOnInit() {
-    this.appService.subjects.forEach(item => {
-      this.subjects.push(item);
-    });
+    this.subjectTypes = this.mainService.subjectTypes;
+    this.mainService.getSubjectsByStandardId(this.Standard.id).subscribe(response => {
 
-    this.appService.subjectTypes.forEach(item => {
-      this.subjectTypes.push(item);
-    });
+      response.data.forEach( item => {
 
-    // this.subjects = this.appService.subjects;
-    // this.subjectTypes = this.appService.subjectTypes;
-    // this.isDataAvailable = true;
+        this.credits = [];
+        this.terms = [];
+
+        const credits = item.cCredits.split(",");
+        const terms = item.cTerms.split(",");
+
+        credits.forEach( (el, i) => {
+          this.credits.push(+el);
+          this.terms.push(+terms[i]);
+        });
+
+        this.subjects.push({
+          name: item.name,
+          idType: item.idType,
+          credits: +item.credits,
+          typeOfMonitoring: {
+            exam: item.tExam,
+            goUpIWS: item.goUpIWS
+          },
+          toTeacher: {
+            total: +item.tTotal,
+            including: {
+              audit: +item.tAudit,
+              kmro: +item.tKmro
+            }
+          },
+          IWS: +item.IWS,
+          creditDividing: {
+            terms: this.terms,
+            credits: this.credits
+          },
+          showConfigIcons: false
+        });
+      });
+    });
   }
 
   sum(id, prop) {
@@ -177,9 +199,7 @@ export class StandardComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result !== undefined) {
-        console.log(result);
-      }
+      // if (result !== undefined) {}
     });
   }
 

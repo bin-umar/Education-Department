@@ -205,37 +205,6 @@ export class AppService {
     }
   ];
 
-  subjectTypes: ISubType[] = [
-    {
-      id: 1,
-      name: 'Бахши фанҳои гуманитарӣ',
-      showConfigIcons: false
-    },
-    {
-      id: 2,
-      name: 'Бахши фанҳои табии-риёзӣ ва иқтисодӣ',
-      showConfigIcons: false
-    },
-    {
-      id: 3,
-      name: 'Бахши фанҳои умумикасбӣ',
-      showConfigIcons: false
-    },
-    {
-      id: 4,
-      name: 'Бахши фанҳои тахассусӣ',
-      showConfigIcons: false
-    },
-    {
-      id: 5,
-      name: 'Бахши фанҳои ғайриаудиторӣ',
-      showConfigIcons: false
-    },
-  ];
-
-  degrees = ['бакалавр', 'магистр', 'PhD'];
-  types = ['рӯзона', 'ғоибона', 'фосилавӣ'];
-
   constructor() { }
 
 }

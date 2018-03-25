@@ -3,13 +3,20 @@
   <!--<mat-card class="container">-->
     <form class="example-form">
       <mat-form-field class="example-full-width">
-        <input matInput name="data" [(ngModel)]="data.name" placeholder="Номи фанн" value="">
+        <input matInput name="special" [(ngModel)]="selectedSubject"
+               placeholder="Номи фанн" [formControl]="myControl"
+               [matAutocomplete]="auto" value="" required>
+        <mat-autocomplete  #auto="matAutocomplete" [displayWith]="displayFn">
+          <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+            {{ option.name }}
+          </mat-option>
+        </mat-autocomplete>
       </mat-form-field>
 
       <mat-form-field class="example-full-width">
         <mat-select [(value)]="data.idType" placeholder="Бахш">
-          <mat-option *ngFor="let type of subjectTypes" [value]="type.id">
-            {{ type.name }}
+          <mat-option *ngFor="let type of subjectTypes" value="{{type.id}}">
+            Бахши  {{type.name | lowercase}}
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -73,12 +80,12 @@
           </td>
           <td>
             <mat-form-field>
-              <input type="number" matInput name="terms" [(ngModel)]="terms" placeholder="Семестрҳо" value="">
+              <input type="text" matInput name="terms" [(ngModel)]="terms" placeholder="Семестрҳо" value="">
             </mat-form-field>
           </td>
           <td>
             <mat-form-field>
-              <input type="number" matInput name="termCredits" [(ngModel)]="credits" placeholder="Кредитҳо" value="">
+              <input type="text" matInput name="termCredits" [(ngModel)]="credits" placeholder="Кредитҳо" value="">
             </mat-form-field>
           </td>
         </tr>
@@ -86,7 +93,10 @@
     </form>
 </div>
 <div mat-dialog-actions>
-  <button  [mat-dialog-close]="data2" cdkFocusInitial (click)="addSubject();" mat-raised-button class="bg-dark text-colored example-full-width">
+  <button [mat-dialog-close]="1" *ngIf="add" cdkFocusInitial (click)="addSubject();" mat-raised-button class="bg-dark text-colored example-full-width">
     <mat-icon>add_circle_outline</mat-icon> Илова намудан
+  </button>
+  <button [mat-dialog-close]="2" *ngIf="!add" cdkFocusInitial mat-raised-button class="bg-dark text-colored example-full-width">
+    <mat-icon>add_circle_outline</mat-icon> Сабт кардан
   </button>
 </div>

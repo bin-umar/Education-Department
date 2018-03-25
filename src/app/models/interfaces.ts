@@ -21,10 +21,25 @@ export interface ISubject {
   showConfigIcons: boolean;
 }
 
+export interface ISubjectList {
+  id: number;
+  name: string;
+}
+
+export interface ISubjectResponse {
+  error: boolean;
+  data: [ISubjectList];
+}
+
 export interface ISubType {
   id: number;
   name: string;
-  showConfigIcons: boolean;
+  showConfigIcons: boolean | false;
+}
+
+export interface ResSubType {
+  error: boolean;
+  data: [ISubType];
 }
 
 export interface IAuth {
@@ -83,4 +98,24 @@ export interface StandardList {
   timeOfStudying: number;
   typeOfStudying: string;
   dateOfAcceptance: Date;
+}
+
+export interface StSubjectResp {
+  error: boolean;
+  data: [{
+    id: number,
+    name: string,
+    idStandard: number,
+    idSubject: number,
+    idType: number,
+    credits: number,
+    tExam: string,
+    goUpIWS: string,
+    tTotal: number,
+    tAudit: number,
+    tKmro: number,
+    IWS: number,
+    cTerms: string,
+    cCredits: string
+  }];
 }
