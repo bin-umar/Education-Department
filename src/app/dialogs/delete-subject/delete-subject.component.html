@@ -1,0 +1,10 @@
+<div class="container">
+  <h3 mat-dialog-title>Фанни
+    <i class="highlighted">{{ data.name }}</i>-ро аз стандарти
+    <i class="highlighted">{{ data.standard }}</i>
+    хориҷ кардан мехоҳед?</h3>
+  <div mat-dialog-actions>
+    <button mat-button [mat-dialog-close]="1">Ҳа</button>
+    <button mat-button (click)="onNoClick()" tabindex="-1">Не</button>
+  </div>
+</div>

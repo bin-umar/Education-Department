@@ -1,6 +1,5 @@
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Component, Inject } from '@angular/core';
-import { DataService } from '../../services/data.service';
 import { StandardList } from '../../models/interfaces';
 
 @Component({
@@ -11,7 +10,7 @@ import { StandardList } from '../../models/interfaces';
 export class DeleteDialogComponent {
 
   constructor(public dialogRef: MatDialogRef<DeleteDialogComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: StandardList, public dataService: DataService) { }
+              @Inject(MAT_DIALOG_DATA) public data: StandardList) { }
 
   onNoClick(): void {
     this.dialogRef.close();

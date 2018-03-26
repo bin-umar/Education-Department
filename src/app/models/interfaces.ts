@@ -123,3 +123,7 @@ export interface StSubjectResp {
   error: boolean;
   data: [IStSubjectResp];
 }
+
+export interface UpdateResponse {
+  error: boolean;
+}

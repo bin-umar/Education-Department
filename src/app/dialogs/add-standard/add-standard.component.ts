@@ -78,7 +78,7 @@ export class AddStandardComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  public confirmAddSubject(): void {
+  confirmAddSubject(): void {
     const credits = this.credits.split(",");
     const terms = this.terms.split(",");
 

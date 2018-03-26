@@ -171,10 +171,14 @@ export class StandardsListComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result === 1) {
         this.dataService.deleteSt(row.id).subscribe( data => {
-          const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.id === row.id);
-          // for delete we use splice in order to remove single object from DataService
-          this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
-          this.refreshTable();
+          if (!data.error) {
+            const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.id === row.id);
+            // for delete we use splice in order to remove single object from DataService
+            this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
+            this.refreshTable();
+          } else {
+            console.log("Error has been happened while deleting Standard");
+          }
         });
       }
     });

@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpParams } from '@angular/common/http';
 
-import { ISubject, ResAddStandard } from '../models/interfaces';
+import {ISubject, ResAddStandard, UpdateResponse} from '../models/interfaces';
 import { AuthService } from './auth.service';
 
 @Injectable()
 export class StSubjectsService {
-
-  dialogData: any;
 
   constructor(private auth: AuthService) { }
 
@@ -35,6 +33,22 @@ export class StSubjectsService {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/x-www-form-urlencoded')
       }).map((response: ResAddStandard) => {
+      return response;
+    });
+  }
+
+  deleteSubject (id: number) {
+    const body = new HttpParams()
+      .set('id', id.toString())
+      .set('route', 'stsubjects')
+      .set('operation', 'remove')
+      .set('token', this.auth.token);
+
+    return this.auth.http.post(this.auth.host, body.toString(),
+      {
+        headers: new HttpHeaders()
+          .set('Content-Type', 'application/x-www-form-urlencoded')
+      }).map((response: UpdateResponse) => {
       return response;
     });
   }

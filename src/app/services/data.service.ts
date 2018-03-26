@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from '@angular/
 
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
-import { IStandard, ResAddStandard, StandardList} from '../models/interfaces';
+import {IStandard, ResAddStandard, StandardList, UpdateResponse} from '../models/interfaces';
 import { AuthService } from './auth.service';
 import { MainService } from './main.service';
 
@@ -98,7 +98,7 @@ export class DataService {
       {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/x-www-form-urlencoded')
-      }).map((response: Response) => {
+      }).map((response: UpdateResponse) => {
       return response;
     });
   }

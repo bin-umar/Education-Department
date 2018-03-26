@@ -31,6 +31,7 @@ import { AuthService } from './services/auth.service';
 import { MainService } from './services/main.service';
 import { DataService } from './services/data.service';
 import { StSubjectsService } from './services/st-subjects.service';
+import { DeleteSubjectComponent } from './dialogs/delete-subject/delete-subject.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { StSubjectsService } from './services/st-subjects.service';
     AddStandardComponent,
     StandardComponent,
     StandardsListComponent,
-    DeleteDialogComponent
+    DeleteDialogComponent,
+    DeleteSubjectComponent
   ],
   imports: [
     BrowserModule,
@@ -63,7 +65,8 @@ import { StSubjectsService } from './services/st-subjects.service';
   ],
   entryComponents: [
     AddStandardComponent,
-    DeleteDialogComponent
+    DeleteDialogComponent,
+    DeleteSubjectComponent
   ],
   providers: [
     MainService,

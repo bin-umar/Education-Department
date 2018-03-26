@@ -5,6 +5,7 @@ import { ISubject, ISubType, StandardList } from '../../models/interfaces';
 import { MainService } from '../../services/main.service';
 import { AddStandardComponent } from '../../dialogs/add-standard/add-standard.component';
 import { StSubjectsService } from '../../services/st-subjects.service';
+import { DeleteSubjectComponent } from '../../dialogs/delete-subject/delete-subject.component';
 
 @Component({
   selector: 'app-standard',
@@ -184,9 +185,28 @@ export class StandardComponent implements OnInit {
     });
   }
 
-  deleteSubject(id: number, type: number) {
-    const obj = this.getSubjectsById(type)[id];
+  deleteSubject(subject: ISubject, index: number) {
+    const obj = this.getSubjectsById(subject.idType)[index];
     const i = this.subjects.indexOf(obj);
-    this.subjects.splice(i, 1);
+
+    const dialogRef = this.dialog.open(DeleteSubjectComponent, {
+      width: '500px',
+      data: {
+        name: this.subjects[i].name,
+        standard: this.Standard.specialty
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 1) {
+        this.stSubjectService.deleteSubject(subject.id).subscribe((data) => {
+          if (!data.error) {
+            this.subjects.splice(i, 1);
+          } else {
+            console.log("Error has been happened while deleting Standard's subject");
+          }
+        });
+      }
+    });
   }
 }
