@@ -93,7 +93,7 @@
     </form>
 </div>
 <div mat-dialog-actions>
-  <button [mat-dialog-close]="1" *ngIf="add" cdkFocusInitial (click)="confirmAddSubject();" mat-raised-button class="bg-dark text-colored example-full-width">
+  <button *ngIf="add" cdkFocusInitial (click)="confirmAddSubject();" mat-raised-button class="bg-dark text-colored example-full-width">
     <mat-icon>add_circle_outline</mat-icon> Илова намудан
   </button>
   <button [mat-dialog-close]="2" *ngIf="!add" cdkFocusInitial mat-raised-button class="bg-dark text-colored example-full-width">

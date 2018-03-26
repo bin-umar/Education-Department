@@ -11,14 +11,6 @@ export class StSubjectsService {
 
   constructor(private auth: AuthService) { }
 
-  getDialogData() {
-    return this.dialogData;
-  }
-
-  getNewAddedSubject(subject: ISubject) {
-   this.dialogData = subject;
-  }
-
   addSubject(subject: ISubject) {
     const body = new HttpParams()
       .set('id', '')

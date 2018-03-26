@@ -91,10 +91,10 @@ export class AddStandardComponent implements OnInit {
       this.data.name = this.selectedSubject.id.toString();
 
       this.stSubjectService.addSubject(this.data).subscribe( resp => {
+
         this.data.id = resp.data.id;
         this.data.name = this.selectedSubject.name;
-
-        this.stSubjectService.getNewAddedSubject(this.data);
+        this.dialogRef.close(this.data);
       });
 
     } else {

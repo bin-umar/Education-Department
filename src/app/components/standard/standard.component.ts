@@ -173,9 +173,13 @@ export class StandardComponent implements OnInit {
       }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result === 1) {
-         this.subjects.push(this.stSubjectService.getDialogData());
+    dialogRef.afterClosed().subscribe((result: ISubject) => {
+      if (result !== undefined) {
+        const fIndex = this.subjects.findIndex( x => x.id === result.id);
+
+        if (fIndex === -1) {
+          this.subjects.push(result);
+        }
       }
     });
   }
