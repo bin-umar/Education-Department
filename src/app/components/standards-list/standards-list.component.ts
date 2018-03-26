@@ -4,7 +4,6 @@ import {
   ComponentRef, ElementRef,
   OnInit,
   Output,
-  Type,
   ViewChild,
   ViewContainerRef
 } from '@angular/core';

@@ -14,6 +14,7 @@ import { map } from 'rxjs/operators/map';
 
 import { MainService } from '../../services/main.service';
 import { ISubject, ISubjectList } from '../../models/interfaces';
+import { StSubjectsService } from '../../services/st-subjects.service';
 
 @Component({
   selector: 'app-add-standard',
@@ -36,12 +37,13 @@ export class AddStandardComponent implements OnInit {
   myControl: FormControl = new FormControl();
   add = true;
 
-  credits: string;
-  terms: string;
+  credits = "";
+  terms = "";
 
   constructor(public dialogRef: MatDialogRef<AddStandardComponent>,
               @Inject(MAT_DIALOG_DATA) public data: ISubject,
-              private mainService: MainService) {
+              private mainService: MainService,
+              private stSubjectService: StSubjectsService) {
     this.subjectTypes = this.mainService.subjectTypes;
   }
 
@@ -76,24 +78,28 @@ export class AddStandardComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  addSubject() {
+  public confirmAddSubject(): void {
     const credits = this.credits.split(",");
     const terms = this.terms.split(",");
 
-    if (credits.length === terms.length) {
+    if (credits.length === terms.length && credits.length > 0) {
       for (let i = 0; i < credits.length; i++) {
-        this.data.creditDividing.credits.push(Number(credits[i]));
-        this.data.creditDividing.terms.push(Number(terms[i]));
+        this.data.creditDividing.credits.push(+credits[i]);
+        this.data.creditDividing.terms.push(+terms[i]);
       }
 
-      this.data.name = this.selectedSubject.name;
+      this.data.name = this.selectedSubject.id.toString();
+
+      this.stSubjectService.addSubject(this.data).subscribe( resp => {
+        this.data.id = resp.data.id;
+        this.data.name = this.selectedSubject.name;
+
+        this.stSubjectService.getNewAddedSubject(this.data);
+      });
+
     } else {
       console.log("Terms isn't equal to credits. Make them equal");
     }
-    // this.data.creditDividing.credits
-    // this.data2 = this.data;
-    // this.data2.creditDividing.terms = this.terms;
-    // this.data2.creditDividing.credits = this.credits;
   }
 
 }

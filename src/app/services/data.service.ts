@@ -11,17 +11,12 @@ import { MainService } from './main.service';
 export class DataService {
 
   dataChange: BehaviorSubject<StandardList[]> = new BehaviorSubject<StandardList[]>([]);
-  dialogData: any;
 
   constructor (private httpClient: HttpClient,
                private auth: AuthService) {}
 
   get data(): StandardList[] {
     return this.dataChange.value;
-  }
-
-  getDialogData() {
-    return this.dialogData;
   }
 
   /** CRUD METHODS */

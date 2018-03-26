@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material';
 import { ISubject, ISubType, StandardList } from '../../models/interfaces';
 import { MainService } from '../../services/main.service';
 import { AddStandardComponent } from '../../dialogs/add-standard/add-standard.component';
+import { StSubjectsService } from '../../services/st-subjects.service';
 
 @Component({
   selector: 'app-standard',
@@ -18,16 +19,13 @@ export class StandardComponent implements OnInit {
   subjects: ISubject[] = [];
   subjectTypes: ISubType[] = [];
   isDataAvailable = true;
-  standard = {
-    idStandard: 1,
-    subjects: this.subjects,
-    subjectTypes: this.subjectTypes
-  };
   credits: number[];
   terms: number[];
 
   constructor(public dialog: MatDialog,
-              private mainService: MainService) { }
+              private mainService: MainService,
+              private stSubjectService: StSubjectsService
+              ) { }
 
   ngOnInit() {
     this.subjectTypes = this.mainService.subjectTypes;
@@ -47,6 +45,8 @@ export class StandardComponent implements OnInit {
         });
 
         this.subjects.push({
+          id: item.id,
+          idStandard: item.idStandard,
           name: item.name,
           idType: item.idType,
           credits: +item.credits,
@@ -74,7 +74,7 @@ export class StandardComponent implements OnInit {
 
   sum(id, prop) {
     let sum = 0;
-    const subjects = this.standard.subjects;
+    const subjects = this.subjects;
 
     subjects.forEach((item) => {
       if (item.idType === id) {
@@ -107,8 +107,7 @@ export class StandardComponent implements OnInit {
 
   getSubjectsById(id: number) {
     const subjects = [];
-    const allSubjects = this.standard.subjects;
-    allSubjects.forEach((item) => {
+    this.subjects.forEach((item) => {
       if (item.idType === id) {
         subjects.push(item);
       }
@@ -117,36 +116,10 @@ export class StandardComponent implements OnInit {
     return subjects;
   }
 
-  addS() {
-    this.subjects.push({
-      name: '',
-      idType: 1,
-      credits: null,
-      typeOfMonitoring: {
-        exam: '',
-        goUpIWS: ''
-      },
-      toTeacher: {
-        total: null,
-        including: {
-          audit: null,
-          kmro: null
-        }
-      },
-      IWS: null,
-      creditDividing: {
-        terms: [],
-        credits: []
-      },
-      showConfigIcons: false
-    });
-  }
-
   sumTerms(id, term) {
     let sum = 0;
-    const subjects = this.standard.subjects;
 
-    subjects.forEach((item) => {
+   this.subjects.forEach((item) => {
       if (item.idType === id) {
         item.creditDividing.terms.forEach((el, j) => {
           if (el === term) {
@@ -175,6 +148,8 @@ export class StandardComponent implements OnInit {
     const dialogRef = this.dialog.open(AddStandardComponent, {
       width: '600px',
       data: {
+        id: null,
+        idStandard: this.Standard.id,
         name: '',
         idType: typeId,
         credits: null,
@@ -199,7 +174,9 @@ export class StandardComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      // if (result !== undefined) {}
+      if (result === 1) {
+         this.subjects.push(this.stSubjectService.getDialogData());
+      }
     });
   }
 

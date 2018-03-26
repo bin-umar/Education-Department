@@ -18,17 +18,19 @@ import {
   MatButtonModule,
   MatDialogModule
 } from '@angular/material';
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 import { AppComponent } from './app.component';
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { StandardsListComponent } from './components/standards-list/standards-list.component';
 import { StandardComponent } from './components/standard/standard.component';
+
+import { DeleteDialogComponent } from './dialogs/delete/delete.dialog.component';
 import { AddStandardComponent } from './dialogs/add-standard/add-standard.component';
+
 import { AuthService } from './services/auth.service';
 import { MainService } from './services/main.service';
-import { AppService } from './services/app.service';
 import { DataService } from './services/data.service';
-import { DeleteDialogComponent } from './dialogs/delete/delete.dialog.component';
+import { StSubjectsService } from './services/st-subjects.service';
 
 @NgModule({
   declarations: [
@@ -64,10 +66,10 @@ import { DeleteDialogComponent } from './dialogs/delete/delete.dialog.component'
     DeleteDialogComponent
   ],
   providers: [
-    AuthService,
     MainService,
-    AppService,
-    DataService
+    AuthService,
+    DataService,
+    StSubjectsService
   ],
   bootstrap: [AppComponent]
 })

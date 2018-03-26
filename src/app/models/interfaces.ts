@@ -1,4 +1,6 @@
 export interface ISubject {
+  id: number;
+  idStandard: number;
   name: string;
   idType: number;
   credits: number;
@@ -100,22 +102,24 @@ export interface StandardList {
   dateOfAcceptance: Date;
 }
 
+export interface IStSubjectResp {
+  id: number;
+  name: string;
+  idStandard: number;
+  idSubject: number;
+  idType: number;
+  credits: number;
+  tExam: string;
+  goUpIWS: string;
+  tTotal: number;
+  tAudit: number;
+  tKmro: number;
+  IWS: number;
+  cTerms: string;
+  cCredits: string;
+}
+
 export interface StSubjectResp {
   error: boolean;
-  data: [{
-    id: number,
-    name: string,
-    idStandard: number,
-    idSubject: number,
-    idType: number,
-    credits: number,
-    tExam: string,
-    goUpIWS: string,
-    tTotal: number,
-    tAudit: number,
-    tKmro: number,
-    IWS: number,
-    cTerms: string,
-    cCredits: string
-  }];
+  data: [IStSubjectResp];
 }
