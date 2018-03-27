@@ -105,6 +105,8 @@ export class StandardsListComponent implements OnInit {
   }
 
   setStToDefault() {
+    this.add = true;
+    this.panelOpenState = false;
     this.selectedSpec = {
       fID: null,
       fSpec_NameRus: '',
@@ -173,7 +175,7 @@ export class StandardsListComponent implements OnInit {
         this.dataService.deleteSt(row.id).subscribe( data => {
           if (!data.error) {
             const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.id === row.id);
-            // for delete we use splice in order to remove single object from DataService
+
             this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
             this.refreshTable();
           } else {
@@ -215,24 +217,26 @@ export class StandardsListComponent implements OnInit {
   saveModifiedSt() {
     this.standardList.specialty = this.selectedSpec.fID.toString();
     this.standardList.dateOfAcceptance = new Date(this.standardList.dateOfAcceptance);
+    const sIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.id === this.standardList.id);
 
     this.dataService.updateSt(this.standardList).subscribe((res) => {
-      // this.exampleDatabase.dataChange.value.push({
-      //   id: res.data.id,
-      //   number: this.dataSource.filteredData.length + 1,
-      //   specialty: this.selectedSpec.fSpec_Shifr,
-      //   degreeOfStudying: this.appService.degrees[this.standardList.degreeOfStudying],
-      //   profession: this.standardList.profession,
-      //   timeOfStudying: this.standardList.timeOfStudying,
-      //   typeOfStudying: this.appService.types[this.standardList.typeOfStudying],
-      //   dateOfAcceptance: this.standardList.dateOfAcceptance
-      // });
+      if (!res.error) {
+        this.exampleDatabase.dataChange.value.splice(sIndex, 1, {
+            id: this.standardList.id,
+            number: this.standardList.number,
+            specialty: this.selectedSpec.fSpec_Shifr,
+            degreeOfStudying: this.mainService.degrees[this.standardList.degreeOfStudying],
+            profession: this.standardList.profession,
+            timeOfStudying: this.standardList.timeOfStudying,
+            typeOfStudying: this.mainService.types[this.standardList.typeOfStudying],
+            dateOfAcceptance: this.standardList.dateOfAcceptance
+        });
 
-      // this.exampleDatabase
-      console.log(res);
-
-      this.refreshTable();
-      this.setStToDefault();
+        this.refreshTable();
+        this.setStToDefault();
+      } else {
+        console.log("Problem with updating standard");
+      }
     });
   }
 
@@ -266,7 +270,7 @@ export class StandardsListComponent implements OnInit {
         }
         this.dataSource.filter = this.filterInput.nativeElement.value;
       });
-  }
+  };
 }
 
 export class ExampleDataSource extends DataSource<StandardList> {

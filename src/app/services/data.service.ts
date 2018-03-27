@@ -82,7 +82,7 @@ export class DataService {
       {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/x-www-form-urlencoded')
-      }).map((response: ResAddStandard) => {
+      }).map((response: UpdateResponse) => {
       return response;
     });
   }
