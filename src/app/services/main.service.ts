@@ -5,6 +5,7 @@ import {
   ISpec,
   ISubType,
   ResSubType,
+  ISubjectList,
   StSubjectResp,
   ISubjectResponse
 } from '../models/interfaces';
@@ -13,6 +14,7 @@ import {
 export class MainService {
 
   subjectTypes: ISubType[] = [];
+  subjects: ISubjectList[] = [];
 
   degrees = ['бакалавр', 'магистр', 'PhD'];
   types = ['рӯзона', 'ғоибона', 'фосилавӣ'];
@@ -43,7 +45,18 @@ export class MainService {
     return this.auth.http.get(
       this.auth.host + '/self.php?route=subjects&operation=list&token=' + this.auth.token
     ).map((response: ISubjectResponse) => {
-      return response;
+      if (!response.error) {
+        response.data.forEach(item => {
+          this.subjects.push({
+            id: item.id,
+            name: item.name
+          });
+        });
+        return true;
+
+      } else {
+        return false;
+      }
     });
   }
 

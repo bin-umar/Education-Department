@@ -57,7 +57,7 @@
   </div>
 </mat-card>
 
-<div *ngIf="isDataAvailable" class="bg-black">
+<div class="bg-black">
   <!--<button (click)="addS()"></button>&lt;!&ndash;&ndash;&gt;-->
   <table>
     <tr>
@@ -266,7 +266,7 @@
           </td>
         </tr>
         <div class="settings " (mouseover)="subject.showConfigIcons = true" (mouseleave)="subject.showConfigIcons = false">
-          <div (click)="editSubject(i, type.id)">
+          <div (click)="editSubject(subject, i)">
             <mat-icon class="md-18">edit</mat-icon>
           </div>
           <div (click)="deleteSubject(subject, i)">

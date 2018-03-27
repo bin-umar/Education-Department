@@ -36,26 +36,31 @@ export class AddStandardComponent implements OnInit {
 
   myControl: FormControl = new FormControl();
   add = true;
+  data: ISubject;
 
   credits = "";
   terms = "";
 
   constructor(public dialogRef: MatDialogRef<AddStandardComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: ISubject,
+              @Inject(MAT_DIALOG_DATA) public input: any,
               private mainService: MainService,
               private stSubjectService: StSubjectsService) {
     this.subjectTypes = this.mainService.subjectTypes;
   }
 
   ngOnInit() {
-    this.mainService.getSubjectsList().subscribe( res => {
-      res.data.forEach( item => {
-        this.options.push({
-          id: item.id,
-          name: item.name
-        });
-      });
-    });
+
+    this.options = this.mainService.subjects;
+
+    this.data = this.input.data;
+    this.add = this.input.add;
+    this.credits = this.data.creditDividing.credits.toString();
+    this.terms = this.data.creditDividing.terms.toString();
+
+    this.selectedSubject = {
+      id: this.data.id,
+      name: this.data.name
+    };
 
     this.filteredOptions = this.myControl.valueChanges
       .pipe(
@@ -98,7 +103,36 @@ export class AddStandardComponent implements OnInit {
       });
 
     } else {
-      console.log("Terms isn't equal to credits. Make them equal");
+      console.error("Terms isn't equal to credits. Make them equal");
+    }
+  }
+
+  confirmSavingSubject() {
+    const credits = this.credits.split(",");
+    const terms = this.terms.split(",");
+
+    this.data.creditDividing.credits = [];
+    this.data.creditDividing.terms = [];
+
+    if (credits.length === terms.length && credits.length > 0) {
+      for (let i = 0; i < credits.length; i++) {
+        this.data.creditDividing.credits.push(+credits[i]);
+        this.data.creditDividing.terms.push(+terms[i]);
+      }
+
+      this.data.name = this.selectedSubject.id.toString();
+
+      this.stSubjectService.updateSubject(this.data).subscribe( resp => {
+        if (!resp.error) {
+          this.data.name = this.selectedSubject.name;
+          this.dialogRef.close(this.data);
+        } else {
+          console.error("Error happened while updating subject");
+        }
+      });
+
+    } else {
+      console.error("Terms isn't equal to credits. Make them equal");
     }
   }
 

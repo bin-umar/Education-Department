@@ -21,7 +21,7 @@ export class StandardComponent implements OnInit {
 
   subjects: ISubject[] = [];
   subjectTypes: ISubType[] = [];
-  isDataAvailable = true;
+  isSubjectsAvailable: boolean;
   credits: number[];
   terms: number[];
 
@@ -72,6 +72,10 @@ export class StandardComponent implements OnInit {
           showConfigIcons: false
         });
       });
+    });
+
+    this.mainService.getSubjectsList().subscribe( result => {
+      this.isSubjectsAvailable = result;
     });
   }
 
@@ -135,56 +139,69 @@ export class StandardComponent implements OnInit {
     return sum;
   }
 
-  editSubject(id: number, type: number) {
-    const dialogRef = this.dialog.open(AddStandardComponent, {
-      width: '600px',
-      data: this.getSubjectsById(type)[id]
-    });
+  editSubject(subject: ISubject, index: number) {
+    if (this.isSubjectsAvailable) {
+      const dialogRef = this.dialog.open(AddStandardComponent, {
+        width: '600px',
+        data: {
+          data: this.getSubjectsById(subject.idType)[index],
+          add: false
+        }
+      });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      console.log(result);
-    });
+      const iSub = this.subjects.findIndex( x => x.id === subject.id);
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (result !== undefined) {
+          this.subjects.splice(iSub, 1, result);
+        }
+      });
+    } else {
+      console.error("Subjects list haven't been loaded yet!");
+    }
   }
 
   addSubject(typeId: number): void {
-    const dialogRef = this.dialog.open(AddStandardComponent, {
-      width: '600px',
-      data: {
-        id: null,
-        idStandard: this.Standard.id,
-        name: '',
-        idType: typeId,
-        credits: null,
-        typeOfMonitoring: {
-          exam: '',
-          goUpIWS: ''
-        },
-        toTeacher: {
-          total: null,
-          including: {
-            audit: null,
-            kmro: null
-          }
-        },
-        IWS: null,
-        creditDividing: {
-          terms: [],
-          credits: []
-        },
-        showConfigIcons: false
-      }
-    });
+    if (this.isSubjectsAvailable) {
+      const dialogRef = this.dialog.open(AddStandardComponent, {
+        width: '600px',
+        data: {
+          data: {
+            id: null,
+            idStandard: this.Standard.id,
+            name: '',
+            idType: typeId,
+            credits: null,
+            typeOfMonitoring: {
+              exam: '',
+              goUpIWS: ''
+            },
+            toTeacher: {
+              total: null,
+              including: {
+                audit: null,
+                kmro: null
+              }
+            },
+            IWS: null,
+            creditDividing: {
+              terms: [],
+              credits: []
+            },
+            showConfigIcons: false
+          },
+          add: true
+        }
+      });
 
-    dialogRef.afterClosed().subscribe((result: ISubject) => {
-      if (result !== undefined) {
-        const fIndex = this.subjects.findIndex( x => x.id === result.id);
-
-        if (fIndex === -1) {
+      dialogRef.afterClosed().subscribe((result: ISubject) => {
+        if (result !== undefined) {
           this.subjects.push(result);
         }
-      }
-    });
+      });
+    } else {
+      console.error("Subjects list haven't been loaded yet!");
+    }
   }
 
   deleteSubject(subject: ISubject, index: number) {
@@ -205,7 +222,7 @@ export class StandardComponent implements OnInit {
           if (!data.error) {
             this.subjects.splice(i, 1);
           } else {
-            console.log("Error has been happened while deleting Standard's subject");
+            console.error("Error has been happened while deleting Standard's subject");
           }
         });
       }

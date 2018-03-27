@@ -251,11 +251,10 @@ export class StandardsListComponent implements OnInit {
       this.dataSource._paginator.previousPage();
       this.dataSource._paginator.nextPage();
       // in all other cases including active filter we do it like this
+    } else {
+      this.dataSource.filter = '';
+      this.dataSource.filter = this.filterInput.nativeElement.value;
     }
-    // else {
-    //   this.dataSource.filter = '';
-    //   this.dataSource.filter = this.filter.nativeElement.value;
-    // }
   }
 
   public loadData() {
@@ -270,7 +269,7 @@ export class StandardsListComponent implements OnInit {
         }
         this.dataSource.filter = this.filterInput.nativeElement.value;
       });
-  };
+  }
 }
 
 export class ExampleDataSource extends DataSource<StandardList> {

@@ -1,6 +1,6 @@
-<h1 mat-dialog-title>Иловакунии фанни нав</h1>
+<h1 *ngIf="add"  mat-dialog-title>Иловакунии фанни нав</h1>
+<h1 *ngIf="!add"  mat-dialog-title>Тағйирдиҳии фанни стандарт</h1>
 <div mat-dialog-content>
-  <!--<mat-card class="container">-->
     <form class="example-form">
       <mat-form-field class="example-full-width">
         <input matInput name="special" [(ngModel)]="selectedSubject"
@@ -92,12 +92,13 @@
       </table>
     </form>
 </div>
+
 <div mat-dialog-actions>
-  <button *ngIf="add" cdkFocusInitial (click)="confirmAddSubject();" mat-raised-button class="bg-dark text-colored example-full-width">
+  <button *ngIf="add" cdkFocusInitial (click)="confirmAddSubject();" mat-raised-button class="bg-dark text-colored half-width">
     <mat-icon>add_circle_outline</mat-icon> Илова намудан
   </button>
-  <button [mat-dialog-close]="2" *ngIf="!add" cdkFocusInitial mat-raised-button class="bg-dark text-colored example-full-width">
-    <mat-icon>add_circle_outline</mat-icon> Сабт кардан
+  <button *ngIf="!add" cdkFocusInitial (click)="confirmSavingSubject();" mat-raised-button class="bg-dark text-colored half-width">
+    <mat-icon>save</mat-icon> Сабт кардан
   </button>
-  <button mat-button (click)="onNoClick()" tabindex="-1">Қатъ кардан</button>
+  <button cdkFocusInitial mat-raised-button (click)="onNoClick()" class="bg-dark text-colored half-width">Қатъ кардан</button>
 </div>
