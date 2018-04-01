@@ -37,6 +37,7 @@ export class AddStandardComponent implements OnInit {
   myControl: FormControl = new FormControl();
   add = true;
   data: ISubject;
+  checked = false;
 
   credits = "";
   terms = "";
@@ -54,8 +55,10 @@ export class AddStandardComponent implements OnInit {
 
     this.data = this.input.data;
     this.add = this.input.add;
+
     this.credits = this.data.creditDividing.credits.toString();
     this.terms = this.data.creditDividing.terms.toString();
+    this.checked = (this.data.selective === 1);
 
     this.selectedSubject = {
       id: this.data.id,
@@ -79,6 +82,10 @@ export class AddStandardComponent implements OnInit {
     return subject ? subject.name : undefined;
   }
 
+  creditInput() {
+    console.log(this.data.credits);
+  }
+
   onNoClick(): void {
     this.dialogRef.close();
   }
@@ -94,6 +101,9 @@ export class AddStandardComponent implements OnInit {
       }
 
       this.data.name = this.selectedSubject.id.toString();
+
+      if (this.checked) { this.data.selective = 1;
+      } else { this.data.selective = 0; }
 
       this.stSubjectService.addSubject(this.data).subscribe( resp => {
 
@@ -121,6 +131,9 @@ export class AddStandardComponent implements OnInit {
       }
 
       this.data.name = this.selectedSubject.id.toString();
+
+      if (this.checked) { this.data.selective = 1;
+      } else { this.data.selective = 0; }
 
       this.stSubjectService.updateSubject(this.data).subscribe( resp => {
         if (!resp.error) {
