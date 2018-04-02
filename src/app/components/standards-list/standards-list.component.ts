@@ -122,7 +122,8 @@ export class StandardsListComponent implements OnInit {
       profession: null,
       timeOfStudying: null,
       typeOfStudying: null,
-      dateOfAcceptance: null
+      dateOfAcceptance: null,
+      locked: 0
     };
   }
 
@@ -137,7 +138,8 @@ export class StandardsListComponent implements OnInit {
         profession: this.standardList.profession,
         timeOfStudying: this.standardList.timeOfStudying,
         typeOfStudying: this.mainService.types[this.standardList.typeOfStudying],
-        dateOfAcceptance: this.standardList.dateOfAcceptance
+        dateOfAcceptance: this.standardList.dateOfAcceptance,
+        locked: this.standardList.locked
       });
 
       this.refreshTable();
@@ -146,44 +148,48 @@ export class StandardsListComponent implements OnInit {
   }
 
   editSt(row: StandardList) {
-    this.add = false;
-    this.panelOpenState = true;
+    if (row.locked === 0) {
+      this.add = false;
+      this.panelOpenState = true;
 
-    const sIndex = this.options.findIndex(x => x.fSpec_Shifr === row.specialty);
-    const tIndex = this.mainService.types.findIndex(x => x === row.typeOfStudying);
-    const dIndex = this.mainService.degrees.findIndex(x => x === row.degreeOfStudying);
+      const sIndex = this.options.findIndex(x => x.fSpec_Shifr === row.specialty);
+      const tIndex = this.mainService.types.findIndex(x => x === row.typeOfStudying);
+      const dIndex = this.mainService.degrees.findIndex(x => x === row.degreeOfStudying);
 
-    this.selectedSpec = this.options[sIndex];
-    this.standardList = {
-      id: row.id,
-      number: row.number,
-      specialty: row.specialty,
-      degreeOfStudying: dIndex.toString(),
-      profession: row.profession,
-      timeOfStudying: row.timeOfStudying,
-      typeOfStudying: tIndex.toString(),
-      dateOfAcceptance: row.dateOfAcceptance
-    };
+      this.selectedSpec = this.options[sIndex];
+      this.standardList = {
+        id: row.id,
+        number: row.number,
+        specialty: row.specialty,
+        degreeOfStudying: dIndex.toString(),
+        profession: row.profession,
+        timeOfStudying: row.timeOfStudying,
+        typeOfStudying: tIndex.toString(),
+        dateOfAcceptance: row.dateOfAcceptance,
+        locked: row.locked
+      };
+    }
   }
 
   deleteSt(row: StandardList) {
+    if (row.locked === 0) {
+      const dialogRef = this.dialog.open(DeleteDialogComponent, { data: row });
 
-    const dialogRef = this.dialog.open(DeleteDialogComponent, { data: row });
+      dialogRef.afterClosed().subscribe(result => {
+        if (result === 1) {
+          this.dataService.deleteSt(row.id).subscribe( data => {
+            if (!data.error) {
+              const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.id === row.id);
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result === 1) {
-        this.dataService.deleteSt(row.id).subscribe( data => {
-          if (!data.error) {
-            const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.id === row.id);
-
-            this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
-            this.refreshTable();
-          } else {
-            console.log("Error has been happened while deleting Standard");
-          }
-        });
-      }
-    });
+              this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
+              this.refreshTable();
+            } else {
+              console.log("Error has been happened while deleting Standard");
+            }
+          });
+        }
+      });
+    }
   }
 
   openSt(row: StandardList) {
@@ -205,7 +211,8 @@ export class StandardsListComponent implements OnInit {
         profession: row.profession,
         timeOfStudying: row.timeOfStudying,
         typeOfStudying: row.typeOfStudying,
-        dateOfAcceptance: new Date(row.dateOfAcceptance)
+        dateOfAcceptance: new Date(row.dateOfAcceptance),
+        locked: row.locked
       };
 
       this.cmpRef = CmpRef;
@@ -229,7 +236,8 @@ export class StandardsListComponent implements OnInit {
             profession: this.standardList.profession,
             timeOfStudying: this.standardList.timeOfStudying,
             typeOfStudying: this.mainService.types[this.standardList.typeOfStudying],
-            dateOfAcceptance: this.standardList.dateOfAcceptance
+            dateOfAcceptance: this.standardList.dateOfAcceptance,
+            locked: this.standardList.locked
         });
 
         this.refreshTable();

@@ -19,10 +19,10 @@ table{
   transition: background-color 0.1s;
 }
 
-.showConfig:hover{
-  cursor: pointer;
-  opacity: 0.4;
-}
+/*.showConfig:hover{*/
+  /*cursor: pointer;*/
+  /*opacity: 0.4;*/
+/*}*/
 
 .hovered {
   cursor: pointer;
@@ -92,12 +92,8 @@ table#standard-info tr td:last-child{
   margin-top: 50px;
 }
 
-mat-card div{
-  display: inline-table;
-}
-
-.standard-info {
-  width: 50%;
-  /*margin: 10px auto;*/
+mat-card{
+  width: 60%;
+  margin: 20px auto;
 }
 

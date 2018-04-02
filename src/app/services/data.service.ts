@@ -1,9 +1,19 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+  HttpParams
+} from '@angular/common/http';
 
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
-import {IStandard, ResAddStandard, StandardList, UpdateResponse} from '../models/interfaces';
+import {
+  IStandard,
+  ResAddStandard,
+  StandardList,
+  UpdateResponse
+} from '../models/interfaces';
 import { AuthService } from './auth.service';
 import { MainService } from './main.service';
 
@@ -34,10 +44,12 @@ export class DataService {
             profession: '',
             timeOfStudying: item.timeOfStudying,
             typeOfStudying: TYPES[Number(item.typeOfStudying)],
-            dateOfAcceptance: item.dateOfAcceptance
+            dateOfAcceptance: item.dateOfAcceptance,
+            locked: +item.locked
           });
         });
 
+        console.log(standards);
         this.dataChange.next(standards);
       },
       (error: HttpErrorResponse) => {

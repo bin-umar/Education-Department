@@ -106,8 +106,17 @@
       <mat-header-cell *matHeaderCellDef mat-sort-header> Амалиёт </mat-header-cell>
       <mat-cell *matCellDef="let row;">
         <input type="number" value="{{row.id}}" hidden #id>
-        <mat-icon class="md-24 hovered-color" (click)="editSt(row);">edit</mat-icon>
-        <mat-icon class="md-24 hovered-color" (click)="deleteSt(row);">delete</mat-icon>
+
+        <mat-icon class="md-24" [class.locked]="row.locked === 1"
+                                [class.hovered-color]="row.locked === 0"
+                  title="{{ (row.locked === 1) ? 'Иҷозат нест' : 'Тағйир додан'}}"
+                  (click)="editSt(row);">edit</mat-icon>
+
+        <mat-icon class="md-24" [class.locked]="row.locked === 1"
+                                [class.hovered-color]="row.locked === 0"
+                  title="{{ (row.locked === 1) ? 'Иҷозат нест' : 'Хориҷ кардан'}}"
+                  (click)="deleteSt(row);">delete</mat-icon>
+
         <mat-icon class="md-24 hovered-color" (click)="openSt(row);">open_with</mat-icon>
       </mat-cell>
     </ng-container>

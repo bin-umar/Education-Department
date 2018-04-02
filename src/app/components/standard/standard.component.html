@@ -1,22 +1,22 @@
-<mat-card style="margin: 20px 0 10px 0" class="mat-elevation-z8">
-  <span class="text-center">
-    <h4>Вазорати маориф ва илми Ҷумҳурии Тоҷикистон</h4>
-    <h6>ДТТ ба номи академик М.С.Осимӣ</h6>
-    <!--<h4 style="margin: 10px 0">Нақшаи таълим</h4>-->
-  </span>
-  <div class="one-fourth-width text-center">
-    <h6>
-      <i>"Тасдиқ мекунам"</i>
-    </h6>
-    <h6>Вазорати маориф ва илми Ҷумҳурии Тоҷикистон</h6>
-    <h6>
-      "{{Standard.dateOfAcceptance | date:'dd'}}"
-      "{{Standard.dateOfAcceptance | date:'MM'}}"
-      {{Standard.dateOfAcceptance | date:'yyyy'}}
-    </h6>
-  </div>
+<mat-card class="mat-elevation-z8">
+  <!--<span class="text-center">-->
+    <!--<h4>Вазорати маориф ва илми Ҷумҳурии Тоҷикистон</h4>-->
+    <!--<h6>ДТТ ба номи академик М.С.Осимӣ</h6>-->
+    <!--&lt;!&ndash;<h4 style="margin: 10px 0">Нақшаи таълим</h4>&ndash;&gt;-->
+  <!--</span>-->
+  <!--<div class="one-fourth-width text-center">-->
+    <!--<h6>-->
+      <!--<i>"Тасдиқ мекунам"</i>-->
+    <!--</h6>-->
+    <!--<h6>Вазорати маориф ва илми Ҷумҳурии Тоҷикистон</h6>-->
+    <!--<h6>-->
+      <!--"{{Standard.dateOfAcceptance | date:'dd'}}"-->
+      <!--"{{Standard.dateOfAcceptance | date:'MM'}}"-->
+      <!--{{Standard.dateOfAcceptance | date:'yyyy'}}-->
+    <!--</h6>-->
+  <!--</div>-->
 
-  <div class="standard-info">
+  <!--<div>-->
     <h3 class=" text-center">
       Нақшаи таълим
     </h3>
@@ -41,24 +41,29 @@
         <td>Шакли таҳсил:</td>
         <td>{{Standard.typeOfStudying}}</td>
       </tr>
+      <tr>
+        <td>Санаи қабул:</td>
+        <td>
+          {{Standard.dateOfAcceptance | date:'dd'}}-{{Standard.dateOfAcceptance | date:'MM'}}-{{Standard.dateOfAcceptance | date:'yyyy'}}
+        </td>
+      </tr>
     </table>
-  </div>
+  <!--</div>-->
 
-  <div class="one-fourth-width text-center">
-    <h6>
-      <i>"Мувофиқа карда шуд"</i>
-    </h6>
-    <h6>Ректори ДТТ ба номи академик М.С.Осимӣ</h6>
-    <h6>
-      "{{Standard.dateOfAcceptance | date:'dd'}}"
-      "{{Standard.dateOfAcceptance | date:'MM'}}"
-      {{Standard.dateOfAcceptance | date:'yyyy'}}
-    </h6>
-  </div>
+  <!--<div class="one-fourth-width text-center">-->
+    <!--<h6>-->
+      <!--<i>"Мувофиқа карда шуд"</i>-->
+    <!--</h6>-->
+    <!--<h6>Ректори ДТТ ба номи академик М.С.Осимӣ</h6>-->
+    <!--<h6>-->
+      <!--"{{Standard.dateOfAcceptance | date:'dd'}}"-->
+      <!--"{{Standard.dateOfAcceptance | date:'MM'}}"-->
+      <!--{{Standard.dateOfAcceptance | date:'yyyy'}}-->
+    <!--</h6>-->
+  <!--</div>-->
 </mat-card>
 
 <div class="bg-black">
-  <!--<button (click)="addS()"></button>&lt;!&ndash;&ndash;&gt;-->
   <table>
     <tr>
       <th rowspan="3">№</th>
@@ -118,7 +123,7 @@
       <th>19</th>
     </tr>
     <ng-template ngFor let-j="index" let-type [ngForOf]="subjectTypes">
-      <tr class="showConfig bg-eee" [class.hovered]="type.showConfigIcons">
+      <tr class="bg-eee" [class.hovered]="type.showConfigIcons && (Standard.locked === 0)">
         <td colspan="2">{{romanize(j + 1) + "." + type.name}}</td>
         <td>{{ sum(type.id, 'credits') }}</td>
         <td></td>
@@ -178,15 +183,20 @@
           </span>
         </td>
       </tr>
-      <div (click)="addSubject(type.id);" class="settings" (mouseover)="type.showConfigIcons = true" (mouseleave)="type.showConfigIcons = false">
+      <div *ngIf="Standard.locked === 0" (click)="addSubject(type.id);" class="settings" (mouseover)="type.showConfigIcons = true" (mouseleave)="type.showConfigIcons = false">
         <mat-icon class="md-18">add_circle_outline</mat-icon>
-        Нажмите чтобы добавить предмета для текущей группы предметов
+        Барои илова намудани фанн дар бахши мазкур ба руяш пахш намоед
         <mat-icon class="md-18">add_circle_outline</mat-icon>
       </div>
       <ng-template ngFor let-i="index" let-subject [ngForOf]="getSubjectsById(type.id)">
-        <tr class="showConfig" [class.hovered]="subject.showConfigIcons" *ngIf="subject.idType === type.id" >
+        <tr class="showConfig" [class.hovered]="subject.showConfigIcons && (Standard.locked === 0)" *ngIf="subject.idType === type.id" >
           <td>{{ i + 1 }}</td>
-          <td>{{ subject.name }}</td>
+          <td>
+            {{ subject.name }}
+            <ng-template [ngIf]="subject.selective === 1">
+              (ф. интихобӣ)
+            </ng-template>
+          </td>
           <td>{{ subject.credits }}</td>
           <td>{{ subject.typeOfMonitoring.exam }}</td>
           <td>{{ subject.typeOfMonitoring.goUpIWS }}</td>
@@ -265,7 +275,7 @@
             </ng-template>
           </td>
         </tr>
-        <div class="settings " (mouseover)="subject.showConfigIcons = true" (mouseleave)="subject.showConfigIcons = false">
+        <div *ngIf="Standard.locked === 0" class="settings " (mouseover)="subject.showConfigIcons = true" (mouseleave)="subject.showConfigIcons = false">
           <div (click)="editSubject(subject, i)">
             <mat-icon class="md-18">edit</mat-icon>
           </div>

@@ -16,7 +16,8 @@ import {
   MatCardModule,
   MatExpansionModule,
   MatButtonModule,
-  MatDialogModule
+  MatDialogModule,
+  MatCheckboxModule
 } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
@@ -61,7 +62,8 @@ import { DeleteSubjectComponent } from './dialogs/delete-subject/delete-subject.
     MatCardModule,
     MatExpansionModule,
     MatButtonModule,
-    MatDialogModule
+    MatDialogModule,
+    MatCheckboxModule
   ],
   entryComponents: [
     AddStandardComponent,

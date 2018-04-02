@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpParams } from '@angular/common/http';
 
-import {ISubject, ResAddStandard, UpdateResponse} from '../models/interfaces';
+import { ISubject, ResAddStandard, UpdateResponse } from '../models/interfaces';
 import { AuthService } from './auth.service';
 
 @Injectable()
@@ -15,6 +15,7 @@ export class StSubjectsService {
       .set('idStandard', subject.idStandard.toString())
       .set('idSubject', subject.name)
       .set('idType',    subject.idType.toString())
+      .set('selective', subject.selective.toString())
       .set('credits',   subject.credits.toString())
       .set('tExam',     subject.typeOfMonitoring.exam)
       .set('goUpIWS',   subject.typeOfMonitoring.goUpIWS)
@@ -43,6 +44,7 @@ export class StSubjectsService {
       .set('idStandard', subject.idStandard.toString())
       .set('idSubject', subject.name)
       .set('idType',    subject.idType.toString())
+      .set('selective', subject.selective.toString())
       .set('credits',   subject.credits.toString())
       .set('tExam',     subject.typeOfMonitoring.exam)
       .set('goUpIWS',   subject.typeOfMonitoring.goUpIWS)

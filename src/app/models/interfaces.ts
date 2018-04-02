@@ -3,6 +3,7 @@ export interface ISubject {
   idStandard: number;
   name: string;
   idType: number;
+  selective: number;
   credits: number;
   typeOfMonitoring: {
     exam: string,
@@ -88,6 +89,7 @@ export interface IStandard {
     typeOfStudying: string;
     degreeOfStudying: string;
     dateOfAcceptance: Date;
+    locked: number;
   }];
 }
 
@@ -100,6 +102,7 @@ export interface StandardList {
   timeOfStudying: number;
   typeOfStudying: string;
   dateOfAcceptance: Date;
+  locked: number;
 }
 
 export interface IStSubjectResp {
@@ -108,6 +111,7 @@ export interface IStSubjectResp {
   idStandard: number;
   idSubject: number;
   idType: number;
+  selective: number;
   credits: number;
   tExam: string;
   goUpIWS: string;

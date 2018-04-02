@@ -52,6 +52,7 @@ export class StandardComponent implements OnInit {
           idStandard: item.idStandard,
           name: item.name,
           idType: item.idType,
+          selective: +item.selective,
           credits: +item.credits,
           typeOfMonitoring: {
             exam: item.tExam,
@@ -167,23 +168,24 @@ export class StandardComponent implements OnInit {
         width: '600px',
         data: {
           data: {
-            id: null,
+            id: 0,
             idStandard: this.Standard.id,
+            selective: 0,
             name: '',
             idType: typeId,
-            credits: null,
+            credits: 0,
             typeOfMonitoring: {
               exam: '',
               goUpIWS: ''
             },
             toTeacher: {
-              total: null,
+              total: 0,
               including: {
-                audit: null,
-                kmro: null
+                audit: 0,
+                kmro: 0
               }
             },
-            IWS: null,
+            IWS: 0,
             creditDividing: {
               terms: [],
               credits: []
