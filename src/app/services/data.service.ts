@@ -49,7 +49,6 @@ export class DataService {
           });
         });
 
-        console.log(standards);
         this.dataChange.next(standards);
       },
       (error: HttpErrorResponse) => {
