@@ -1,12 +1,23 @@
 import {
-  Component,
   OnInit,
   Inject,
-  ElementRef,
-  ViewChild
+  ViewChild,
+  Component,
+  ElementRef
 } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
-import { FormControl } from '@angular/forms';
+
+import {
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+  ErrorStateMatcher
+} from '@angular/material';
+
+import {
+  NgForm,
+  Validators,
+  FormControl,
+  FormGroupDirective
+} from '@angular/forms';
 
 import { Observable } from 'rxjs/Observable';
 import { startWith } from 'rxjs/operators/startWith';
@@ -15,6 +26,13 @@ import { map } from 'rxjs/operators/map';
 import { MainService } from '../../services/main.service';
 import { ISubject, ISubjectList } from '../../models/interfaces';
 import { StSubjectsService } from '../../services/st-subjects.service';
+
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+  }
+}
 
 @Component({
   selector: 'app-add-standard',
@@ -30,6 +48,12 @@ export class AddStandardComponent implements OnInit {
     id: null,
     name: ''
   };
+
+  FormControl = new FormControl('', [
+    Validators.required
+  ]);
+
+  matcher = new MyErrorStateMatcher();
 
   options: ISubjectList[] = [];
   filteredOptions: Observable<ISubjectList[]>;
@@ -90,31 +114,32 @@ export class AddStandardComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  confirmAddSubject(): void {
-    const credits = this.credits.split(",");
-    const terms = this.terms.split(",");
-
-    if (credits.length === terms.length && credits.length > 0) {
-      for (let i = 0; i < credits.length; i++) {
-        this.data.creditDividing.credits.push(+credits[i]);
-        this.data.creditDividing.terms.push(+terms[i]);
-      }
-
-      this.data.name = this.selectedSubject.id.toString();
-
-      if (this.checked) { this.data.selective = 1;
-      } else { this.data.selective = 0; }
-
-      this.stSubjectService.addSubject(this.data).subscribe( resp => {
-
-        this.data.id = resp.data.id;
-        this.data.name = this.selectedSubject.name;
-        this.dialogRef.close(this.data);
-      });
-
-    } else {
-      console.error("Terms isn't equal to credits. Make them equal");
-    }
+  confirmAddSubject(form): void {
+    console.log(form);
+    // const credits = this.credits.split(",");
+    // const terms = this.terms.split(",");
+    //
+    // if (credits.length === terms.length && credits.length > 0) {
+    //   for (let i = 0; i < credits.length; i++) {
+    //     this.data.creditDividing.credits.push(+credits[i]);
+    //     this.data.creditDividing.terms.push(+terms[i]);
+    //   }
+    //
+    //   this.data.name = this.selectedSubject.id.toString();
+    //
+    //   if (this.checked) { this.data.selective = 1;
+    //   } else { this.data.selective = 0; }
+    //
+    //   this.stSubjectService.addSubject(this.data).subscribe( resp => {
+    //
+    //     this.data.id = resp.data.id;
+    //     this.data.name = this.selectedSubject.name;
+    //     this.dialogRef.close(this.data);
+    //   });
+    //
+    // } else {
+    //   console.error("Terms isn't equal to credits. Make them equal");
+    // }
   }
 
   confirmSavingSubject() {

@@ -1,16 +1,26 @@
-<h1 *ngIf="add"  mat-dialog-title>Иловакунии фанни нав</h1>
-<h1 *ngIf="!add"  mat-dialog-title>Тағйирдиҳии фанни стандарт</h1>
+<h1 *ngIf="add" mat-dialog-title>Иловакунии фанни нав</h1>
+<h1 *ngIf="!add" mat-dialog-title>Тағйирдиҳии фанни стандарт</h1>
+
 <div mat-dialog-content>
-    <form class="example-form">
+    <form class="example-form" #form="ngForm">
       <mat-form-field class="example-full-width">
-        <input matInput name="special" [(ngModel)]="selectedSubject"
-               placeholder="Номи фанн" [formControl]="myControl"
-               [matAutocomplete]="auto" value="" required>
+        <input matInput
+               name="special"
+               [(ngModel)]="selectedSubject"
+               placeholder="Номи фанн"
+               [formControl]="myControl"
+               [errorStateMatcher]="matcher"
+               [matAutocomplete]="auto"
+               value=""
+               required
+               cdkFocusInitial>
+
         <mat-autocomplete  #auto="matAutocomplete" [displayWith]="displayFn">
           <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
             {{ option.name }}
           </mat-option>
         </mat-autocomplete>
+
       </mat-form-field>
 
       <table class="text-center">
@@ -25,7 +35,9 @@
             </mat-form-field>
           </td>
           <td>
-            <mat-checkbox [(ngModel)]="checked" name="selective">Фанни интихобӣ</mat-checkbox>
+            <mat-checkbox [(ngModel)]="checked" name="selective">
+              Фанни интихобӣ
+            </mat-checkbox>
           </td>
         </tr>
         <tr>
@@ -35,19 +47,41 @@
         <tr>
           <td>
             <mat-form-field>
-              <input type="number" [max]="4" [min]="2" name="credits" matInput
-                     [(ngModel)]="data.credits" #_credits (input)="creditInput()" placeholder="Ҳаҷми кредитҳо">
+              <input type="number"
+                     name="credits"
+                     matInput
+                     [(ngModel)]="data.credits"
+                     (input)="creditInput()"
+                     [formControl]="FormControl"
+                     [errorStateMatcher]="matcher"
+                     required
+                     placeholder="Ҳаҷми кредитҳо">
+              <mat-error *ngIf="FormControl.hasError('required')">
+                Email is <strong>required</strong>
+              </mat-error>
             </mat-form-field>
-            {{_credits.value}}
+
+            <mat-form-field>
+              <input type="text"
+                     matInput
+                     name="exam"
+                     [formControl]="FormControl"
+                     [errorStateMatcher]="matcher"
+                     [(ngModel)]="data.typeOfMonitoring.exam"
+                     placeholder="Имтиҳон"
+                     value="">
+            </mat-form-field>
           </td>
           <td>
             <mat-form-field>
-              <input type="text" matInput name="exam" [(ngModel)]="data.typeOfMonitoring.exam" placeholder="Имтиҳон" value="">
-            </mat-form-field>
-          </td>
-          <td>
-            <mat-form-field>
-              <input type="text" matInput name="goUpIWS" [(ngModel)]="data.typeOfMonitoring.goUpIWS" placeholder="Ҳимояи КМД" value="">
+              <input type="text"
+                     matInput
+                     name="goUpIWS"
+                     [formControl]="FormControl"
+                     [errorStateMatcher]="matcher"
+                     [(ngModel)]="data.typeOfMonitoring.goUpIWS"
+                     placeholder="Ҳимояи КМД"
+                     value="">
             </mat-form-field>
           </td>
         </tr>
@@ -61,38 +95,87 @@
         <tr>
           <td>
             <mat-form-field>
-              <input type="number" matInput name="total" [(ngModel)]="data.toTeacher.total" placeholder="Ҳамагӣ" value="">
+              <input type="number"
+                     matInput
+                     name="total"
+                     [formControl]="FormControl"
+                     [errorStateMatcher]="matcher"
+                     [(ngModel)]="data.toTeacher.total"
+                     required
+                     placeholder="Ҳамагӣ"
+                     value="">
             </mat-form-field>
           </td>
           <td>
             <mat-form-field>
-              <input type="number" matInput name="audit" [(ngModel)]="data.toTeacher.including.audit" placeholder="Аудиторӣ" value="">
+              <input type="number"
+                     matInput
+                     name="audit"
+                     [formControl]="FormControl"
+                     [errorStateMatcher]="matcher"
+                     [(ngModel)]="data.toTeacher.including.audit"
+                     placeholder="Аудиторӣ"
+                     required
+                     value="">
             </mat-form-field>
           </td>
           <td>
             <mat-form-field>
-              <input type="number" matInput name="kmro" [(ngModel)]="data.toTeacher.including.kmro" placeholder="КМРО" value="">
+              <input type="number"
+                     matInput name="kmro"
+                     [formControl]="FormControl"
+                     [errorStateMatcher]="matcher"
+                     [(ngModel)]="data.toTeacher.including.kmro"
+                     placeholder="КМРО"
+                     required
+                     value="">
             </mat-form-field>
           </td>
         </tr>
         <tr>
           <td></td>
-          <td class="border-bottom" colspan="2">Тақсимоти кредитҳо ба курсҳо ва семестрҳо</td>
+          <td class="border-bottom" colspan="2">
+            Тақсимоти кредитҳо ба курсҳо ва семестрҳо
+          </td>
         </tr>
         <tr>
           <td>
             <mat-form-field>
-              <input type="number" matInput name="iws" [(ngModel)]="data.IWS" placeholder="КМД" value="">
+              <input type="number"
+                     matInput
+                     name="iws"
+                     required
+                     [formControl]="FormControl"
+                     [errorStateMatcher]="matcher"
+                     [(ngModel)]="data.IWS"
+                     placeholder="КМД"
+                     value="">
             </mat-form-field>
           </td>
           <td>
             <mat-form-field>
-              <input type="text" matInput name="terms" [(ngModel)]="terms" placeholder="Семестрҳо" value="">
+              <input type="text"
+                     matInput
+                     name="terms"
+                     [formControl]="FormControl"
+                     [errorStateMatcher]="matcher"
+                     [(ngModel)]="terms"
+                     required
+                     placeholder="Семестрҳо"
+                     value="">
             </mat-form-field>
           </td>
           <td>
             <mat-form-field>
-              <input type="text" matInput name="termCredits" [(ngModel)]="credits" placeholder="Кредитҳо" value="">
+              <input type="text"
+                     matInput
+                     name="termCredits"
+                     [formControl]="FormControl"
+                     [errorStateMatcher]="matcher"
+                     [(ngModel)]="credits"
+                     required
+                     placeholder="Кредитҳо"
+                     value="">
             </mat-form-field>
           </td>
         </tr>
@@ -101,11 +184,24 @@
 </div>
 
 <div mat-dialog-actions>
-  <button *ngIf="add" cdkFocusInitial (click)="confirmAddSubject();" mat-raised-button class="bg-dark text-colored half-width">
+  <button *ngIf="add"
+          [disabled]="!form.valid"
+          (click)="confirmAddSubject(form);"
+          mat-raised-button
+          class="bg-dark text-colored half-width">
     <mat-icon>add_circle_outline</mat-icon> Илова намудан
   </button>
-  <button *ngIf="!add" cdkFocusInitial (click)="confirmSavingSubject();" mat-raised-button class="bg-dark text-colored half-width">
+
+  <button *ngIf="!add"
+          (click)="confirmSavingSubject();"
+          mat-raised-button
+          class="bg-dark text-colored half-width">
     <mat-icon>save</mat-icon> Сабт кардан
   </button>
-  <button cdkFocusInitial mat-raised-button (click)="onNoClick()" class="bg-dark text-colored half-width">Қатъ кардан</button>
+  <button cdkFocusInitial
+          mat-raised-button
+          (click)="onNoClick()"
+          class="bg-dark text-colored half-width">
+    <mat-icon>cancel</mat-icon> Қатъ кардан
+  </button>
 </div>
