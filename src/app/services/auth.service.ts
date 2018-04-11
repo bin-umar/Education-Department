@@ -12,8 +12,11 @@ import { Observable } from "rxjs/Observable";
 @Injectable()
 export class AuthService {
 
-  public host = 'http://asu.techuni.tj/jxapi/';
+  public host = 'http://api.techuni.lo/';
   public token: string;
+
+  public DEGREES = ['бакалавр', 'магистр', 'PhD'];
+  public TYPES = ['рӯзона', 'ғоибона', 'фосилавӣ'];
 
   constructor(public http: HttpClient) {}
 

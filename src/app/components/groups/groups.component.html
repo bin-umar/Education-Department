@@ -1,73 +1,66 @@
 
-<!--<div class="example-header">-->
-  <!--<mat-form-field class="full-width">-->
-    <!--<input matInput #filter placeholder="Filter">-->
-  <!--</mat-form-field>-->
-<!--</div>-->
-<!--<div class="example-container mat-elevation-z8">-->
+<div class="example-header">
+  <mat-form-field class="full-width">
+    <input matInput #filter placeholder="Filter">
+  </mat-form-field>
+</div>
+<div class="example-container mat-elevation-z8">
 
-  <!--<mat-table class="table-hover" [(dataSource)]="dataSource" matSort>-->
+  <mat-table class="table-hover" [(dataSource)]="dataSource" matSort>
 
-    <!--<ng-container matColumnDef="number">-->
-      <!--<mat-header-cell *matHeaderCellDef mat-sort-header> № </mat-header-cell>-->
-      <!--<mat-cell *matCellDef="let row"> {{row.number}} </mat-cell>-->
-    <!--</ng-container>-->
+    <ng-container matColumnDef="number">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> № </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.number}} </mat-cell>
+    </ng-container>
 
-    <!--<ng-container matColumnDef="specialty">-->
-      <!--<mat-header-cell *matHeaderCellDef mat-sort-header> Ихтисос </mat-header-cell>-->
-      <!--<mat-cell *matCellDef="let row"> {{row.specialty}} </mat-cell>-->
-    <!--</ng-container>-->
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Ном </mat-header-cell>
+      <mat-cell *matCellDef="let row;"> {{row.name}} </mat-cell>
+    </ng-container>
 
-    <!--<ng-container matColumnDef="name">-->
-      <!--<mat-header-cell *matHeaderCellDef mat-sort-header> Ном </mat-header-cell>-->
-      <!--<mat-cell *matCellDef="let row;"> {{row.name}} </mat-cell>-->
-    <!--</ng-container>-->
+    <ng-container matColumnDef="degree">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Дараҷаи таҳсилот </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.degree}} </mat-cell>
+    </ng-container>
 
-    <!--<ng-container matColumnDef="degree">-->
-      <!--<mat-header-cell *matHeaderCellDef mat-sort-header> Дараҷаи таҳсилот </mat-header-cell>-->
-      <!--<mat-cell *matCellDef="let row"> {{row.degree}} </mat-cell>-->
-    <!--</ng-container>-->
+    <ng-container matColumnDef="type">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Шакли таҳсил </mat-header-cell>
+      <mat-cell *matCellDef="let row">{{row.type}} </mat-cell>
+    </ng-container>
 
-    <!--<ng-container matColumnDef="type">-->
-      <!--<mat-header-cell *matHeaderCellDef mat-sort-header> Шакли таҳсил </mat-header-cell>-->
-      <!--<mat-cell *matCellDef="let row">{{row.type}} </mat-cell>-->
-    <!--</ng-container>-->
+    <ng-container matColumnDef="course">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Курс </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.course}} </mat-cell>
+    </ng-container>
 
-    <!--<ng-container matColumnDef="course">-->
-      <!--<mat-header-cell *matHeaderCellDef mat-sort-header> Курс </mat-header-cell>-->
-      <!--<mat-cell *matCellDef="let row"> {{row.course}} </mat-cell>-->
-    <!--</ng-container>-->
+    <ng-container matColumnDef="studentsAmount">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Донишҷӯён </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.studentsAmount}} </mat-cell>
+    </ng-container>
 
-    <!--<ng-container matColumnDef="studentsAmount">-->
-      <!--<mat-header-cell *matHeaderCellDef mat-sort-header> Донишҷӯён </mat-header-cell>-->
-      <!--<mat-cell *matCellDef="let row"> {{row.studentsAmount}} </mat-cell>-->
-    <!--</ng-container>-->
+    <ng-container matColumnDef="educationYear">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Соли таҳсил </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.educationYear }} </mat-cell>
+    </ng-container>
 
-    <!--<ng-container matColumnDef="educationYear">-->
-      <!--<mat-header-cell *matHeaderCellDef mat-sort-header> Соли таҳсил </mat-header-cell>-->
-      <!--<mat-cell *matCellDef="let row"> {{row.dateOfAcceptance | date:'mediumDate'}} </mat-cell>-->
-    <!--</ng-container>-->
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Амалиёт </mat-header-cell>
+      <mat-cell *matCellDef="let row;">
+        <input type="number" value="{{row.id}}" hidden #id>
 
-    <!--<ng-container matColumnDef="actions">-->
-      <!--<mat-header-cell *matHeaderCellDef mat-sort-header> Амалиёт </mat-header-cell>-->
-      <!--<mat-cell *matCellDef="let row;">-->
-        <!--<input type="number" value="{{row.id}}" hidden #id>-->
+        <mat-icon class="md-24 hovered-color">edit</mat-icon>
+        <mat-icon class="md-24 hovered-color">delete</mat-icon>
 
-        <!--<mat-icon class="md-24" (click)="editSt(row);">edit</mat-icon>-->
+      </mat-cell>
+    </ng-container>
 
-        <!--<mat-icon class="md-24" (click)="deleteSt(row);">delete</mat-icon>-->
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;">
+    </mat-row>
+  </mat-table>
 
-        <!--<mat-icon class="md-24 hovered-color" (click)="openSt(row);">open_with</mat-icon>-->
-      <!--</mat-cell>-->
-    <!--</ng-container>-->
-
-    <!--<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>-->
-    <!--<mat-row *matRowDef="let row; columns: displayedColumns;">-->
-    <!--</mat-row>-->
-  <!--</mat-table>-->
-
-  <!--<mat-paginator [length]="dataSource.filteredData.length"-->
-                 <!--[pageIndex]="0"-->
-                 <!--[pageSize]="10"-->
-                 <!--[pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>-->
-<!--</div>-->
+  <mat-paginator [length]="dataSource.filteredData.length"
+                 [pageIndex]="0"
+                 [pageSize]="10"
+                 [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+</div>

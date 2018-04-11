@@ -165,7 +165,7 @@ export class StandardComponent implements OnInit {
   addSubject(typeId: number): void {
     if (this.isSubjectsAvailable) {
       const dialogRef = this.dialog.open(AddStandardComponent, {
-        width: '600px',
+        width: '610px',
         data: {
           data: {
             id: 0,

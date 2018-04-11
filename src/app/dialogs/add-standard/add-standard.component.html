@@ -56,11 +56,12 @@
                      [errorStateMatcher]="matcher"
                      required
                      placeholder="Ҳаҷми кредитҳо">
-              <mat-error *ngIf="FormControl.hasError('required')">
-                Email is <strong>required</strong>
-              </mat-error>
+              <!--<mat-error *ngIf="FormControl.hasError('required')">-->
+                <!--Email is <strong>required</strong>-->
+              <!--</mat-error>-->
             </mat-form-field>
-
+          </td>
+          <td>
             <mat-form-field>
               <input type="text"
                      matInput
@@ -186,7 +187,7 @@
 <div mat-dialog-actions>
   <button *ngIf="add"
           [disabled]="!form.valid"
-          (click)="confirmAddSubject(form);"
+          (click)="confirmAddSubject();"
           mat-raised-button
           class="bg-dark text-colored half-width">
     <mat-icon>add_circle_outline</mat-icon> Илова намудан

@@ -114,32 +114,31 @@ export class AddStandardComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  confirmAddSubject(form): void {
-    console.log(form);
-    // const credits = this.credits.split(",");
-    // const terms = this.terms.split(",");
-    //
-    // if (credits.length === terms.length && credits.length > 0) {
-    //   for (let i = 0; i < credits.length; i++) {
-    //     this.data.creditDividing.credits.push(+credits[i]);
-    //     this.data.creditDividing.terms.push(+terms[i]);
-    //   }
-    //
-    //   this.data.name = this.selectedSubject.id.toString();
-    //
-    //   if (this.checked) { this.data.selective = 1;
-    //   } else { this.data.selective = 0; }
-    //
-    //   this.stSubjectService.addSubject(this.data).subscribe( resp => {
-    //
-    //     this.data.id = resp.data.id;
-    //     this.data.name = this.selectedSubject.name;
-    //     this.dialogRef.close(this.data);
-    //   });
-    //
-    // } else {
-    //   console.error("Terms isn't equal to credits. Make them equal");
-    // }
+  confirmAddSubject(): void {
+    const credits = this.credits.split(",");
+    const terms = this.terms.split(",");
+
+    if (credits.length === terms.length && credits.length > 0) {
+      for (let i = 0; i < credits.length; i++) {
+        this.data.creditDividing.credits.push(+credits[i]);
+        this.data.creditDividing.terms.push(+terms[i]);
+      }
+
+      this.data.name = this.selectedSubject.id.toString();
+
+      if (this.checked) { this.data.selective = 1;
+      } else { this.data.selective = 0; }
+
+      this.stSubjectService.addSubject(this.data).subscribe( resp => {
+
+        this.data.id = resp.data.id;
+        this.data.name = this.selectedSubject.name;
+        this.dialogRef.close(this.data);
+      });
+
+    } else {
+      console.error("Terms isn't equal to credits. Make them equal");
+    }
   }
 
   confirmSavingSubject() {

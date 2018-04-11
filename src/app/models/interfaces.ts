@@ -131,3 +131,19 @@ export interface StSubjectResp {
 export interface UpdateResponse {
   error: boolean;
 }
+
+export interface IGroup {
+  id: number;
+  number: number;
+  name: string;
+  degree: string;
+  type: string;
+  course: number;
+  studentsAmount: number;
+  educationYear: number;
+}
+
+export interface GroupResponse {
+  error: boolean;
+  data: [IGroup];
+}

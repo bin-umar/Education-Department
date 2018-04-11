@@ -40,10 +40,10 @@ export class DataService {
             id: item.ids,
             number: i + 1,
             specialty: item.fSpec_Shifr,
-            degreeOfStudying: DEGREES[Number(item.degreeOfStudying)],
+            degreeOfStudying: this.auth.DEGREES[Number(item.degreeOfStudying)],
             profession: '',
             timeOfStudying: item.timeOfStudying,
-            typeOfStudying: TYPES[Number(item.typeOfStudying)],
+            typeOfStudying: this.auth.TYPES[Number(item.typeOfStudying)],
             dateOfAcceptance: item.dateOfAcceptance,
             locked: +item.locked
           });
@@ -114,6 +114,3 @@ export class DataService {
     });
   }
 }
-
-const DEGREES = ['бакалавр', 'магистр', 'PhD'];
-const TYPES = ['рӯзона', 'ғоибона', 'фосилавӣ'];
