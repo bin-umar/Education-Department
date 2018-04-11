@@ -12,14 +12,14 @@ import { Observable } from "rxjs/Observable";
 @Injectable()
 export class AuthService {
 
-  public host = 'http://asu.techuni.tj/jxapi';
+  public host = 'http://asu.techuni.tj/jxapi/';
   public token: string;
 
   constructor(public http: HttpClient) {}
 
   getToken(username: string, password: string): Observable<boolean> {
     return this.http.get(
-      this.host + '/self.php?route=auth&operation=login&username=' + username + '&password=' + password
+      this.host + 'self.php?route=auth&operation=login&username=' + username + '&password=' + password
     ).map((response: IAuth) => {
       const token = response.data.hash;
       if (token) {

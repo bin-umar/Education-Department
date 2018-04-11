@@ -35,7 +35,7 @@ export class MainService {
 
   getSpecialityList() {
     return this.auth.http.get(
-      this.auth.host + '/self.php?route=spec&operation=list&token=' + this.auth.token
+      this.auth.host + 'self.php?route=spec&operation=list&token=' + this.auth.token
     ).map((response: ISpec) => {
       return response;
     });
@@ -43,7 +43,7 @@ export class MainService {
 
   getSubjectsList() {
     return this.auth.http.get(
-      this.auth.host + '/self.php?route=subjects&operation=list&token=' + this.auth.token
+      this.auth.host + 'self.php?route=subjects&operation=list&token=' + this.auth.token
     ).map((response: ISubjectResponse) => {
       if (!response.error) {
         response.data.forEach(item => {
@@ -62,7 +62,7 @@ export class MainService {
 
   getSubjectsByStandardId(id: number) {
     return this.auth.http.get(
-      this.auth.host + '/self.php?route=stsubjects&operation=one' +
+      this.auth.host + 'self.php?route=stsubjects&operation=one' +
       '&id=' + id + '&token=' + this.auth.token
     ).map((response: StSubjectResp) => {
       return response;
@@ -71,7 +71,7 @@ export class MainService {
 
   getSubjectTypesList() {
     return this.auth.http.get(
-      this.auth.host + '/self.php?route=subtype&operation=list&token=' + this.auth.token
+      this.auth.host + 'self.php?route=subtype&operation=list&token=' + this.auth.token
     ).map((response: ResSubType) => {
       if (!response.error) {
 

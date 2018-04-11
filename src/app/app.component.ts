@@ -9,7 +9,7 @@ import {
   Type
 } from '@angular/core';
 
-import { StandardsListComponent } from "./components/standards-list/standards-list.component";
+import { StandardsListComponent } from './components/standards-list/standards-list.component';
 import { GroupsComponent } from './components/groups/groups.component';
 
 import { MainService } from './services/main.service';

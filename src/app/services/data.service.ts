@@ -32,7 +32,7 @@ export class DataService {
   /** CRUD METHODS */
   getAllStandards(): void {
     this.httpClient.get<IStandard>(
-      this.auth.host + '/self.php?route=standards&operation=list&token=' + this.auth.token
+      this.auth.host + 'self.php?route=standards&operation=list&token=' + this.auth.token
     ).subscribe(response => {
         const standards: StandardList[] = [];
         response.data.forEach( (item, i) => {
