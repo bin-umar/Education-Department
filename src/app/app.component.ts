@@ -10,6 +10,8 @@ import {
 } from '@angular/core';
 
 import { StandardsListComponent } from "./components/standards-list/standards-list.component";
+import { GroupsComponent } from './components/groups/groups.component';
+
 import { MainService } from './services/main.service';
 import { AuthService } from './services/auth.service';
 
@@ -18,7 +20,8 @@ import { AuthService } from './services/auth.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
   entryComponents: [
-    StandardsListComponent
+    StandardsListComponent,
+    GroupsComponent
   ]
 })
 export class AppComponent implements
@@ -26,8 +29,8 @@ export class AppComponent implements
   OnDestroy {
 
   standardsListCmp = StandardsListComponent;
+  groupsComponent = GroupsComponent;
   component = "";
-  // cmp;
 
   @ViewChild('content', {read: ViewContainerRef})
   parent: ViewContainerRef;
@@ -62,7 +65,6 @@ export class AppComponent implements
     const childComponent = this.componentFactoryResolver.resolveComponentFactory(this.type);
     const CmpRef = this.parent.createComponent(childComponent);
     this.component = CmpRef.instance.cmpName;
-    // this.cmp = CmpRef.instance.openStandard;
 
     this.cmpRef = CmpRef;
   }

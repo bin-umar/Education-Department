@@ -11,11 +11,19 @@
           <nav class="nav-primary">
             <ul class="nav2">
               <li>
-                <a class="toogle">
+                <a class="toogle" (click)="createComponentDynamically(standardsListCmp);">
                   <figure>
                     <img src="assets/images/report2.png" class="svg-icon">
                   </figure>
                   <span>Стандартҳо</span>
+                </a>
+              </li>
+              <li>
+                <a class="toogle" (click)="createComponentDynamically(groupsComponent);">
+                  <figure>
+                    <img src="assets/images/groups2.png" class="svg-icon">
+                  </figure>
+                  <span>Гурӯҳҳо</span>
                 </a>
               </li>
             </ul>

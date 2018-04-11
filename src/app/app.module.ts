@@ -33,6 +33,7 @@ import { MainService } from './services/main.service';
 import { DataService } from './services/data.service';
 import { StSubjectsService } from './services/st-subjects.service';
 import { DeleteSubjectComponent } from './dialogs/delete-subject/delete-subject.component';
+import { GroupsComponent } from './components/groups/groups.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { DeleteSubjectComponent } from './dialogs/delete-subject/delete-subject.
     StandardComponent,
     StandardsListComponent,
     DeleteDialogComponent,
-    DeleteSubjectComponent
+    DeleteSubjectComponent,
+    GroupsComponent
   ],
   imports: [
     BrowserModule,
