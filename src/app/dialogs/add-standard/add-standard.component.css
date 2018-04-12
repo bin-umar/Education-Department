@@ -7,18 +7,6 @@
   width: 100%;
 }
 
-.half-width {
-  width: 49%;
-}
-
-.one-third-width{
-  width: 32%;
-}
-
-.two-third-width{
-  width: 64%;
-}
-
 .border-bottom {
   border-bottom: 1px solid #292838;
 }

@@ -103,3 +103,15 @@
   -webkit-transform: rotateX(180deg) rotateY(180deg);
   transform: rotateX(180deg) rotateY(180deg);
 }
+
+.half-width {
+  width: 48.5%;
+}
+
+.one-third-width{
+  width: 32%;
+}
+
+.two-third-width{
+  width: 64%;
+}

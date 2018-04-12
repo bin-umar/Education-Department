@@ -16,9 +16,6 @@ export class MainService {
   subjectTypes: ISubType[] = [];
   subjects: ISubjectList[] = [];
 
-  degrees = ['бакалавр', 'магистр', 'PhD'];
-  types = ['рӯзона', 'ғоибона', 'фосилавӣ'];
-
   constructor(private auth: AuthService) {}
 
   static getDate (date) {

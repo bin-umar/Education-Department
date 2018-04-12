@@ -130,20 +130,24 @@ export class StandardsListComponent implements OnInit {
   addStandard() {
     this.standardList.specialty = this.selectedSpec.fID.toString();
     this.dataService.addStandard(this.standardList).subscribe((res) => {
-      this.exampleDatabase.dataChange.value.push({
-        id: res.data.id,
-        number: this.dataSource.filteredData.length + 1,
-        specialty: this.selectedSpec.fSpec_Shifr,
-        degreeOfStudying: this.mainService.degrees[this.standardList.degreeOfStudying],
-        profession: this.standardList.profession,
-        timeOfStudying: this.standardList.timeOfStudying,
-        typeOfStudying: this.mainService.types[this.standardList.typeOfStudying],
-        dateOfAcceptance: this.standardList.dateOfAcceptance,
-        locked: this.standardList.locked
-      });
+      if (!res.error) {
+        this.exampleDatabase.dataChange.value.push({
+          id: res.data.id,
+          number: this.dataSource.filteredData.length + 1,
+          specialty: this.selectedSpec.fSpec_Shifr,
+          degreeOfStudying: this.auth.DEGREES[this.standardList.degreeOfStudying],
+          profession: this.standardList.profession,
+          timeOfStudying: this.standardList.timeOfStudying,
+          typeOfStudying: this.auth.TYPES[this.standardList.typeOfStudying],
+          dateOfAcceptance: this.standardList.dateOfAcceptance,
+          locked: this.standardList.locked
+        });
 
-      this.refreshTable();
-      this.setStToDefault();
+        this.refreshTable();
+        this.setStToDefault();
+      } else {
+        console.log("Problem happened while adding new standard");
+      }
     });
   }
 
@@ -153,8 +157,8 @@ export class StandardsListComponent implements OnInit {
       this.panelOpenState = true;
 
       const sIndex = this.options.findIndex(x => x.fSpec_Shifr === row.specialty);
-      const tIndex = this.mainService.types.findIndex(x => x === row.typeOfStudying);
-      const dIndex = this.mainService.degrees.findIndex(x => x === row.degreeOfStudying);
+      const tIndex = this.auth.TYPES.findIndex(x => x === row.typeOfStudying);
+      const dIndex = this.auth.DEGREES.findIndex(x => x === row.degreeOfStudying);
 
       this.selectedSpec = this.options[sIndex];
       this.standardList = {
@@ -232,10 +236,10 @@ export class StandardsListComponent implements OnInit {
             id: this.standardList.id,
             number: this.standardList.number,
             specialty: this.selectedSpec.fSpec_Shifr,
-            degreeOfStudying: this.mainService.degrees[this.standardList.degreeOfStudying],
+            degreeOfStudying: this.auth.DEGREES[this.standardList.degreeOfStudying],
             profession: this.standardList.profession,
             timeOfStudying: this.standardList.timeOfStudying,
-            typeOfStudying: this.mainService.types[this.standardList.typeOfStudying],
+            typeOfStudying: this.auth.TYPES[this.standardList.typeOfStudying],
             dateOfAcceptance: this.standardList.dateOfAcceptance,
             locked: this.standardList.locked
         });

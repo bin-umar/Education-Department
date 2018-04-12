@@ -134,6 +134,7 @@ export interface UpdateResponse {
 
 export interface IGroup {
   id: number;
+  idSpec: number;
   number: number;
   name: string;
   degree: string;
