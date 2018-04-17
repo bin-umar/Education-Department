@@ -23,12 +23,15 @@ import { map } from 'rxjs/operators/map';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 
-import { DataService } from '../../services/data.service';
 import { StandardComponent } from '../standard/standard.component';
-import { MainService } from '../../services/main.service';
-import { Spec, StandardList } from '../../models/interfaces';
-import { AuthService } from '../../services/auth.service';
 import { DeleteDialogComponent } from '../../dialogs/delete/delete.dialog.component';
+
+import { DataService } from '../../services/data.service';
+import { MainService } from '../../services/main.service';
+import { AuthService } from '../../services/auth.service';
+
+import { StandardList } from '../../models/standards';
+import { Spec } from '../../models/common';
 
 @Component({
   selector: 'app-standards-list',
@@ -64,10 +67,10 @@ export class StandardsListComponent implements OnInit {
 
   constructor(private componentFactoryResolver: ComponentFactoryResolver,
               private mainService: MainService,
-              public httpClient: HttpClient,
               private auth: AuthService,
               private dataService: DataService,
-              public dialog: MatDialog) {
+              public  dialog: MatDialog,
+              public  httpClient: HttpClient) {
   }
 
   formControl = new FormControl('', [ Validators.required ]);
@@ -252,7 +255,6 @@ export class StandardsListComponent implements OnInit {
     });
   }
 
-  // If you don't need a filter or a pagination this can be simplified, you just use code from else block
   private refreshTable() {
     // if there's a paginator active we're using it for refresh
     if (this.dataSource._paginator.hasNextPage()) {

@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 
 import { AuthService } from './auth.service';
+
 import {
-  ISpec,
   ISubType,
   ResSubType,
   ISubjectList,
   StSubjectResp,
   ISubjectResponse
-} from '../models/interfaces';
+} from '../models/standards';
+import { ISpec } from '../models/common';
 
 @Injectable()
 export class MainService {

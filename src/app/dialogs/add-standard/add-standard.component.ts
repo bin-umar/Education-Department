@@ -24,7 +24,7 @@ import { startWith } from 'rxjs/operators/startWith';
 import { map } from 'rxjs/operators/map';
 
 import { MainService } from '../../services/main.service';
-import { ISubject, ISubjectList } from '../../models/interfaces';
+import { ISubject, ISubjectList } from '../../models/standards';
 import { StSubjectsService } from '../../services/st-subjects.service';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {

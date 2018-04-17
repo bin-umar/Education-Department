@@ -1,6 +1,6 @@
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Component, Inject } from '@angular/core';
-import { StandardList } from '../../models/interfaces';
+import { StandardList } from '../../models/standards';
 
 @Component({
   selector: 'app-delete.dialog',

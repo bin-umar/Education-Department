@@ -45,41 +45,6 @@ export interface ResSubType {
   data: [ISubType];
 }
 
-export interface IAuth {
-  error: boolean;
-  data: {
-    hash: string
-  };
-}
-
-export interface ResAddStandard {
-  error: boolean;
-  data: {
-    id: number
-  };
-}
-
-export interface ISpec {
-  error: boolean;
-  data: [ISpec];
-}
-
-export interface ISpec {
-  fID: number;
-  fSpec_NameRus: string;
-  fSpec_NameTaj: string;
-  fSpec_Shifr: string;
-}
-
-export class Spec {
-  constructor(
-    public fID: number,
-    public fSpec_NameRus: string,
-    public fSpec_NameTaj: string,
-    public fSpec_Shifr: string
-  ) { }
-}
-
 export interface IStandard {
   error: boolean;
   data: [{
@@ -126,38 +91,4 @@ export interface IStSubjectResp {
 export interface StSubjectResp {
   error: boolean;
   data: [IStSubjectResp];
-}
-
-export interface UpdateResponse {
-  error: boolean;
-}
-
-export interface IGroup {
-  id: number;
-  idSpec: number;
-  number: number;
-  name: string;
-  degree: string;
-  type: string;
-  course: number;
-  studentsAmount: number;
-  educationYear: number;
-}
-
-export interface GroupResponse {
-  error: boolean;
-  data: [IGroup];
-}
-
-export interface UserInfo {
-  userId: number;
-  type: string;
-  time: string;
-}
-
-export interface CheckResponse {
-  error: boolean;
-  data: {
-    last_action: string;
-  }
 }

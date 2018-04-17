@@ -3,9 +3,9 @@ import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular
 
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
-import { GroupResponse, IGroup, ResAddStandard, UpdateResponse } from '../models/interfaces';
-
 import { AuthService } from './auth.service';
+
+import { GroupResponse, IGroup, ResponseAdd, UpdateResponse } from '../models/common';
 
 @Injectable()
 export class GroupsService {
@@ -62,7 +62,7 @@ export class GroupsService {
       {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/x-www-form-urlencoded')
-      }).map((response: ResAddStandard) => {
+      }).map((response: ResponseAdd) => {
       return response;
     });
   }

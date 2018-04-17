@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
-import {
-  HttpClient, HttpHeaders, HttpParams
-} from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/map';
-
-import {CheckResponse, IAuth, UserInfo} from '../models/interfaces';
 import { Observable } from "rxjs/Observable";
+
+import { CheckResponse, IAuth, UserInfo} from '../models/common';
 
 @Injectable()
 export class AuthService {

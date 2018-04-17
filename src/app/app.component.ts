@@ -1,20 +1,20 @@
 import {
+  Type,
   Component,
-  OnInit,
   OnDestroy,
   ViewContainerRef,
   ViewChild,
   ComponentFactoryResolver,
-  ComponentRef,
-  Type
+  ComponentRef
 } from '@angular/core';
 
 import { StandardsListComponent } from './components/standards-list/standards-list.component';
 import { GroupsComponent } from './components/groups/groups.component';
+import { CurriculumListComponent } from './components/curriculum-list/curriculum-list.component';
 
 import { MainService } from './services/main.service';
 import { AuthService } from './services/auth.service';
-import {UserInfo} from "./models/interfaces";
+import { UserInfo } from './models/common';
 
 @Component({
   selector: 'app-root',
@@ -22,13 +22,15 @@ import {UserInfo} from "./models/interfaces";
   styleUrls: ['./app.component.css'],
   entryComponents: [
     StandardsListComponent,
-    GroupsComponent
+    GroupsComponent,
+    CurriculumListComponent
   ]
 })
 export class AppComponent implements OnDestroy {
 
   standardsListCmp = StandardsListComponent;
   groupsComponent = GroupsComponent;
+  curriculumListComponent = CurriculumListComponent;
   component = "";
   welcome = true;
 

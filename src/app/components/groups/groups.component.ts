@@ -9,13 +9,13 @@ import { Observable } from 'rxjs/Observable';
 import { startWith } from 'rxjs/operators/startWith';
 import { map } from 'rxjs/operators/map';
 
-import { IGroup, Spec } from '../../models/interfaces';
+import { DeleteGroupComponent } from '../../dialogs/delete-group/delete-group.component';
 
 import { GroupsService } from '../../services/groups.service';
 import { AuthService } from '../../services/auth.service';
 import { MainService } from '../../services/main.service';
 
-import { DeleteGroupComponent } from '../../dialogs/delete-group/delete-group.component';
+import { IGroup, Spec } from '../../models/common';
 
 @Component({
   selector: 'app-groups',

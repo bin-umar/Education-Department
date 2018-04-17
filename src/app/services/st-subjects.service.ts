@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpParams } from '@angular/common/http';
 
-import { ISubject, ResAddStandard, UpdateResponse } from '../models/interfaces';
+import { ISubject } from '../models/standards';
+import { ResponseAdd, UpdateResponse } from '../models/common';
 import { AuthService } from './auth.service';
 
 @Injectable()
@@ -33,7 +34,7 @@ export class StSubjectsService {
       {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/x-www-form-urlencoded')
-      }).map((response: ResAddStandard) => {
+      }).map((response: ResponseAdd) => {
       return response;
     });
   }

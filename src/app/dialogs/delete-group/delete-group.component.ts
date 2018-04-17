@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { IGroup } from '../../models/interfaces';
+import { IGroup } from '../../models/common';
 
 @Component({
   selector: 'app-delete-group',

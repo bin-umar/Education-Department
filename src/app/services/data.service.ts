@@ -8,14 +8,11 @@ import {
 
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
-import {
-  IStandard,
-  ResAddStandard,
-  StandardList,
-  UpdateResponse
-} from '../models/interfaces';
 import { AuthService } from './auth.service';
 import { MainService } from './main.service';
+
+import { IStandard, StandardList } from '../models/standards';
+import { ResponseAdd, UpdateResponse } from '../models/common';
 
 @Injectable()
 export class DataService {
@@ -72,7 +69,7 @@ export class DataService {
       {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/x-www-form-urlencoded')
-      }).map((response: ResAddStandard) => {
+      }).map((response: ResponseAdd) => {
       return response;
     });
   }

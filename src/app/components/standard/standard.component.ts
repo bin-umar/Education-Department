@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material';
 
-import { ISubject, ISubType, StandardList } from '../../models/interfaces';
+import { ISubject, ISubType, StandardList } from '../../models/standards';
 
 import { MainService } from '../../services/main.service';
 import { StSubjectsService } from '../../services/st-subjects.service';
