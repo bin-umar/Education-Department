@@ -1,24 +1,43 @@
 import { Injectable } from '@angular/core';
 import {
-  HttpClient
+  HttpClient, HttpHeaders, HttpParams
 } from '@angular/common/http';
 
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/map';
 
-import { IAuth } from '../models/interfaces';
+import {CheckResponse, IAuth, UserInfo} from '../models/interfaces';
 import { Observable } from "rxjs/Observable";
 
 @Injectable()
 export class AuthService {
 
-  public host = 'http://api.techuni.lo/';
+  public host = 'http://asu.techuni.tj/jxapi/';
   public token: string;
 
   public DEGREES = ['бакалавр', 'магистр', 'PhD'];
   public TYPES = ['рӯзона', 'ғоибона', 'фосилавӣ'];
 
   constructor(public http: HttpClient) {}
+
+  checkUserSession(user: UserInfo) {
+    const body = new HttpParams()
+      .set('uid', user.userId.toString())
+      .set('type', user.type)
+      .set('time', user.time)
+      .set('route', 'authsess')
+      .set('operation', 'custom')
+      .set('action', 'check')
+      .set('token', this.token);
+
+    return this.http.post(this.host, body.toString(),
+      {
+        headers: new HttpHeaders()
+          .set('Content-Type', 'application/x-www-form-urlencoded')
+      }).map((response: CheckResponse) => {
+      return response;
+    });
+  }
 
   getToken(username: string, password: string): Observable<boolean> {
     return this.http.get(

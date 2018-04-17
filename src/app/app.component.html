@@ -44,7 +44,14 @@
     <section id="content">
       <section class="vbox stretch">
         <section class="main-content" id="main-content">
-          <div #content></div>
+          <div #content>
+            <div class="text-center">
+              <ng-template [ngIf]="welcome">
+                <h1>Хуш омадед!</h1>
+                <h3>Пункти лозимаро аз менюи дасти чап интихоб намоед</h3>
+              </ng-template>
+            </div>
+          </div>
         </section>
       </section>
     </section>
@@ -55,3 +62,4 @@
     </div>
   </footer>
 </div>
+

@@ -148,3 +148,16 @@ export interface GroupResponse {
   error: boolean;
   data: [IGroup];
 }
+
+export interface UserInfo {
+  userId: number;
+  type: string;
+  time: string;
+}
+
+export interface CheckResponse {
+  error: boolean;
+  data: {
+    last_action: string;
+  }
+}

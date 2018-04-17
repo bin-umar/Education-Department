@@ -14,6 +14,7 @@ import { GroupsComponent } from './components/groups/groups.component';
 
 import { MainService } from './services/main.service';
 import { AuthService } from './services/auth.service';
+import {UserInfo} from "./models/interfaces";
 
 @Component({
   selector: 'app-root',
@@ -24,13 +25,12 @@ import { AuthService } from './services/auth.service';
     GroupsComponent
   ]
 })
-export class AppComponent implements
-  OnInit,
-  OnDestroy {
+export class AppComponent implements OnDestroy {
 
   standardsListCmp = StandardsListComponent;
   groupsComponent = GroupsComponent;
   component = "";
+  welcome = true;
 
   @ViewChild('content', {read: ViewContainerRef})
   parent: ViewContainerRef;
@@ -51,14 +51,34 @@ export class AppComponent implements
 
   }
 
-  ngOnInit() {}
+  checkUser() {
+    const href = window.location.href;
+    if (href.indexOf("hash") !== -1) {
+      const hash = href.split("hash=")[1];
+      const data = atob(hash).split("$");
+
+      const user: UserInfo = {
+        userId: +data[0],
+        type: data[1],
+        time: data[2]
+      };
+
+      this.auth.checkUserSession(user).subscribe(response => {
+        if (response.error) {
+          window.location.replace("./error.html");
+        }
+      });
+    } else {
+      window.location.replace("./error.html");
+    }
+  }
 
   ngOnDestroy() {
     this.auth.logout();
   }
 
   createComponentDynamically(cmp) {
-
+    this.welcome = false;
     if (this.cmpRef) { this.cmpRef.destroy(); }
     this.type = cmp;
 
