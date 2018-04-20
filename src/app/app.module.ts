@@ -36,6 +36,7 @@ import { DeleteSubjectComponent } from './dialogs/delete-subject/delete-subject.
 import { GroupsComponent } from './components/groups/groups.component';
 import { DeleteGroupComponent } from './dialogs/delete-group/delete-group.component';
 import { CurriculumListComponent } from './components/curriculum-list/curriculum-list.component';
+import { ExtractionComponent } from './components/extraction/extraction.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { CurriculumListComponent } from './components/curriculum-list/curriculum
     DeleteSubjectComponent,
     GroupsComponent,
     DeleteGroupComponent,
-    CurriculumListComponent
+    CurriculumListComponent,
+    ExtractionComponent
   ],
   imports: [
     BrowserModule,
