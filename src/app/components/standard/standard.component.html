@@ -1,4 +1,4 @@
-<mat-card class="mat-elevation-z8">
+<mat-card style="width: 60%;" class="mat-elevation-z8">
   <h3 class=" text-center">
     Нақшаи таълим
   </h3>
@@ -48,48 +48,17 @@
     <tr>
       <th rowspan="2">Ҳамагӣ</th>
       <th colspan="2">Аз ҷумла</th>
-      <th colspan="2">Курси 1</th>
-      <th colspan="2">Курси 2</th>
-      <th colspan="2">Курси 3</th>
-      <th colspan="2">Курси 4</th>
-      <th colspan="2">Курси 5</th>
+      <th *ngFor="let i of [1,2,3,4,5]" colspan="2">Курси {{i}}</th>
     </tr>
     <tr>
       <th>Имтиҳон</th>
       <th>Ҳимояи КМД</th>
       <th>Аудиторӣ</th>
       <th>КМРО</th>
-      <th>1</th>
-      <th>2</th>
-      <th>3</th>
-      <th>4</th>
-      <th>5</th>
-      <th>6</th>
-      <th>7</th>
-      <th>8</th>
-      <th>9</th>
-      <th>10</th>
+      <th *ngFor="let i of [1,2,3,4,5,6,7,8,9,10]">{{i}}</th>
     </tr>
     <tr bgcolor="#eee">
-      <th>1</th>
-      <th>2</th>
-      <th>3</th>
-      <th>4</th>
-      <th>5</th>
-      <th>6</th>
-      <th>7</th>
-      <th>8</th>
-      <th>9</th>
-      <th>10</th>
-      <th>11</th>
-      <th>12</th>
-      <th>13</th>
-      <th>14</th>
-      <th>15</th>
-      <th>16</th>
-      <th>17</th>
-      <th>18</th>
-      <th>19</th>
+      <th *ngFor="let i of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19]">{{i}}</th>
     </tr>
     <ng-template ngFor let-j="index" let-type [ngForOf]="subjectTypes">
       <tr class="bg-eee" [class.hovered]="type.showConfigIcons && (Standard.locked === 0)">

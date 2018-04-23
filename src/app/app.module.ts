@@ -37,6 +37,8 @@ import { GroupsComponent } from './components/groups/groups.component';
 import { DeleteGroupComponent } from './dialogs/delete-group/delete-group.component';
 import { CurriculumListComponent } from './components/curriculum-list/curriculum-list.component';
 import { ExtractionComponent } from './components/extraction/extraction.component';
+import { AddExtractionSubjectComponent } from './dialogs/add-extraction-subject/add-extraction-subject.component';
+import { DeleteExtractionSubjectComponent } from './dialogs/delete-extraction-subject/delete-extraction-subject.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +51,9 @@ import { ExtractionComponent } from './components/extraction/extraction.componen
     GroupsComponent,
     DeleteGroupComponent,
     CurriculumListComponent,
-    ExtractionComponent
+    ExtractionComponent,
+    AddExtractionSubjectComponent,
+    DeleteExtractionSubjectComponent
   ],
   imports: [
     BrowserModule,

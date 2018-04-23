@@ -45,7 +45,7 @@ export class AppComponent implements OnDestroy {
 
     this.auth.getToken('jaxa', 'jaxa97').subscribe(result => {
       if (result) {
-        this.createComponentDynamically(this.standardsListCmp);
+        this.createComponentDynamically(this.curriculumListComponent);
       } else {
         console.log('Username or password is incorrect');
       }

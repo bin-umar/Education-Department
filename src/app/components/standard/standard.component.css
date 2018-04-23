@@ -93,7 +93,23 @@ table#standard-info tr td:last-child{
 }
 
 mat-card{
-  width: 60%;
   margin: 20px auto;
+}
+
+th div{
+  height: 250px;
+  margin: auto;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+
+.md-18 {
+  height: 18px;
+  width: 18px;
+  transition: color 0.1s ease-in;
+}
+
+.md-18.hovered-color:hover {
+  color: #ff0800;
 }
 

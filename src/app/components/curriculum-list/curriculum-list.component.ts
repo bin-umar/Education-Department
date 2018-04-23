@@ -205,7 +205,7 @@ export class CurriculumListComponent implements OnInit {
     CmpRef.instance.Curriculum = {
       id: row.id,
       number: row.number,
-      speciality: speciality.fSpec_Shifr + " " + speciality.fSpec_NameRus,
+      speciality: speciality.fSpec_Shifr + " - \"" + speciality.fSpec_NameRus + "\"",
       degree: row.degree,
       type: row.type,
       course: row.course,
