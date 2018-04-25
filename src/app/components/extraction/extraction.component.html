@@ -178,13 +178,119 @@
           <span *ngIf="subject.idKafedra !== 0 ">{{ subject.idKafedra }}</span>
         </td>
         <td *ngIf="Curriculum.locked === 0">
-          <mat-icon class="md-18 hovered-color">edit</mat-icon>
-          <mat-icon class="md-18" [class.locked]="subject.selective === 1"
-                    [class.hovered-color]="subject.selective === 0"
-                    title="{{ (subject.selective === 1) ? 'Иҷозат нест' : 'Хориҷ кардан'}}"
+          <mat-icon (click)="editSubject(subject)" class="md-18 hovered-color">edit</mat-icon>
+          <mat-icon class="md-18" [class.locked]="subject.selective === 0"
+                    [class.hovered-color]="subject.selective === 1"
+                    title="{{ (subject.selective === 0) ? 'Иҷозат нест' : 'Хориҷ кардан'}}"
+                    (click)="deleteSubject(subject)"
           >delete</mat-icon>
         </td>
       </tr>
     </ng-template>
+    <tr class="text-total">
+      <td></td>
+      <td>Ҳамагӣ</td>
+      <td>
+        <span *ngIf="sum('credits', semester) !== 0">{{ sum('credits', semester) }}</span>
+      </td>
+      <td>
+        <span *ngIf="sum('auditCredits', semester) !== 0">{{ sum('auditCredits', semester) }}</span>
+      </td>
+      <td>
+        <span *ngIf="sum('lessonHours', semester) !== 0">{{ sum('lessonHours', semester) }}</span>
+      </td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>
+        <span *ngIf="sum('lkPlan', semester) !== 0">{{ sum('lkPlan', semester) }}</span>
+      </td>
+      <td>
+        <span *ngIf="sum('lkTotal', semester) !== 0">{{ sum('lkTotal', semester) }}</span>
+      </td>
+      <td>
+        <span *ngIf="sum('lbPlan', semester) !== 0">{{ sum('lbPlan', semester) }}</span>
+      </td>
+      <td>
+        <span *ngIf="sum('lbTotal', semester) !== 0">{{ sum('lbTotal', semester) }}</span>
+      </td>
+      <td>
+        <span *ngIf="sum('prPlan', semester) !== 0">{{ sum('prPlan', semester) }}</span>
+      </td>
+      <td>
+        <span *ngIf="sum('prTotal', semester) !== 0">{{ sum('prTotal', semester) }}</span>
+      </td>
+      <td>
+        <span *ngIf="sum('smPlan', semester) !== 0">{{ sum('smPlan', semester) }}</span>
+      </td>
+      <td>
+        <span *ngIf="sum('smTotal', semester) !== 0">{{ sum('smTotal', semester) }}</span>
+      </td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>
+        <span *ngIf="sum('total', semester) !== 0">{{ sum('total', semester) }}</span>
+      </td>
+      <td></td>
+      <td *ngIf="Curriculum.locked === 0"></td>
+    </tr>
   </ng-template>
+  <tr class="text-total">
+    <td></td>
+    <td>Ҷамъ</td>
+    <td>
+      <span *ngIf="sum('credits', 3) !== 0">{{ sum('credits', 3) }}</span>
+    </td>
+    <td>
+      <span *ngIf="sum('auditCredits', 3) !== 0">{{ sum('auditCredits', 3) }}</span>
+    </td>
+    <td>
+      <span *ngIf="sum('lessonHours', 3) !== 0">{{ sum('lessonHours', 3) }}</span>
+    </td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>
+      <span *ngIf="sum('lkPlan', 3) !== 0">{{ sum('lkPlan', 3) }}</span>
+    </td>
+    <td>
+      <span *ngIf="sum('lkTotal', 3) !== 0">{{ sum('lkTotal', 3) }}</span>
+    </td>
+    <td>
+      <span *ngIf="sum('lbPlan', 3) !== 0">{{ sum('lbPlan', 3) }}</span>
+    </td>
+    <td>
+      <span *ngIf="sum('lbTotal', 3) !== 0">{{ sum('lbTotal', 3) }}</span>
+    </td>
+    <td>
+      <span *ngIf="sum('prPlan', 3) !== 0">{{ sum('prPlan', 3) }}</span>
+    </td>
+    <td>
+      <span *ngIf="sum('prTotal', 3) !== 0">{{ sum('prTotal', 3) }}</span>
+    </td>
+    <td>
+      <span *ngIf="sum('smPlan', 3) !== 0">{{ sum('smPlan', 3) }}</span>
+    </td>
+    <td>
+      <span *ngIf="sum('smTotal', 3) !== 0">{{ sum('smTotal', 3) }}</span>
+    </td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>
+      <span *ngIf="sum('total', 3) !== 0">{{ sum('total', 3) }}</span>
+    </td>
+    <td></td>
+    <td *ngIf="Curriculum.locked === 0"></td>
+  </tr>
 </table>

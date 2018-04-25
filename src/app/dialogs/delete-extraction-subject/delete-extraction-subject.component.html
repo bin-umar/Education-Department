@@ -1,3 +1,20 @@
-<p>
-  delete-extraction-subject works!
-</p>
+<div class="container">
+  <h3 mat-dialog-title>Фанни
+    <i class="highlighted">{{ data.name }}</i>-ро аз иқтибоси
+    <i class="highlighted">{{ data.curriculum }}</i>
+    хориҷ кардан мехоҳед?</h3>
+  <div mat-dialog-actions>
+    <button mat-raised-button
+            cdkFocusInitial
+            class="bg-dark text-colored half-width"
+            [mat-dialog-close]="1"
+    >
+      <mat-icon>done</mat-icon>Ҳа</button>
+    <button mat-raised-button
+            class="bg-dark text-colored half-width"
+            (click)="onNoClick()"
+            tabindex="-1"
+    >
+      <mat-icon>cancel</mat-icon>Не</button>
+  </div>
+</div>

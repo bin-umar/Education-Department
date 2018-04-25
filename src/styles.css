@@ -55,3 +55,7 @@
 .two-third-width{
   width: 64%;
 }
+
+.locked {
+  opacity: 0.4;
+}

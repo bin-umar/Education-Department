@@ -8,5 +8,11 @@
 }
 
 .border-bottom {
-  border-bottom: 1px solid #292838;
+  border-bottom: 1px solid #167F92;
+  color: #167F92;
+  margin-bottom: 5px;
+}
+
+mat-form-field  {
+  width: 140px;
 }

@@ -1,15 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 @Component({
   selector: 'app-delete-extraction-subject',
   templateUrl: './delete-extraction-subject.component.html',
-  styleUrls: ['./delete-extraction-subject.component.css']
+  styleUrls: ['../delete-subject/delete-subject.component.css']
 })
-export class DeleteExtractionSubjectComponent implements OnInit {
+export class DeleteExtractionSubjectComponent {
 
-  constructor() { }
+  constructor(public dialogRef: MatDialogRef<DeleteExtractionSubjectComponent>,
+              @Inject(MAT_DIALOG_DATA) public data: any) { }
 
-  ngOnInit() {
+  onNoClick(): void {
+    this.dialogRef.close();
   }
 
 }

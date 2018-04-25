@@ -81,7 +81,9 @@ import { DeleteExtractionSubjectComponent } from './dialogs/delete-extraction-su
     AddStandardComponent,
     DeleteDialogComponent,
     DeleteSubjectComponent,
-    DeleteGroupComponent
+    DeleteGroupComponent,
+    AddExtractionSubjectComponent,
+    DeleteExtractionSubjectComponent
   ],
   providers: [
     MainService,
