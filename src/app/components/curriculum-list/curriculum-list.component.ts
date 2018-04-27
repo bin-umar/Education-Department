@@ -27,6 +27,7 @@ import { AuthService } from '../../services/auth.service';
 import { Spec } from '../../models/common';
 import { CurriculumList } from '../../models/curriculum';
 import { Standard } from '../../models/standards';
+import {DeleteDialogComponent} from "../../dialogs/delete/delete.dialog.component";
 
 @Component({
   selector: 'app-curriculum-list',
@@ -244,22 +245,29 @@ export class CurriculumListComponent implements OnInit {
 
   deleteSt(row: CurriculumList) {
     if (row.locked === 0) {
-      // const dialogRef = this.dialog.open(DeleteDialogComponent, { data: row });
-      //
-      // dialogRef.afterClosed().subscribe(result => {
-      //   if (result === 1) {
-      //     this.CurriculumService.deleteSt(row.id).subscribe( data => {
-      //       if (!data.error) {
-      //         const foundIndex = this.curriculumDatabase.dataChange.value.findIndex(x => x.id === row.id);
-      //
-      //         this.curriculumDatabase.dataChange.value.splice(foundIndex, 1);
-      //         this.refreshTable();
-      //       } else {
-      //         console.log("Error has been happened while deleting Standard");
-      //       }
-      //     });
-      //   }
-      // });
+
+      const dialogRef = this.dialog.open(DeleteDialogComponent, {
+        width: '500px',
+        data: {
+          data: row,
+          type: 'extraction'
+        }
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (result === 1) {
+          this.curriculumService.deleteCurriculum(row.id).subscribe( data => {
+            if (!data.error) {
+              const foundIndex = this.curriculumDatabase.dataChange.value.findIndex(x => x.id === row.id);
+
+              this.curriculumDatabase.dataChange.value.splice(foundIndex, 1);
+              this.refreshTable();
+            } else {
+              console.log("Error has been happened while deleting Extraction");
+            }
+          });
+        }
+      });
     }
   }
 

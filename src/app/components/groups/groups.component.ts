@@ -9,7 +9,7 @@ import { Observable } from 'rxjs/Observable';
 import { startWith } from 'rxjs/operators/startWith';
 import { map } from 'rxjs/operators/map';
 
-import { DeleteGroupComponent } from '../../dialogs/delete-group/delete-group.component';
+import { DeleteDialogComponent } from '../../dialogs/delete/delete.dialog.component';
 
 import { GroupsService } from '../../services/groups.service';
 import { AuthService } from '../../services/auth.service';
@@ -176,7 +176,13 @@ export class GroupsComponent implements OnInit {
   }
 
   deleteGroup(row: IGroup) {
-    const dialogRef = this.dialog.open(DeleteGroupComponent, { data: row });
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+        width: '500px',
+        data: {
+          data: row,
+          type: 'groups'
+        }
+      });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result === 1) {

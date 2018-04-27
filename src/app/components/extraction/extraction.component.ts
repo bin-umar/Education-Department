@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 
-import { DeleteExtractionSubjectComponent } from '../../dialogs/delete-extraction-subject/delete-extraction-subject.component';
 import { AddExtractionSubjectComponent } from '../../dialogs/add-extraction-subject/add-extraction-subject.component';
+import { DeleteDialogComponent } from '../../dialogs/delete/delete.dialog.component';
 
 import { ExtractionService } from '../../services/extraction.service';
 import { CurriculumList, ExtractionSubject } from '../../models/curriculum';
@@ -13,6 +13,7 @@ import { CurriculumList, ExtractionSubject } from '../../models/curriculum';
   styleUrls: ['../standard/standard.component.css'],
   providers: [ ExtractionService ]
 })
+
 export class ExtractionComponent implements OnInit {
 
   @Input() Curriculum: CurriculumList;
@@ -68,13 +69,16 @@ export class ExtractionComponent implements OnInit {
     if (subject.selective === 1) {
       const i = this.subjects.indexOf(subject);
 
-      const dialogRef = this.dialog.open( DeleteExtractionSubjectComponent, {
-        width: '500px',
-        data: {
-          name: this.subjects[i].name,
-          curriculum: this.Curriculum.speciality
-        }
-      });
+      const dialogRef = this.dialog.open(DeleteDialogComponent, {
+          width: '500px',
+          data: {
+            data: {
+              name: this.subjects[i].name,
+              curriculum: this.Curriculum.speciality
+            },
+            type: 'groups'
+          }
+        });
 
       dialogRef.afterClosed().subscribe(result => {
         if (result === 1) {

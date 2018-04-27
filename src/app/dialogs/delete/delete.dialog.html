@@ -1,7 +1,7 @@
-<div class="container">
+<div *ngIf="type === 'standard'" class="container">
   <h3 mat-dialog-title>Стандарти зеринро хориҷ кардан мехоҳед?</h3>
   <div mat-dialog-content>
-      <table id="standard-info">
+      <table class="standard-info">
         <tr>
           <td>барои ихтисоси</td>
           <td>{{data.specialty}}</td>
@@ -28,19 +28,98 @@
         </tr>
       </table>
   </div>
+</div>
 
-  <div mat-dialog-actions>
-    <button mat-raised-button
-            cdkFocusInitial
-            class="bg-dark text-colored half-width"
-            [mat-dialog-close]="1"
-    >
-      <mat-icon>done</mat-icon>Ҳа</button>
-    <button mat-raised-button
-            class="bg-dark text-colored half-width"
-            (click)="onNoClick()"
-            tabindex="-1"
-    >
-      <mat-icon>cancel</mat-icon>Не</button>
+<div *ngIf="type === 'exSubjects'" class="container">
+  <h3 mat-dialog-title>Фанни
+    <i class="highlighted">{{ data.name }}</i>-ро аз иқтибоси
+    <i class="highlighted">{{ data.curriculum }}</i>
+    хориҷ кардан мехоҳед?</h3>
+</div>
+
+<div *ngIf="type === 'stSubjects'" class="container">
+  <h3 mat-dialog-title>Фанни
+    <i class="highlighted">{{ data.name }}</i>-ро аз стандарти
+    <i class="highlighted">{{ data.standard }}</i>
+    хориҷ кардан мехоҳед?</h3>
+</div>
+
+<div *ngIf="type === 'groups'" class="container">
+  <h3 mat-dialog-title>Гурӯҳи зеринро хориҷ кардан мехоҳед?</h3>
+  <div mat-dialog-content>
+    <table class="standard-info">
+      <tr>
+        <td>Ном</td>
+        <td>{{data.name}}</td>
+      </tr>
+      <tr>
+        <td>Дараҷаи таҳсилот:</td>
+        <td>{{data.degree}}</td>
+      </tr>
+      <tr>
+        <td>Шакли таҳсил:</td>
+        <td>{{data.type}}</td>
+      </tr>
+      <tr>
+        <td>Курс:</td>
+        <td>{{data.course}}</td>
+      </tr>
+      <tr>
+        <td>Миқдори донишҷӯён:</td>
+        <td>{{data.studentsAmount}}</td>
+      </tr>
+
+      <tr>
+        <td>Соли таҳсил:</td>
+        <td>{{data.educationYear}}</td>
+      </tr>
+    </table>
   </div>
+</div>
+
+<div *ngIf="type === 'extraction'" class="container">
+  <h3 mat-dialog-title>Иқтибоси зеринро хориҷ кардан мехоҳед?</h3>
+  <div mat-dialog-content>
+    <table class="standard-info">
+      <tr>
+        <td>Ихтисос</td>
+        <td>{{data.speciality}}</td>
+      </tr>
+      <tr>
+        <td>Дараҷаи таҳсилот:</td>
+        <td>{{data.degree}}</td>
+      </tr>
+      <tr>
+        <td>Шакли таҳсил:</td>
+        <td>{{data.type}}</td>
+      </tr>
+      <tr>
+        <td>Курс:</td>
+        <td>{{data.course}}</td>
+      </tr>
+      <tr>
+        <td>Соли таҳсил:</td>
+        <td>{{data.educationYear}}</td>
+      </tr>
+      <tr>
+        <td>Соли тасдиқи стандарт:</td>
+        <td>{{data.dateOfStandard}}</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-raised-button
+          cdkFocusInitial
+          class="bg-dark text-colored half-width"
+          [mat-dialog-close]="1"
+  >
+    <mat-icon>done</mat-icon>Ҳа</button>
+  <button mat-raised-button
+          class="bg-dark text-colored half-width"
+          (click)="onNoClick()"
+          tabindex="-1"
+  >
+    <mat-icon>cancel</mat-icon>Не</button>
 </div>

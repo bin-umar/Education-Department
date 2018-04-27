@@ -7,7 +7,7 @@ import { MainService } from '../../services/main.service';
 import { StSubjectsService } from '../../services/st-subjects.service';
 
 import { AddStandardComponent } from '../../dialogs/add-standard/add-standard.component';
-import { DeleteSubjectComponent } from '../../dialogs/delete-subject/delete-subject.component';
+import { DeleteDialogComponent } from '../../dialogs/delete/delete.dialog.component';
 
 @Component({
   selector: 'app-standard',
@@ -212,11 +212,14 @@ export class StandardComponent implements OnInit {
     const obj = this.getSubjectsById(subject.idType)[index];
     const i = this.subjects.indexOf(obj);
 
-    const dialogRef = this.dialog.open( DeleteSubjectComponent, {
+    const dialogRef = this.dialog.open( DeleteDialogComponent, {
       width: '500px',
       data: {
-        name: this.subjects[i].name,
-        standard: this.Standard.specialty
+        data: {
+          name: this.subjects[i].name,
+          standard: this.Standard.specialty
+        },
+        type: 'stSubjects'
       }
     });
 

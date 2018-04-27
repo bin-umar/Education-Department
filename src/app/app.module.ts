@@ -19,7 +19,7 @@ import {
   MatDialogModule,
   MatCheckboxModule
 } from '@angular/material';
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AuthService } from './services/auth.service';
 import { MainService } from './services/main.service';
@@ -33,10 +33,7 @@ import { GroupsComponent } from './components/groups/groups.component';
 import { CurriculumListComponent } from './components/curriculum-list/curriculum-list.component';
 import { ExtractionComponent } from './components/extraction/extraction.component';
 
-import { DeleteSubjectComponent } from './dialogs/delete-subject/delete-subject.component';
-import { DeleteGroupComponent } from './dialogs/delete-group/delete-group.component';
 import { AddExtractionSubjectComponent } from './dialogs/add-extraction-subject/add-extraction-subject.component';
-import { DeleteExtractionSubjectComponent } from './dialogs/delete-extraction-subject/delete-extraction-subject.component';
 import { DeleteDialogComponent } from './dialogs/delete/delete.dialog.component';
 import { AddStandardComponent } from './dialogs/add-standard/add-standard.component';
 
@@ -47,13 +44,10 @@ import { AddStandardComponent } from './dialogs/add-standard/add-standard.compon
     StandardComponent,
     StandardsListComponent,
     DeleteDialogComponent,
-    DeleteSubjectComponent,
     GroupsComponent,
-    DeleteGroupComponent,
     CurriculumListComponent,
     ExtractionComponent,
-    AddExtractionSubjectComponent,
-    DeleteExtractionSubjectComponent
+    AddExtractionSubjectComponent
   ],
   imports: [
     BrowserModule,
@@ -80,10 +74,7 @@ import { AddStandardComponent } from './dialogs/add-standard/add-standard.compon
   entryComponents: [
     AddStandardComponent,
     DeleteDialogComponent,
-    DeleteSubjectComponent,
-    DeleteGroupComponent,
-    AddExtractionSubjectComponent,
-    DeleteExtractionSubjectComponent
+    AddExtractionSubjectComponent
   ],
   providers: [
     MainService,

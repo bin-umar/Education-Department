@@ -180,7 +180,13 @@ export class StandardsListComponent implements OnInit {
 
   deleteSt(row: StandardList) {
     if (row.locked === 0) {
-      const dialogRef = this.dialog.open(DeleteDialogComponent, { data: row });
+      const dialogRef = this.dialog.open(DeleteDialogComponent, {
+          width: '500px',
+          data: {
+            data: row,
+            type: 'standard'
+          }
+        });
 
       dialogRef.afterClosed().subscribe(result => {
         if (result === 1) {

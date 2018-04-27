@@ -72,18 +72,18 @@ table{
   background-color: #eeeeee !important;
 }
 
-table#standard-info td{
+table.standard-info td{
   border: none;
   padding: 5px 7px;
 }
 
-table#standard-info tr td:first-child{
+table.standard-info tr td:first-child{
   width: 30%;
   text-align: right;
   font-weight: bold;
 }
 
-table#standard-info tr td:last-child{
+table.standard-info tr td:last-child{
   text-align: left;
 }
 
