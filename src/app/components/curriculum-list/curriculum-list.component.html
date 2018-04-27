@@ -9,64 +9,57 @@
     </mat-expansion-panel-header>
 
     <form class="example-form" #formControl="ngForm">
-      <mat-form-field class="full-width">
+      <mat-form-field class="eighty-width">
         <input matInput name="special" [(ngModel)]="selectedSpec"
                placeholder="Ихтисос" aria-label="Number" [formControl]="myControl"
-               [matAutocomplete]="auto" value="" required>
-        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" >
+               [matAutocomplete]="auto" required>
+        <!-- (keydown)="specChange();"-->
+        <!--(onSelectionChange)="specChange(option);"-->
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
           <mat-option *ngFor="let option of filteredOptions | async" [value]="option" (onSelectionChange)="specChange(option);">
             {{ option.fSpec_Shifr + " " + option.fSpec_NameRus }}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
 
-      <mat-form-field class="example-full-width">
+      <mat-form-field class="twenty-width">
         <input type="number" name="course" [(ngModel)]="curriculumList.course" matInput
                placeholder="Курс" required>
       </mat-form-field>
 
-      <mat-form-field class="example-full-width">
-        <mat-select [(value)]="curriculumList.degree" placeholder="Дараҷаи таҳсилот" required>
+      <mat-form-field class="sixteen-width">
+        <mat-select (onClose)="findStandard();" [(value)]="curriculumList.degree" placeholder="Дараҷаи таҳсилот" required>
           <mat-option value="0">бакалавр</mat-option>
           <mat-option value="1">магистр</mat-option>
           <mat-option value="2">PhD</mat-option>
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field class="example-full-width">
-        <mat-select [(value)]="curriculumList.type" placeholder="Шакли таҳсил" required>
+      <mat-form-field class="sixteen-width">
+        <mat-select (onClose)="findStandard();" [(value)]="curriculumList.type" placeholder="Шакли таҳсил" required>
           <mat-option value="0">рӯзона</mat-option>
           <mat-option value="1">ғоибона</mat-option>
           <mat-option value="2">фосилавӣ</mat-option>
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field class="example-full-width">
+      <mat-form-field class="sixteen-width">
         <input type="number" name="educationYear" [(ngModel)]="curriculumList.educationYear" matInput
                placeholder="Соли таҳсил" required>
       </mat-form-field>
 
-      <mat-form-field class="example-full-width">
-        <mat-select [(value)]="curriculumList.type" placeholder="Стандарт" required>
-          <mat-option value="0">рӯзона</mat-option>
-          <mat-option value="1">ғоибона</mat-option>
-          <mat-option value="2">фосилавӣ</mat-option>
+      <mat-form-field class="thirty-width">
+        <mat-select [(value)]="curriculumList.idStandard" placeholder="Стандарт" required>
+          <mat-option *ngFor="let standard of standards" value="{{standard.ids}}">
+            Стандарти санаи {{standard.dateOfAcceptance | date:'dd-MM-yyyy'}}
+            {{ standard.degreeOfStudying + " " + standard.typeOfStudying}}
+            (<i *ngIf="+standard.locked === 1">пурра</i><i *ngIf="+standard.locked === 0">нопурра</i>)
+          </mat-option>
         </mat-select>
       </mat-form-field>
 
-      <!--<mat-form-field class="full-width">-->
-        <!--<input matInput name="standard" [(ngModel)]="selectedStandard"-->
-               <!--placeholder="Ихтисос" aria-label="Number" [formControl]="myControl"-->
-               <!--[matAutocomplete]="auto" value="" required>-->
-        <!--<mat-autocomplete  #auto="matAutocomplete" [displayWith]="displayFn">-->
-          <!--<mat-option *ngFor="let option of filteredOptions | async" [value]="option">-->
-            <!--{{ option.fSpec_Shifr + " " + option.fSpec_NameRus }}-->
-          <!--</mat-option>-->
-        <!--</mat-autocomplete>-->
-      <!--</mat-form-field>-->
-
-      <span class="text-right">
-        <button [hidden]="!add" [disabled]="!formControl.valid" (click)="addStandard();" mat-raised-button class="bg-dark text-colored">
+      <span class="text-right sixteen-width">
+        <button [hidden]="!add" (click)="addExtraction();" mat-raised-button class="bg-dark text-colored">
           <mat-icon>add_circle_outline</mat-icon> Илова намудан
         </button>
         <button [hidden]="add" (click)="saveModifiedSt();" mat-raised-button class="bg-dark text-colored">
@@ -126,10 +119,10 @@
       <mat-cell *matCellDef="let row;">
         <input type="number" value="{{row.id}}" hidden #id>
 
-        <mat-icon class="md-24" [class.locked]="row.locked === 1"
-                  [class.hovered-color]="row.locked === 0"
-                  title="{{ (row.locked === 1) ? 'Иҷозат нест' : 'Тағйир додан'}}"
-                  (click)="editSt(row);">edit</mat-icon>
+        <!--<mat-icon class="md-24" [class.locked]="row.locked === 1"-->
+                  <!--[class.hovered-color]="row.locked === 0"-->
+                  <!--title="{{ (row.locked === 1) ? 'Иҷозат нест' : 'Тағйир додан'}}"-->
+                  <!--(click)="editSt(row);">edit</mat-icon>-->
 
         <mat-icon class="md-24" [class.locked]="row.locked === 1"
                   [class.hovered-color]="row.locked === 0"

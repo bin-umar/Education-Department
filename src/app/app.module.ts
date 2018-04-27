@@ -21,24 +21,24 @@ import {
 } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
-import { AppComponent } from './app.component';
-import { StandardsListComponent } from './components/standards-list/standards-list.component';
-import { StandardComponent } from './components/standard/standard.component';
-
-import { DeleteDialogComponent } from './dialogs/delete/delete.dialog.component';
-import { AddStandardComponent } from './dialogs/add-standard/add-standard.component';
-
 import { AuthService } from './services/auth.service';
 import { MainService } from './services/main.service';
 import { DataService } from './services/data.service';
 import { StSubjectsService } from './services/st-subjects.service';
-import { DeleteSubjectComponent } from './dialogs/delete-subject/delete-subject.component';
+
+import { AppComponent } from './app.component';
+import { StandardsListComponent } from './components/standards-list/standards-list.component';
+import { StandardComponent } from './components/standard/standard.component';
 import { GroupsComponent } from './components/groups/groups.component';
-import { DeleteGroupComponent } from './dialogs/delete-group/delete-group.component';
 import { CurriculumListComponent } from './components/curriculum-list/curriculum-list.component';
 import { ExtractionComponent } from './components/extraction/extraction.component';
+
+import { DeleteSubjectComponent } from './dialogs/delete-subject/delete-subject.component';
+import { DeleteGroupComponent } from './dialogs/delete-group/delete-group.component';
 import { AddExtractionSubjectComponent } from './dialogs/add-extraction-subject/add-extraction-subject.component';
 import { DeleteExtractionSubjectComponent } from './dialogs/delete-extraction-subject/delete-extraction-subject.component';
+import { DeleteDialogComponent } from './dialogs/delete/delete.dialog.component';
+import { AddStandardComponent } from './dialogs/add-standard/add-standard.component';
 
 @NgModule({
   declarations: [

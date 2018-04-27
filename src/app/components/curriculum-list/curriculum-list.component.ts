@@ -8,7 +8,7 @@ import {
   ViewChild,
   ViewContainerRef
 } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { DataSource } from '@angular/cdk/collections';
 import { MatDialog, MatPaginator, MatSort } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
@@ -26,6 +26,7 @@ import { AuthService } from '../../services/auth.service';
 
 import { Spec } from '../../models/common';
 import { CurriculumList } from '../../models/curriculum';
+import { Standard } from '../../models/standards';
 
 @Component({
   selector: 'app-curriculum-list',
@@ -56,6 +57,8 @@ export class CurriculumListComponent implements OnInit {
   curriculumList: CurriculumList;
 
   options: Spec[] = [];
+  standards: Standard[] = [];
+  _standards: Standard[] = [];
   add = true;
 
   constructor(private componentFactoryResolver: ComponentFactoryResolver,
@@ -65,8 +68,6 @@ export class CurriculumListComponent implements OnInit {
               public  dialog: MatDialog,
               public  httpClient: HttpClient) {
   }
-
-  formControl = new FormControl('', [ Validators.required ]);
 
   ngOnInit() {
     this.setStToDefault();
@@ -97,7 +98,44 @@ export class CurriculumListComponent implements OnInit {
   }
 
   specChange(option: Spec) {
+    this.curriculumList.speciality = option.fID.toString();
+    this.standards = [];
 
+    this.curriculumService.getStandardsBySpec(option.fID).subscribe( resp => {
+      if (!resp.error) {
+        resp.data.forEach(item => {
+          this.standards.push({
+            ids: item.ids,
+            fSpec_Shifr: '',
+            timeOfStudying: item.timeOfStudying,
+            typeOfStudying: this.auth.TYPES[item.typeOfStudying],
+            degreeOfStudying: this.auth.DEGREES[item.degreeOfStudying],
+            dateOfAcceptance: new Date(item.dateOfAcceptance),
+            locked: item.locked
+          });
+        });
+
+        this.standards.forEach(item => {
+          this._standards.push(item);
+        });
+      }
+    });
+  }
+
+  findStandard() {
+
+    let degree = this.curriculumList.degree,
+          type = this.curriculumList.type;
+
+    if (degree !== null && type !== null) {
+
+      degree = this.auth.DEGREES[degree];
+      type = this.auth.TYPES[type];
+
+      this.standards = this._standards.filter(item => (
+        item.degreeOfStudying === degree && item.typeOfStudying === type
+      ));
+    }
   }
 
   setStToDefault() {
@@ -124,73 +162,105 @@ export class CurriculumListComponent implements OnInit {
     };
   }
 
-  addStandard() {
-    // this.standardList.specialty = this.selectedSpec.fID.toString();
-    // this.CurriculumService.addStandard(this.standardList).subscribe((res) => {
-    //   if (!res.error) {
-    //     this.curriculumDatabase.dataChange.value.push({
-    //       id: res.data.id,
-    //       number: this.dataSource.filteredData.length + 1,
-    //       specialty: this.selectedSpec.fSpec_Shifr,
-    //       degreeOfStudying: this.auth.DEGREES[this.standardList.degreeOfStudying],
-    //       profession: this.standardList.profession,
-    //       timeOfStudying: this.standardList.timeOfStudying,
-    //       typeOfStudying: this.auth.TYPES[this.standardList.typeOfStudying],
-    //       dateOfAcceptance: this.standardList.dateOfAcceptance,
-    //       locked: this.standardList.locked
-    //     });
-    //
-    //     this.refreshTable();
-    //     this.setStToDefault();
-    //   } else {
-    //     console.log("Problem happened while adding new standard");
-    //   }
-    // });
+  addExtraction() {
+    const standard = this.standards.find(item => item.ids === this.curriculumList.idStandard);
+
+    if (+standard.locked === 1) {
+      this.curriculumList.dateOfStandard = standard.dateOfAcceptance;
+
+      this.curriculumService.addCurriculum(this.curriculumList).subscribe((res) => {
+        if (!res.error) {
+          this.curriculumDatabase.dataChange.value.push({
+            id: res.data.id,
+            number: this.dataSource.filteredData.length + 1,
+            speciality: this.selectedSpec.fSpec_Shifr,
+            course: this.curriculumList.course,
+            degree: this.auth.DEGREES[+this.curriculumList.degree],
+            type: this.auth.TYPES[+this.curriculumList.type],
+            educationYear: this.curriculumList.educationYear,
+            idStandard: this.curriculumList.idStandard,
+            dateOfStandard: this.curriculumList.dateOfStandard,
+            locked: +this.curriculumList.locked
+          });
+
+          this.refreshTable();
+          this.setStToDefault();
+        } else {
+          console.log("Problem happened while adding new standard");
+        }
+      });
+    } else {
+      console.log("Standard isn't ready for getting data");
+    }
   }
 
   editSt(row: CurriculumList) {
-    // if (row.locked === 0) {
-    //   this.add = false;
-    //   this.panelOpenState = true;
-    //
-    //   const sIndex = this.options.findIndex(x => x.fSpec_Shifr === row.specialty);
-    //   const tIndex = this.auth.TYPES.findIndex(x => x === row.typeOfStudying);
-    //   const dIndex = this.auth.DEGREES.findIndex(x => x === row.degreeOfStudying);
-    //
-    //   this.selectedSpec = this.options[sIndex];
-    //   this.standardList = {
-    //     id: row.id,
-    //     number: row.number,
-    //     specialty: row.specialty,
-    //     degreeOfStudying: dIndex.toString(),
-    //     profession: row.profession,
-    //     timeOfStudying: row.timeOfStudying,
-    //     typeOfStudying: tIndex.toString(),
-    //     dateOfAcceptance: row.dateOfAcceptance,
-    //     locked: row.locked
-    //   };
-    // }
+    if (row.locked === 0) {
+
+      const sIndex = this.options.findIndex(x => x.fSpec_Shifr === row.speciality);
+
+      this.selectedSpec = this.options[sIndex];
+      this.curriculumService.getStandardsBySpec(this.selectedSpec.fID).subscribe( resp => {
+        if (!resp.error) {
+          resp.data.forEach(item => {
+            this._standards.push({
+              ids: item.ids,
+              fSpec_Shifr: '',
+              timeOfStudying: item.timeOfStudying,
+              typeOfStudying: this.auth.TYPES[item.typeOfStudying],
+              degreeOfStudying: this.auth.DEGREES[item.degreeOfStudying],
+              dateOfAcceptance: new Date(item.dateOfAcceptance),
+              locked: item.locked
+            });
+          });
+
+          this.standards = this._standards.filter(item => (
+            item.degreeOfStudying === row.degree &&
+            item.typeOfStudying === row.type
+          ));
+
+          const tIndex = this.auth.TYPES.findIndex(x => x === row.type);
+          const dIndex = this.auth.DEGREES.findIndex(x => x === row.degree);
+
+          this.curriculumList = {
+            id: row.id,
+            number: row.number,
+            speciality: row.speciality,
+            degree: dIndex.toString(),
+            type: tIndex.toString(),
+            course: row.course,
+            educationYear: row.educationYear,
+            idStandard: row.idStandard,
+            dateOfStandard: row.dateOfStandard,
+            locked: row.locked
+          };
+
+          this.add = false;
+          this.panelOpenState = true;
+        }
+      });
+    }
   }
 
   deleteSt(row: CurriculumList) {
-    // if (row.locked === 0) {
-    //   const dialogRef = this.dialog.open(DeleteDialogComponent, { data: row });
-    //
-    //   dialogRef.afterClosed().subscribe(result => {
-    //     if (result === 1) {
-    //       this.CurriculumService.deleteSt(row.id).subscribe( data => {
-    //         if (!data.error) {
-    //           const foundIndex = this.curriculumDatabase.dataChange.value.findIndex(x => x.id === row.id);
-    //
-    //           this.curriculumDatabase.dataChange.value.splice(foundIndex, 1);
-    //           this.refreshTable();
-    //         } else {
-    //           console.log("Error has been happened while deleting Standard");
-    //         }
-    //       });
-    //     }
-    //   });
-    // }
+    if (row.locked === 0) {
+      // const dialogRef = this.dialog.open(DeleteDialogComponent, { data: row });
+      //
+      // dialogRef.afterClosed().subscribe(result => {
+      //   if (result === 1) {
+      //     this.CurriculumService.deleteSt(row.id).subscribe( data => {
+      //       if (!data.error) {
+      //         const foundIndex = this.curriculumDatabase.dataChange.value.findIndex(x => x.id === row.id);
+      //
+      //         this.curriculumDatabase.dataChange.value.splice(foundIndex, 1);
+      //         this.refreshTable();
+      //       } else {
+      //         console.log("Error has been happened while deleting Standard");
+      //       }
+      //     });
+      //   }
+      // });
+    }
   }
 
   openSt(row: CurriculumList) {
@@ -219,30 +289,30 @@ export class CurriculumListComponent implements OnInit {
   }
 
   saveModifiedSt() {
-    // this.standardList.specialty = this.selectedSpec.fID.toString();
-    // this.standardList.dateOfAcceptance = new Date(this.standardList.dateOfAcceptance);
-    // const sIndex = this.curriculumDatabase.dataChange.value.findIndex(x => x.id === this.standardList.id);
-    //
-    // this.CurriculumService.updateSt(this.standardList).subscribe((res) => {
-    //   if (!res.error) {
-    //     this.curriculumDatabase.dataChange.value.splice(sIndex, 1, {
-    //       id: this.standardList.id,
-    //       number: this.standardList.number,
-    //       specialty: this.selectedSpec.fSpec_Shifr,
-    //       degreeOfStudying: this.auth.DEGREES[this.standardList.degreeOfStudying],
-    //       profession: this.standardList.profession,
-    //       timeOfStudying: this.standardList.timeOfStudying,
-    //       typeOfStudying: this.auth.TYPES[this.standardList.typeOfStudying],
-    //       dateOfAcceptance: this.standardList.dateOfAcceptance,
-    //       locked: this.standardList.locked
-    //     });
-    //
-    //     this.refreshTable();
-    //     this.setStToDefault();
-    //   } else {
-    //     console.log("Problem with updating standard");
-    //   }
-    // });
+    this.curriculumList.speciality = this.selectedSpec.fID.toString();
+    const sIndex = this.curriculumDatabase.dataChange.value.findIndex(x => x.id === this.curriculumList.id);
+
+    this.curriculumService.updateCurriculum(this.curriculumList).subscribe((res) => {
+      if (!res.error) {
+        this.curriculumDatabase.dataChange.value.splice(sIndex, 1, {
+          id: this.curriculumList.id,
+          number: this.curriculumList.number,
+          speciality: this.selectedSpec.fSpec_Shifr,
+          course: this.curriculumList.course,
+          degree: this.auth.DEGREES[+this.curriculumList.degree],
+          type: this.auth.TYPES[+this.curriculumList.type],
+          educationYear: this.curriculumList.educationYear,
+          idStandard: this.curriculumList.idStandard,
+          dateOfStandard: this.curriculumList.dateOfStandard,
+          locked: +this.curriculumList.locked
+        });
+
+        this.refreshTable();
+        this.setStToDefault();
+      } else {
+        console.log("Problem with updating extraction");
+      }
+    });
   }
 
   private refreshTable() {

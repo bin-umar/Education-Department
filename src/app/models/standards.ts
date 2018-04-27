@@ -45,17 +45,19 @@ export interface ResSubType {
   data: [ISubType];
 }
 
+export interface Standard {
+  ids: number;
+  fSpec_Shifr: string;
+  timeOfStudying: number;
+  typeOfStudying: string;
+  degreeOfStudying: string;
+  dateOfAcceptance: Date;
+  locked: number;
+}
+
 export interface IStandard {
   error: boolean;
-  data: [{
-    ids: number;
-    fSpec_Shifr: string;
-    timeOfStudying: number;
-    typeOfStudying: string;
-    degreeOfStudying: string;
-    dateOfAcceptance: Date;
-    locked: number;
-  }];
+  data: [Standard];
 }
 
 export interface StandardList {

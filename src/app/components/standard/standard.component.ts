@@ -85,12 +85,14 @@ export class StandardComponent implements OnInit {
     const subjects = this.subjects;
 
     subjects.forEach((item) => {
-      if (item.idType === id) {
-        if (prop === 'credits') { sum += item.credits; }
-        if (prop === 'total') { sum += item.toTeacher.total; }
-        if (prop === 'audit') { sum += item.toTeacher.including.audit; }
-        if (prop === 'kmro') { sum += item.toTeacher.including.kmro; }
-        if (prop === 'iws') { sum += item.IWS; }
+      if (item.idType === id  || id === 0) {
+        switch (prop) {
+          case 'credits': sum += item.credits; break;
+          case 'total': sum += item.toTeacher.total; break;
+          case 'audit': sum += item.toTeacher.including.audit; break;
+          case 'kmro': sum += item.toTeacher.including.kmro; break;
+          case 'iws': sum += item.IWS; break;
+        }
       }
     });
 
@@ -128,7 +130,7 @@ export class StandardComponent implements OnInit {
     let sum = 0;
 
    this.subjects.forEach((item) => {
-      if (item.idType === id) {
+      if (item.idType === id || id === 0) {
         item.creditDividing.terms.forEach((el, j) => {
           if (el === term) {
             sum += item.creditDividing.credits[j];

@@ -1,9 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material';
+
+import { DeleteExtractionSubjectComponent } from '../../dialogs/delete-extraction-subject/delete-extraction-subject.component';
+import { AddExtractionSubjectComponent } from '../../dialogs/add-extraction-subject/add-extraction-subject.component';
+
 import { ExtractionService } from '../../services/extraction.service';
 import { CurriculumList, ExtractionSubject } from '../../models/curriculum';
-import { MatDialog } from '@angular/material';
-import { DeleteExtractionSubjectComponent } from '../../dialogs/delete-extraction-subject/delete-extraction-subject.component';
-import {AddExtractionSubjectComponent} from "../../dialogs/add-extraction-subject/add-extraction-subject.component";
 
 @Component({
   selector: 'app-extraction',
@@ -92,7 +94,7 @@ export class ExtractionComponent implements OnInit {
     let sum = 0;
     let subjects;
 
-    if(term !== 3) {
+    if (term !== 3) {
       subjects = this.getSubjectsByTerm(term);
     } else {
       subjects = this.subjects;
@@ -119,7 +121,6 @@ export class ExtractionComponent implements OnInit {
   }
 
   editSubject(subject: ExtractionSubject) {
-    // if (this.isSubjectsAvailable) {
       const dialogRef = this.dialog.open(AddExtractionSubjectComponent, {
         width: '610px',
         data: {
@@ -132,13 +133,9 @@ export class ExtractionComponent implements OnInit {
 
       dialogRef.afterClosed().subscribe(result => {
         if (result !== undefined) {
-          console.log(result);
-          // this.subjects.splice(iSub, 1, result);
+          this.subjects.splice(iSub, 1, result);
         }
       });
-    // } else {
-    //   console.error("Subjects list haven't been loaded yet!");
-    // }
   }
 
 }

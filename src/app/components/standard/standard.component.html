@@ -223,5 +223,65 @@
         </div>
       </ng-template>
     </ng-template>
+    <tr class="bg-eee">
+      <td colspan="2">Ҳамагӣ</td>
+      <td>{{ sum(0, 'credits') }}</td>
+      <td></td>
+      <td></td>
+      <td>{{ sum(0, 'total') }}</td>
+      <td>{{ sum(0, 'audit') }}</td>
+      <td>{{ sum(0, 'kmro') }}</td>
+      <td>{{ sum(0, 'iws') }}</td>
+      <td>
+          <span *ngIf="sumTerms(0, 1) !== 0">
+            {{ sumTerms(0, 1) }}
+          </span>
+      </td>
+      <td>
+          <span *ngIf="sumTerms(0, 2) !== 0">
+            {{ sumTerms(0, 2) }}
+          </span>
+      </td>
+      <td>
+          <span *ngIf="sumTerms(0, 3) !== 0">
+            {{ sumTerms(0, 3) }}
+          </span>
+      </td>
+      <td>
+          <span *ngIf="sumTerms(0, 4) !== 0">
+            {{ sumTerms(0, 4) }}
+          </span>
+      </td>
+      <td>
+          <span *ngIf="sumTerms(0, 5) !== 0">
+            {{ sumTerms(0, 5) }}
+          </span>
+      </td>
+      <td>
+          <span *ngIf="sumTerms(0, 6) !== 0">
+            {{ sumTerms(0, 6) }}
+          </span>
+      </td>
+      <td>
+          <span *ngIf="sumTerms(0, 7) !== 0">
+            {{ sumTerms(0, 7) }}
+          </span>
+      </td>
+      <td>
+          <span *ngIf="sumTerms(0, 8) !== 0">
+            {{ sumTerms(0, 8) }}
+          </span>
+      </td>
+      <td>
+          <span *ngIf="sumTerms(0, 9) !== 0">
+            {{ sumTerms(0, 9) }}
+          </span>
+      </td>
+      <td>
+          <span *ngIf="sumTerms(0, 10) !== 0">
+            {{ sumTerms(0, 10) }}
+          </span>
+      </td>
+    </tr>
   </table>
 </div>
