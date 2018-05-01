@@ -59,3 +59,15 @@
 .locked {
   opacity: 0.4;
 }
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(76,93,110,0.4);
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}

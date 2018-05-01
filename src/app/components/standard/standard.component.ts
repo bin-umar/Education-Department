@@ -17,7 +17,7 @@ import { DeleteDialogComponent } from '../../dialogs/delete/delete.dialog.compon
 export class StandardComponent implements OnInit {
 
   @Input() Standard: StandardList;
-  @Output() cmpName = "Стандарт";
+  @Output() cmpName = "Стандарт"
 
   subjects: ISubject[] = [];
   subjectTypes: ISubType[] = [];
@@ -28,7 +28,8 @@ export class StandardComponent implements OnInit {
   constructor(public dialog: MatDialog,
               private mainService: MainService,
               private stSubjectService: StSubjectsService
-              ) { }
+              ) {
+  }
 
   ngOnInit() {
     this.subjectTypes = this.mainService.subjectTypes;

@@ -1,5 +1,8 @@
-<h1 *ngIf="add" mat-dialog-title>Иловакунии фанни нав</h1>
-<h1 *ngIf="!add" mat-dialog-title>Тағйирдиҳии фанни иқтибос</h1>
+<div mat-dialog-title>
+  <div *ngIf="add">Иловакунии фанни нав</div>
+  <div *ngIf="!add">Тағйирдиҳии фанни иқтибос</div>
+  <div *ngIf="error" class="text-danger text-right error">Соатҳои дарсӣ ба суммаи ҳамагӣ баробар нест!</div>
+</div>
 
 <div mat-dialog-content>
   <form class="example-form" #form="ngForm">
@@ -17,6 +20,31 @@
         </td>
       </tr>
       <tr>
+        <td colspan="4">
+          <mat-form-field class="example-full-width">
+            <mat-select [(value)]="data.kfName" placeholder="Кафедраи фанн" required>
+              <mat-optgroup *ngIf="recommendKaf.length > 0" [label]="'Кафедра(ҳо)и пештара интихобшуда'">
+                <mat-option *ngFor="let kafedra of recommendKaf" value="{{ kafedra.shortName }}">
+                  {{ kafedra.fullName | getName:'tj' }}
+                </mat-option>
+              </mat-optgroup>
+
+              <mat-optgroup *ngIf="recommendKaf.length > 0" [label]="'Ҳамаи кафелраҳо'">
+                <mat-option *ngFor="let kafedra of kafedras" value="{{ kafedra.shortName }}">
+                  {{ kafedra.fullName | getName:'tj' }}
+                </mat-option>
+              </mat-optgroup>
+
+              <ng-template [ngIf]="recommendKaf.length <= 0">
+                <mat-option *ngFor="let kafedra of kafedras" value="{{ kafedra.shortName }}">
+                  {{ kafedra.fullName | getName:'tj' }}
+                </mat-option>
+              </ng-template>
+            </mat-select>
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr>
         <td>
           <mat-form-field>
             <input type="number"
@@ -24,8 +52,7 @@
                    name="credits"
                    [(ngModel)]="data.credits"
                    readonly
-                   placeholder="Кредитҳо"
-            >
+                   placeholder="Кредитҳо">
           </mat-form-field>
         </td>
         <td>
@@ -34,8 +61,8 @@
                    matInput
                    name="auditCredits"
                    [(ngModel)]="data.auditCredits"
-                   placeholder="Кредитҳои аудиторӣ"
-            >
+                   readonly
+                   placeholder="Кредитҳои аудиторӣ">
           </mat-form-field>
         </td>
         <td>
@@ -44,8 +71,7 @@
                    matInput
                    name="lessonHours"
                    [(ngModel)]="data.lessonHours"
-                   placeholder="Соатҳои дарсӣ"
-            >
+                   placeholder="Соатҳои дарсӣ">
           </mat-form-field>
         </td>
         <td>
@@ -55,8 +81,7 @@
                    name="course"
                    [(ngModel)]="data.course"
                    readonly
-                   placeholder="Бахш"
-            >
+                   placeholder="Бахш">
           </mat-form-field>
         </td>
       </tr>
@@ -68,8 +93,7 @@
                    name="exam"
                    [(ngModel)]="data.exam"
                    readonly
-                   placeholder="Имтиҳон"
-            >
+                   placeholder="Имтиҳон">
           </mat-form-field>
         </td>
         <td>
@@ -79,8 +103,7 @@
                    name="kmd"
                    [(ngModel)]="data.kmd"
                    readonly
-                   placeholder="КМД"
-            >
+                   placeholder="КМД">
           </mat-form-field>
         </td>
         <td>
@@ -89,9 +112,7 @@
                    matInput
                    name="courseProject"
                    [(ngModel)]="data.courseProject"
-                   readonly
-                   placeholder="Лоиҳаи курсӣ"
-            >
+                   placeholder="Лоиҳаи курсӣ">
           </mat-form-field>
         </td>
         <td>
@@ -100,15 +121,17 @@
                    matInput
                    name="courseWork"
                    [(ngModel)]="data.courseWork"
-                   readonly
-                   placeholder="Кори курсӣ"
-            >
+                   placeholder="Кори курсӣ">
           </mat-form-field>
         </td>
       </tr>
       <tr>
-        <td class="border-bottom" colspan="2">Лексия</td>
-        <td class="border-bottom" colspan="2">Озмоишӣ</td>
+        <td class="border-bottom" colspan="2">
+          <h6>Лексия</h6>
+        </td>
+        <td class="border-bottom" colspan="2">
+          <h6>Озмоишӣ</h6>
+        </td>
       </tr>
       <tr>
         <td>
@@ -117,8 +140,7 @@
                    matInput
                    name="lkPlan"
                    [(ngModel)]="data.lkPlan"
-                   placeholder="Аз рӯи нақша"
-            >
+                   placeholder="Аз рӯи нақша">
           </mat-form-field>
         </td>
         <td>
@@ -127,8 +149,7 @@
                    matInput
                    name="lkTotal"
                    [(ngModel)]="data.lkTotal"
-                   placeholder="Ҳамагӣ"
-            >
+                   placeholder="Ҳамагӣ">
           </mat-form-field>
         </td>
         <td>
@@ -137,8 +158,7 @@
                    matInput
                    name="lbPlan"
                    [(ngModel)]="data.lbPlan"
-                   placeholder="Аз рӯи нақша"
-            >
+                   placeholder="Аз рӯи нақша">
           </mat-form-field>
         </td>
         <td>
@@ -147,14 +167,17 @@
                    matInput
                    name="lbTotal"
                    [(ngModel)]="data.lbTotal"
-                   placeholder="Ҳамагӣ"
-            >
+                   placeholder="Ҳамагӣ">
           </mat-form-field>
         </td>
       </tr>
       <tr>
-        <td class="border-bottom" colspan="2">Амалӣ</td>
-        <td class="border-bottom" colspan="2">Семинарӣ</td>
+        <td class="border-bottom" colspan="2">
+          <h6>Амалӣ</h6>
+        </td>
+        <td class="border-bottom" colspan="2">
+          <h6>Семинарӣ</h6>
+        </td>
       </tr>
       <tr>
         <td>
@@ -163,8 +186,7 @@
                    matInput
                    name="prPlan"
                    [(ngModel)]="data.prPlan"
-                   placeholder="Аз рӯи нақша"
-            >
+                   placeholder="Аз рӯи нақша">
           </mat-form-field>
         </td>
         <td>
@@ -173,8 +195,7 @@
                    matInput
                    name="prTotal"
                    [(ngModel)]="data.prTotal"
-                   placeholder="Ҳамагӣ"
-            >
+                   placeholder="Ҳамагӣ">
           </mat-form-field>
         </td>
         <td>
@@ -183,8 +204,7 @@
                    matInput
                    name="smPlan"
                    [(ngModel)]="data.smPlan"
-                   placeholder="Аз рӯи нақша"
-            >
+                   placeholder="Аз рӯи нақша">
           </mat-form-field>
         </td>
         <td>
@@ -193,88 +213,75 @@
                    matInput
                    name="smTotal"
                    [(ngModel)]="data.smTotal"
-                   placeholder="Ҳамагӣ"
-            >
+                   placeholder="Ҳамагӣ">
           </mat-form-field>
         </td>
       </tr>
     </table>
-    <table class="example-full-width">
-      <tr>
-        <td>
-          <mat-form-field class="example-full-width">
-            <input type="number"
-                   matInput
-                   name="trainingPrac"
-                   [(ngModel)]="data.trainingPrac"
-                   placeholder="Таҷ.таълимӣ"
-            >
-          </mat-form-field>
-        </td>
-        <td>
-          <mat-form-field class="example-full-width">
-            <input type="number"
-                   matInput
-                   name="manuPrac"
-                   [(ngModel)]="data.manuPrac"
-                   placeholder="Таҷ.истеҳсолӣ"
-            >
-          </mat-form-field>
-        </td>
-        <td>
-          <mat-form-field class="example-full-width">
-            <input type="number"
-                   matInput
-                   name="diplomPrac"
-                   [(ngModel)]="data.diplomPrac"
-                   placeholder="Т.пешаздипломӣ"
-            >
-          </mat-form-field>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <mat-form-field class="example-full-width">
-            <input type="number"
-                   matInput
-                   name="bachelorWork"
-                   [(ngModel)]="data.bachelorWork"
-                   placeholder="Кори бакалаврӣ"
-            >
-          </mat-form-field>
-        </td>
-        <td>
-          <mat-form-field class="example-full-width">
-            <input type="number"
-                   matInput
-                   name="gosExam"
-                   [(ngModel)]="data.gosExam"
-                   placeholder="Ком.имт.давлатӣ"
-            >
-          </mat-form-field>
-        </td>
-        <td>
-          <mat-form-field class="example-full-width">
-            <input type="number"
-                   matInput
-                   name="total"
-                   [(ngModel)]="data.total"
-                   placeholder="Ҳамагӣ"
-            >
-          </mat-form-field>
-        </td>
-      </tr>
-      <!--<tr>-->
-        <!--<td colspan="3">-->
-          <!--<input type="number"-->
-                 <!--matInput-->
-                 <!--name="idKafedra"-->
-                 <!--[(ngModel)]="data.idKafedra"-->
-                 <!--placeholder="Кафедра"-->
-          <!--&gt;-->
-        <!--</td>-->
-      <!--</tr>-->
-    </table>
+    <mat-accordion>
+      <mat-expansion-panel class="example-full-width" [expanded]="panelOpenState">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Майдонҳои иловагӣ
+          </mat-panel-title>
+          <mat-panel-description>
+            Таҷрибаомӯзиҳо ва ғ.
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <table>
+          <tr>
+            <td colspan="2">
+              <mat-form-field class="example-full-width">
+                <input type="number"
+                       matInput
+                       name="trainingPrac"
+                       [(ngModel)]="data.trainingPrac"
+                       placeholder="Таҷ.таълимӣ">
+              </mat-form-field>
+            </td>
+            <td colspan="2">
+              <mat-form-field class="example-full-width">
+                <input type="number"
+                       matInput
+                       name="manuPrac"
+                       [(ngModel)]="data.manuPrac"
+                       placeholder="Таҷ.истеҳсолӣ">
+              </mat-form-field>
+            </td>
+            <td colspan="2">
+              <mat-form-field class="example-full-width">
+                <input type="number"
+                       matInput
+                       name="diplomPrac"
+                       [(ngModel)]="data.diplomPrac"
+                       placeholder="Т.пешаздипломӣ">
+              </mat-form-field>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="3">
+              <mat-form-field class="example-full-width">
+                <input type="number"
+                       matInput
+                       name="bachelorWork"
+                       [(ngModel)]="data.bachelorWork"
+                       placeholder="Кори бакалаврӣ">
+              </mat-form-field>
+            </td>
+            <td colspan="3">
+              <mat-form-field class="example-full-width">
+                <input type="number"
+                       matInput
+                       name="gosExam"
+                       [(ngModel)]="data.gosExam"
+                       placeholder="Ком.имт.давлатӣ">
+              </mat-form-field>
+            </td>
+          </tr>
+        </table>
+      </mat-expansion-panel>
+    </mat-accordion>
   </form>
 </div>
 

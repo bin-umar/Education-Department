@@ -5,7 +5,7 @@ import {
   ViewContainerRef,
   ViewChild,
   ComponentFactoryResolver,
-  ComponentRef
+  ComponentRef, HostListener
 } from '@angular/core';
 
 import { StandardsListComponent } from './components/standards-list/standards-list.component';
@@ -45,19 +45,25 @@ export class AppComponent implements OnDestroy {
 
     this.auth.getToken('jaxa', 'jaxa97').subscribe(result => {
       if (result) {
-        this.createComponentDynamically(this.curriculumListComponent);
+        this.checkUser();
       } else {
         console.log('Username or password is incorrect');
       }
     });
-
   }
+
+  // @HostListener('window:scroll', ['$event'])
+  // onWindowScroll($event) {
+  //   console.log(window.pageYOffset);
+  // }
 
   checkUser() {
     const href = window.location.href;
     if (href.indexOf("hash") !== -1) {
       const hash = href.split("hash=")[1];
       const data = atob(hash).split("$");
+
+      console.log(href);
 
       const user: UserInfo = {
         userId: +data[0],

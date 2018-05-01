@@ -104,7 +104,7 @@ export class StandardsListComponent implements OnInit {
   }
 
   displayFn(spec?: Spec): string | undefined {
-    return spec ? spec.fSpec_Shifr + " " + spec.fSpec_NameRus : undefined;
+    return spec ? spec.fSpec_Shifr + " " + spec.fSpec_NameTaj : undefined;
   }
 
   setStToDefault() {
@@ -219,7 +219,7 @@ export class StandardsListComponent implements OnInit {
       CmpRef.instance.Standard = {
         id: row.id,
         number: row.number,
-        specialty: speciality.fSpec_Shifr + " " + speciality.fSpec_NameRus,
+        specialty: speciality.fSpec_Shifr + " " + speciality.fSpec_NameTaj,
         degreeOfStudying: row.degreeOfStudying,
         profession: row.profession,
         timeOfStudying: row.timeOfStudying,

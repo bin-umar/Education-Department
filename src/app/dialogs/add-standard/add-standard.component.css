@@ -8,11 +8,25 @@
 }
 
 .border-bottom {
-  border-bottom: 1px solid #167F92;
+  padding-bottom: 10px;
+}
+
+.border-bottom h6 {
+  width: 90%;
+  margin: auto;
   color: #167F92;
-  margin-bottom: 5px;
 }
 
 mat-form-field  {
-  width: 140px;
+  width: 146px;
+}
+
+.error {
+  font-size: 12px;
+  font-style: oblique;
+}
+
+.mat-dialog-title div {
+  display: inline-block;
+  width: 49.5%;
 }

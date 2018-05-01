@@ -20,7 +20,7 @@ import { IGroup, Spec } from '../../models/common';
 @Component({
   selector: 'app-groups',
   templateUrl: './groups.component.html',
-  styleUrls: ['./groups.component.css'],
+  styleUrls: ['../standards-list/standards-list.component.css'],
   providers: [ GroupsService ]
 })
 
@@ -112,7 +112,7 @@ export class GroupsComponent implements OnInit {
           type: this.auth.TYPES[this.group.type],
           course: this.group.course,
           studentsAmount: this.group.studentsAmount,
-          educationYear: this.group.educationYear
+          educationYear: (+this.group.educationYear - 2000).toString()
         });
 
         this.refreshTable();
@@ -138,7 +138,7 @@ export class GroupsComponent implements OnInit {
           type: this.auth.TYPES[this.group.type],
           course: this.group.course,
           studentsAmount: this.group.studentsAmount,
-          educationYear: this.group.educationYear
+          educationYear: (+this.group.educationYear - 2000).toString()
         });
 
         this.refreshTable();
@@ -150,7 +150,7 @@ export class GroupsComponent implements OnInit {
   }
 
   displayFn(spec?: Spec): string | undefined {
-    return spec ? spec.fSpec_Shifr + " " + spec.fSpec_NameRus : undefined;
+    return spec ? spec.fSpec_Shifr + " " + spec.fSpec_NameTaj : undefined;
   }
 
   editGroup(row: IGroup) {
@@ -171,7 +171,7 @@ export class GroupsComponent implements OnInit {
       type: tIndex.toString(),
       course: row.course,
       studentsAmount: row.studentsAmount,
-      educationYear: row.educationYear
+      educationYear: 20 + row.educationYear
     };
   }
 

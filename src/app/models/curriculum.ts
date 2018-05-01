@@ -23,7 +23,7 @@ export interface CurriculumList {
   course: number;
   degree: string;
   type: string;
-  educationYear: number;
+  educationYear: string;
   idStandard: number;
   dateOfStandard: Date;
   locked: number;
@@ -60,11 +60,22 @@ export interface ExtractionSubject {
   bachelorWork: number;
   gosExam: number;
   total: number;
-  idKafedra: number;
+  kfName: string;
   selective: number;
 }
 
 export interface ResponseExtractionSubject {
   error: boolean;
   data: [ExtractionSubject];
+}
+
+export interface Kafedra {
+  id: number;
+  shortName: string;
+  fullName: string;
+}
+
+export interface KafedraRes {
+  error: boolean;
+  data: [Kafedra];
 }

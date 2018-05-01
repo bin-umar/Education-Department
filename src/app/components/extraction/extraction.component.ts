@@ -52,8 +52,8 @@ export class ExtractionComponent implements OnInit {
             diplomPrac: +item.diplomPrac,
             bachelorWork: +item.bachelorWork,
             gosExam: +item.gosExam,
-            total: +item.total,
-            idKafedra: +item.idKafedra,
+            total: this.total(item),
+            kfName: item.kfName,
             selective: +item.selective
           });
         });
@@ -76,7 +76,7 @@ export class ExtractionComponent implements OnInit {
               name: this.subjects[i].name,
               curriculum: this.Curriculum.speciality
             },
-            type: 'groups'
+            type: 'exSubjects'
           }
         });
 
@@ -124,9 +124,20 @@ export class ExtractionComponent implements OnInit {
     return sum;
   }
 
+  total(subject: ExtractionSubject) {
+    const result =  +subject.lkTotal + +subject.lkPlan + +subject.smTotal +
+      +subject.smPlan + +subject.lbPlan + +subject.lbTotal +
+      +subject.prTotal + +subject.prTotal + +subject.trainingPrac +
+      +subject.manuPrac + +subject.diplomPrac + +subject.bachelorWork +
+      +subject.gosExam;
+
+    subject.total = result;
+    return result;
+  }
+
   editSubject(subject: ExtractionSubject) {
       const dialogRef = this.dialog.open(AddExtractionSubjectComponent, {
-        width: '610px',
+        width: '645px',
         data: {
           data: subject,
           add: false

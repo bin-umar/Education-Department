@@ -33,7 +33,7 @@ export class GroupsService {
             type: this.auth.TYPES[Number(item.type)],
             course: item.course,
             studentsAmount: item.studentsAmount,
-            educationYear: 20 + item.educationYear
+            educationYear: item.educationYear
           });
         });
 

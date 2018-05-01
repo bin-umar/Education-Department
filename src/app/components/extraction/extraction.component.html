@@ -5,7 +5,7 @@
       аз нақшаи таълимии ихтисосии {{ Curriculum.speciality }} барои курси
       {{ Curriculum.course }} (нимсолаи {{ Curriculum.course * 2 - 1 }} ва {{ Curriculum.course * 2}})
       шӯъбаи {{ Curriculum.type }}, дараҷаи таҳсилоти {{ Curriculum.degree }}
-      тибқи нақшаи таълимии тасдиқи санаи {{ Curriculum.dateOfStandard | date:'yyyy-MM-dd'}}
+      тибқи нақшаи таълимии тасдиқи санаи {{ Curriculum.dateOfStandard | date:'dd/MM/yyyy'}}
       (низоми таҳсилоти кредитӣ)
     </h6>
   </div>
@@ -172,10 +172,10 @@
           <span *ngIf="subject.gosExam !== 0 ">{{ subject.gosExam }}</span>
         </td>
         <td>
-          <span *ngIf="subject.total !== 0 ">{{ subject.total }}</span>
+          <span *ngIf="total(subject) !== 0">{{ total(subject) }}</span>
         </td>
         <td>
-          <span *ngIf="subject.idKafedra !== 0 ">{{ subject.idKafedra }}</span>
+          <span>{{ subject.kfName | getName:'tj' }}</span>
         </td>
         <td *ngIf="Curriculum.locked === 0">
           <mat-icon (click)="editSubject(subject)" class="md-18 hovered-color">edit</mat-icon>

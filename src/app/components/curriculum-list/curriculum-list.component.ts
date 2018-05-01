@@ -27,7 +27,7 @@ import { AuthService } from '../../services/auth.service';
 import { Spec } from '../../models/common';
 import { CurriculumList } from '../../models/curriculum';
 import { Standard } from '../../models/standards';
-import {DeleteDialogComponent} from "../../dialogs/delete/delete.dialog.component";
+import { DeleteDialogComponent } from '../../dialogs/delete/delete.dialog.component';
 
 @Component({
   selector: 'app-curriculum-list',
@@ -38,7 +38,7 @@ import {DeleteDialogComponent} from "../../dialogs/delete/delete.dialog.componen
 })
 export class CurriculumListComponent implements OnInit {
 
-  @Output() cmpName: any = "Иқтибосҳо";
+  @Output() cmpName: any = 'Иқтибосҳо';
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('curriculum', {read: ViewContainerRef}) parent: ViewContainerRef;
@@ -95,10 +95,11 @@ export class CurriculumListComponent implements OnInit {
   }
 
   displayFn(spec?: Spec): string | undefined {
-    return spec ? spec.fSpec_Shifr + " " + spec.fSpec_NameRus : undefined;
+    return spec ? spec.fSpec_Shifr + " " + spec.fSpec_NameTaj : undefined;
   }
 
-  specChange(option: Spec) {
+  specChange() {
+    const option = this.selectedSpec;
     this.curriculumList.speciality = option.fID.toString();
     this.standards = [];
 
@@ -116,9 +117,7 @@ export class CurriculumListComponent implements OnInit {
           });
         });
 
-        this.standards.forEach(item => {
-          this._standards.push(item);
-        });
+        this._standards = this.standards.slice();
       }
     });
   }
@@ -178,7 +177,7 @@ export class CurriculumListComponent implements OnInit {
             course: this.curriculumList.course,
             degree: this.auth.DEGREES[+this.curriculumList.degree],
             type: this.auth.TYPES[+this.curriculumList.type],
-            educationYear: this.curriculumList.educationYear,
+            educationYear: (+this.curriculumList.educationYear - 2000).toString(),
             idStandard: this.curriculumList.idStandard,
             dateOfStandard: this.curriculumList.dateOfStandard,
             locked: +this.curriculumList.locked
@@ -283,7 +282,7 @@ export class CurriculumListComponent implements OnInit {
     CmpRef.instance.Curriculum = {
       id: row.id,
       number: row.number,
-      speciality: speciality.fSpec_Shifr + " - \"" + speciality.fSpec_NameRus + "\"",
+      speciality: speciality.fSpec_Shifr + " - \"" + speciality.fSpec_NameTaj + "\"",
       degree: row.degree,
       type: row.type,
       course: row.course,
@@ -309,7 +308,7 @@ export class CurriculumListComponent implements OnInit {
           course: this.curriculumList.course,
           degree: this.auth.DEGREES[+this.curriculumList.degree],
           type: this.auth.TYPES[+this.curriculumList.type],
-          educationYear: this.curriculumList.educationYear,
+          educationYear: (+this.curriculumList.educationYear - 2000).toString(),
           idStandard: this.curriculumList.idStandard,
           dateOfStandard: this.curriculumList.dateOfStandard,
           locked: +this.curriculumList.locked

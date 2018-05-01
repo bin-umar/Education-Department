@@ -15,12 +15,12 @@
                [matAutocomplete]="auto" value="" required>
         <mat-autocomplete  #auto="matAutocomplete" [displayWith]="displayFn">
           <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-            {{ option.fSpec_Shifr + " " + option.fSpec_NameRus }}
+            {{ option.fSpec_Shifr + " " + option.fSpec_NameTaj }}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
 
-      <mat-form-field class="example-full-width">
+      <mat-form-field class="twenty-one-width">
         <mat-select [(value)]="standardList.degreeOfStudying"
                     placeholder="Дараҷаи таҳсилот" required>
           <mat-option value="0">бакалавр</mat-option>
@@ -29,13 +29,13 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field class="example-full-width">
+      <mat-form-field class="twenty-one-width">
         <input type="number" [max]="4" [min]="2" name="time"
                [value]="2" [(ngModel)]="standardList.timeOfStudying" matInput
                placeholder="Мӯҳлати таҳсил" required>
       </mat-form-field>
 
-      <mat-form-field class="example-full-width">
+      <mat-form-field class="twenty-one-width">
         <mat-select [(value)]="standardList.typeOfStudying"
                     placeholder="Шакли таҳсил" required>
           <mat-option value="0">рӯзона</mat-option>
@@ -44,7 +44,7 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field class="example-full-width">
+      <mat-form-field class="twenty-one-width">
         <input matInput [matDatepicker]="picker" placeholder="Санаи қабул"
                name="special" [(ngModel)]="standardList.dateOfAcceptance" required>
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -100,7 +100,7 @@
 
     <ng-container matColumnDef="dateOfAcceptance">
       <mat-header-cell *matHeaderCellDef mat-sort-header> Санаи қабул </mat-header-cell>
-      <mat-cell *matCellDef="let row"> {{row.dateOfAcceptance | date:'yyyy-MM-dd'}} </mat-cell>
+      <mat-cell *matCellDef="let row"> {{row.dateOfAcceptance | date:'dd/MM/yyyy'}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="actions">

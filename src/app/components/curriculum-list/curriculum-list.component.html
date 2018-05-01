@@ -15,9 +15,9 @@
                [matAutocomplete]="auto" required>
         <!-- (keydown)="specChange();"-->
         <!--(onSelectionChange)="specChange(option);"-->
-        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-          <mat-option *ngFor="let option of filteredOptions | async" [value]="option" (onSelectionChange)="specChange(option);">
-            {{ option.fSpec_Shifr + " " + option.fSpec_NameRus }}
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="specChange();" [displayWith]="displayFn">
+          <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+            {{ option.fSpec_Shifr + " " + option.fSpec_NameTaj }}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
@@ -27,7 +27,7 @@
                placeholder="Курс" required>
       </mat-form-field>
 
-      <mat-form-field class="sixteen-width">
+      <mat-form-field class="fifteen-width">
         <mat-select (onClose)="findStandard();" [(value)]="curriculumList.degree" placeholder="Дараҷаи таҳсилот" required>
           <mat-option value="0">бакалавр</mat-option>
           <mat-option value="1">магистр</mat-option>
@@ -35,7 +35,7 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field class="sixteen-width">
+      <mat-form-field class="fifteen-width">
         <mat-select (onClose)="findStandard();" [(value)]="curriculumList.type" placeholder="Шакли таҳсил" required>
           <mat-option value="0">рӯзона</mat-option>
           <mat-option value="1">ғоибона</mat-option>
@@ -43,7 +43,7 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field class="sixteen-width">
+      <mat-form-field class="fifteen-width">
         <input type="number" name="educationYear" [(ngModel)]="curriculumList.educationYear" matInput
                placeholder="Соли таҳсил" required>
       </mat-form-field>
@@ -51,14 +51,14 @@
       <mat-form-field class="thirty-width">
         <mat-select [(value)]="curriculumList.idStandard" placeholder="Стандарт" required>
           <mat-option *ngFor="let standard of standards" value="{{standard.ids}}">
-            Стандарти санаи {{standard.dateOfAcceptance | date:'dd-MM-yyyy'}}
+            Стандарти санаи {{standard.dateOfAcceptance | date:'dd/MM/yyyy'}}
             {{ standard.degreeOfStudying + " " + standard.typeOfStudying}}
             (<i *ngIf="+standard.locked === 1">пурра</i><i *ngIf="+standard.locked === 0">нопурра</i>)
           </mat-option>
         </mat-select>
       </mat-form-field>
 
-      <span class="text-right sixteen-width">
+      <span class="text-right fifteen-width">
         <button [hidden]="!add" (click)="addExtraction();" mat-raised-button class="bg-dark text-colored">
           <mat-icon>add_circle_outline</mat-icon> Илова намудан
         </button>
@@ -106,12 +106,12 @@
 
     <ng-container matColumnDef="educationYear">
       <mat-header-cell *matHeaderCellDef mat-sort-header> Соли таҳсил </mat-header-cell>
-      <mat-cell *matCellDef="let row"> {{row.educationYear}} </mat-cell>
+      <mat-cell *matCellDef="let row"> {{row.educationYear | educationYear}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="dateOfStandard">
       <mat-header-cell *matHeaderCellDef mat-sort-header> Санаи стандарт </mat-header-cell>
-      <mat-cell *matCellDef="let row">{{row.dateOfStandard | date:'yyyy-MM-dd'}} </mat-cell>
+      <mat-cell *matCellDef="let row">{{row.dateOfStandard | date:'dd/MM/yyyy'}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="actions">

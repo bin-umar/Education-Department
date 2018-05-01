@@ -74,7 +74,7 @@ export interface IGroup {
   type: string;
   course: number;
   studentsAmount: number;
-  educationYear: number;
+  educationYear: string;
 }
 
 export interface GroupResponse {
