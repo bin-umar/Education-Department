@@ -2,15 +2,14 @@
 <h1 *ngIf="!add" mat-dialog-title>Тағйирдиҳии фанни стандарт</h1>
 
 <div mat-dialog-content>
-    <form class="example-form" #form="ngForm">
-      <mat-form-field class="example-full-width">
+    <form class="example-form">
+      <mat-form-field class="full-width">
         <input matInput
                name="special"
                [(ngModel)]="selectedSubject"
                placeholder="Номи фанн"
-               [formControl]="myControl"
-               [errorStateMatcher]="matcher"
                [matAutocomplete]="auto"
+               [formControl]="myControl"
                value=""
                required
                cdkFocusInitial>
@@ -20,15 +19,14 @@
             {{ option.name }}
           </mat-option>
         </mat-autocomplete>
-
       </mat-form-field>
 
-      <table class="text-center">
+      <table class="full-width text-center">
         <tr>
           <td colspan="2">
-            <mat-form-field class="example-full-width">
+            <mat-form-field class="full-width">
               <mat-select [(value)]="data.idType" placeholder="Бахш">
-                <mat-option *ngFor="let type of subjectTypes" value="{{type.id}}">
+                <mat-option *ngFor="let type of subjectTypes" [value]="type.id">
                   Бахши  {{type.name | lowercase}}
                 </mat-option>
               </mat-select>
@@ -42,65 +40,60 @@
         </tr>
         <tr>
           <td></td>
-          <td class="border-bottom" colspan="2">Шаклҳои назорат аз рӯи семестрҳо</td>
+          <td class="border-bottom bb" colspan="2">
+            <h6>Шаклҳои назорат аз рӯи семестрҳо</h6>
+          </td>
         </tr>
         <tr>
           <td>
-            <mat-form-field>
+            <mat-form-field class="full-width">
               <input type="number"
                      name="credits"
                      matInput
                      [(ngModel)]="data.credits"
                      (input)="creditInput()"
-                     [formControl]="FormControl"
-                     [errorStateMatcher]="matcher"
                      required
                      placeholder="Ҳаҷми кредитҳо">
-              <!--<mat-error *ngIf="FormControl.hasError('required')">-->
-                <!--Email is <strong>required</strong>-->
-              <!--</mat-error>-->
             </mat-form-field>
           </td>
           <td>
-            <mat-form-field>
+            <mat-form-field class="full-width">
               <input type="text"
                      matInput
                      name="exam"
-                     [formControl]="FormControl"
-                     [errorStateMatcher]="matcher"
                      [(ngModel)]="data.typeOfMonitoring.exam"
                      placeholder="Имтиҳон"
                      value="">
             </mat-form-field>
           </td>
           <td>
-            <mat-form-field>
+            <mat-form-field class="full-width">
               <input type="text"
                      matInput
                      name="goUpIWS"
-                     [formControl]="FormControl"
-                     [errorStateMatcher]="matcher"
                      [(ngModel)]="data.typeOfMonitoring.goUpIWS"
                      placeholder="Ҳимояи КМД"
                      value="">
             </mat-form-field>
           </td>
         </tr>
-        <tr class="border-bottom">
-          <td colspan="3">Ба омӯзгор</td>
+        <tr class="border-bottom bb">
+          <td class="border-bottom bb" colspan="3">
+            <h6>Ба омӯзгор</h6>
+          </td>
         </tr>
         <tr>
           <td></td>
-          <td class="border-bottom" colspan="2">Аз ҷумла</td>
+          <td class="border-bottom bb" colspan="2">
+            <h6>Аз ҷумла</h6>
+          </td>
         </tr>
         <tr>
           <td>
-            <mat-form-field>
+            <mat-form-field class="full-width">
               <input type="number"
                      matInput
                      name="total"
-                     [formControl]="FormControl"
-                     [errorStateMatcher]="matcher"
                      [(ngModel)]="data.toTeacher.total"
                      required
                      placeholder="Ҳамагӣ"
@@ -108,12 +101,10 @@
             </mat-form-field>
           </td>
           <td>
-            <mat-form-field>
+            <mat-form-field class="full-width">
               <input type="number"
                      matInput
                      name="audit"
-                     [formControl]="FormControl"
-                     [errorStateMatcher]="matcher"
                      [(ngModel)]="data.toTeacher.including.audit"
                      placeholder="Аудиторӣ"
                      required
@@ -121,11 +112,9 @@
             </mat-form-field>
           </td>
           <td>
-            <mat-form-field>
+            <mat-form-field class="full-width">
               <input type="number"
                      matInput name="kmro"
-                     [formControl]="FormControl"
-                     [errorStateMatcher]="matcher"
                      [(ngModel)]="data.toTeacher.including.kmro"
                      placeholder="КМРО"
                      required
@@ -135,31 +124,27 @@
         </tr>
         <tr>
           <td></td>
-          <td class="border-bottom" colspan="2">
-            Тақсимоти кредитҳо ба курсҳо ва семестрҳо
+          <td class="border-bottom bb" colspan="2">
+            <h6>Тақсимоти кредитҳо ба курсҳо ва семестрҳо</h6>
           </td>
         </tr>
         <tr>
           <td>
-            <mat-form-field>
+            <mat-form-field class="full-width">
               <input type="number"
                      matInput
                      name="iws"
                      required
-                     [formControl]="FormControl"
-                     [errorStateMatcher]="matcher"
                      [(ngModel)]="data.IWS"
                      placeholder="КМД"
                      value="">
             </mat-form-field>
           </td>
           <td>
-            <mat-form-field>
+            <mat-form-field class="full-width">
               <input type="text"
                      matInput
                      name="terms"
-                     [formControl]="FormControl"
-                     [errorStateMatcher]="matcher"
                      [(ngModel)]="terms"
                      required
                      placeholder="Семестрҳо"
@@ -167,12 +152,10 @@
             </mat-form-field>
           </td>
           <td>
-            <mat-form-field>
+            <mat-form-field class="full-width">
               <input type="text"
                      matInput
                      name="termCredits"
-                     [formControl]="FormControl"
-                     [errorStateMatcher]="matcher"
                      [(ngModel)]="credits"
                      required
                      placeholder="Кредитҳо"
@@ -186,7 +169,6 @@
 
 <div mat-dialog-actions>
   <button *ngIf="add"
-          [disabled]="!form.valid"
           (click)="confirmAddSubject();"
           mat-raised-button
           class="bg-dark text-colored half-width">

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild, HostListener} from '@angular/core';
 import { MatDialog } from '@angular/material';
 
 import { AddExtractionSubjectComponent } from '../../dialogs/add-extraction-subject/add-extraction-subject.component';
@@ -17,8 +17,22 @@ import { CurriculumList, ExtractionSubject } from '../../models/curriculum';
 export class ExtractionComponent implements OnInit {
 
   @Input() Curriculum: CurriculumList;
+  @ViewChild('header') header: ElementRef;
 
   subjects: ExtractionSubject[] = [];
+  fixed = false;
+
+  // @HostListener('window:scroll', ['$event'])
+  //   onWindowScroll($event) {
+  //     const number = $event.target.documentElement.scrollTop;
+  //
+  //     if (number > 600) {
+  //       this.fixed = true;
+  //     } else {
+  //       this.fixed = false;
+  //     }
+  //
+  //   }
 
   constructor(private extractionService: ExtractionService,
               private dialog: MatDialog) { }

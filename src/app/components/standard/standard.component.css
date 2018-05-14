@@ -119,3 +119,9 @@ th div{
   font-weight: bold;
 }
 
+.fixed {
+  position: fixed;
+  left: 9.4%;
+  top: 0;
+}
+

@@ -3,12 +3,16 @@
   width: 590px;
 }
 
-.example-full-width{
+.full-width{
   width: 100%;
 }
 
 .border-bottom {
   padding-bottom: 10px;
+}
+
+.bb{
+  border-bottom: 1px solid #167F92;
 }
 
 .border-bottom h6 {

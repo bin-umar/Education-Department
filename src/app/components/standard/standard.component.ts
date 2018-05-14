@@ -17,13 +17,17 @@ import { DeleteDialogComponent } from '../../dialogs/delete/delete.dialog.compon
 export class StandardComponent implements OnInit {
 
   @Input() Standard: StandardList;
-  @Output() cmpName = "Стандарт"
+  @Output() cmpName = 'Стандарт';
 
   subjects: ISubject[] = [];
   subjectTypes: ISubType[] = [];
   isSubjectsAvailable: boolean;
   credits: number[];
   terms: number[];
+
+  courses: number[] = [];
+  _terms: number[] = [];
+  columns: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
   constructor(public dialog: MatDialog,
               private mainService: MainService,
@@ -32,6 +36,15 @@ export class StandardComponent implements OnInit {
   }
 
   ngOnInit() {
+    for (let i = 0; i < this.Standard.timeOfStudying; i++) {
+      this.courses.push(i + 1);
+    }
+
+    for (let i = 0; i < this.courses.length * 2; i++) {
+      this._terms.push(i + 1);
+      this.columns.push(this.columns.length + 1);
+    }
+
     this.subjectTypes = this.mainService.subjectTypes;
     this.mainService.getSubjectsByStandardId(this.Standard.id).subscribe(response => {
 
@@ -49,10 +62,10 @@ export class StandardComponent implements OnInit {
         });
 
         this.subjects.push({
-          id: item.id,
-          idStandard: item.idStandard,
+          id: +item.id,
+          idStandard: +item.idStandard,
           name: item.name,
-          idType: item.idType,
+          idType: +item.idType,
           selective: +item.selective,
           credits: +item.credits,
           typeOfMonitoring: {
@@ -145,6 +158,7 @@ export class StandardComponent implements OnInit {
 
   editSubject(subject: ISubject, index: number) {
     if (this.isSubjectsAvailable) {
+      console.log(this.getSubjectsById(subject.idType)[index]);
       const dialogRef = this.dialog.open(AddStandardComponent, {
         width: '600px',
         data: {

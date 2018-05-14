@@ -8,16 +8,10 @@ import {
 
 import {
   MatDialogRef,
-  MAT_DIALOG_DATA,
-  ErrorStateMatcher
+  MAT_DIALOG_DATA
 } from '@angular/material';
 
-import {
-  NgForm,
-  Validators,
-  FormControl,
-  FormGroupDirective
-} from '@angular/forms';
+import { FormControl } from '@angular/forms';
 
 import { Observable } from 'rxjs/Observable';
 import { startWith } from 'rxjs/operators/startWith';
@@ -26,13 +20,6 @@ import { map } from 'rxjs/operators/map';
 import { MainService } from '../../services/main.service';
 import { ISubject, ISubjectList } from '../../models/standards';
 import { StSubjectsService } from '../../services/st-subjects.service';
-
-export class MyErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    const isSubmitted = form && form.submitted;
-    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
-  }
-}
 
 @Component({
   selector: 'app-add-standard',
@@ -48,12 +35,6 @@ export class AddStandardComponent implements OnInit {
     id: null,
     name: ''
   };
-
-  FormControl = new FormControl('', [
-    Validators.required
-  ]);
-
-  matcher = new MyErrorStateMatcher();
 
   options: ISubjectList[] = [];
   filteredOptions: Observable<ISubjectList[]>;

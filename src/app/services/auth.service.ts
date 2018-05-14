@@ -3,14 +3,15 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/map';
-import { Observable } from "rxjs/Observable";
+import { Observable } from 'rxjs/Observable';
 
-import { CheckResponse, IAuth, UserInfo} from '../models/common';
+import { CheckResponse, IAuth, UserInfo } from '../models/common';
 
 @Injectable()
 export class AuthService {
 
-  public host = 'http://asu.techuni.tj/jxapi/';
+  public host = 'http://api.techuni.lo/';
+  // public host = 'http://asu.techuni.tj/jxapi/';
   public token: string;
 
   public DEGREES = ['бакалавр', 'магистр', 'PhD'];

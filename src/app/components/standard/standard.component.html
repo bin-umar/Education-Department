@@ -43,22 +43,22 @@
       <th rowspan="2" colspan="2">Шаклҳои назорат аз рӯи семестрҳо</th>
       <th colspan="3">Ба омӯзгор</th>
       <th rowspan="3">КМД</th>
-      <th colspan="10">Тақсимоти кредитҳо ба курсҳо ва семестрҳо</th>
+      <th [attr.colspan]="_terms.length">Тақсимоти кредитҳо ба курсҳо ва семестрҳо</th>
     </tr>
     <tr>
       <th rowspan="2">Ҳамагӣ</th>
       <th colspan="2">Аз ҷумла</th>
-      <th *ngFor="let i of [1,2,3,4,5]" colspan="2">Курси {{i}}</th>
+      <th *ngFor="let i of courses" colspan="2">Курси {{i}}</th>
     </tr>
     <tr>
       <th>Имтиҳон</th>
       <th>Ҳимояи КМД</th>
       <th>Аудиторӣ</th>
       <th>КМРО</th>
-      <th *ngFor="let i of [1,2,3,4,5,6,7,8,9,10]">{{i}}</th>
+      <th *ngFor="let i of _terms">{{i}}</th>
     </tr>
     <tr bgcolor="#eee">
-      <th *ngFor="let i of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19]">{{i}}</th>
+      <th *ngFor="let i of columns">{{i}}</th>
     </tr>
     <ng-template ngFor let-j="index" let-type [ngForOf]="subjectTypes">
       <tr class="bg-eee" [class.hovered]="type.showConfigIcons && (Standard.locked === 0)">
@@ -70,56 +70,13 @@
         <td>{{ sum(type.id, 'audit') }}</td>
         <td>{{ sum(type.id, 'kmro') }}</td>
         <td>{{ sum(type.id, 'iws') }}</td>
-        <td>
-          <span *ngIf="sumTerms(type.id, 1) !== 0">
-            {{ sumTerms(type.id, 1) }}
+        <ng-template ngFor let-i="index" let-term [ngForOf]="_terms">
+          <td>
+          <span *ngIf="sumTerms(type.id, term) !== 0">
+            {{ sumTerms(type.id, term) }}
           </span>
-        </td>
-        <td>
-          <span *ngIf="sumTerms(type.id, 2) !== 0">
-            {{ sumTerms(type.id, 2) }}
-          </span>
-        </td>
-        <td>
-          <span *ngIf="sumTerms(type.id, 3) !== 0">
-            {{ sumTerms(type.id, 3) }}
-          </span>
-        </td>
-        <td>
-          <span *ngIf="sumTerms(type.id, 4) !== 0">
-            {{ sumTerms(type.id, 4) }}
-          </span>
-        </td>
-        <td>
-          <span *ngIf="sumTerms(type.id, 5) !== 0">
-            {{ sumTerms(type.id, 5) }}
-          </span>
-        </td>
-        <td>
-          <span *ngIf="sumTerms(type.id, 6) !== 0">
-            {{ sumTerms(type.id, 6) }}
-          </span>
-        </td>
-        <td>
-          <span *ngIf="sumTerms(type.id, 7) !== 0">
-            {{ sumTerms(type.id, 7) }}
-          </span>
-        </td>
-        <td>
-          <span *ngIf="sumTerms(type.id, 8) !== 0">
-            {{ sumTerms(type.id, 8) }}
-          </span>
-        </td>
-        <td>
-          <span *ngIf="sumTerms(type.id, 9) !== 0">
-            {{ sumTerms(type.id, 9) }}
-          </span>
-        </td>
-        <td>
-          <span *ngIf="sumTerms(type.id, 10) !== 0">
-            {{ sumTerms(type.id, 10) }}
-          </span>
-        </td>
+          </td>
+        </ng-template>
       </tr>
       <div *ngIf="Standard.locked === 0" (click)="addSubject(type.id);" class="settings" (mouseover)="type.showConfigIcons = true" (mouseleave)="type.showConfigIcons = false">
         <mat-icon class="md-18">add_circle_outline</mat-icon>
@@ -129,10 +86,10 @@
       <ng-template ngFor let-i="index" let-subject [ngForOf]="getSubjectsById(type.id)">
         <tr class="showConfig" [class.hovered]="subject.showConfigIcons && (Standard.locked === 0)" *ngIf="subject.idType === type.id" >
           <td>{{ i + 1 }}</td>
-          <td>
+          <td class="text-left" style="padding-left: 10px;">
             {{ subject.name }}
             <ng-template [ngIf]="subject.selective === 1">
-              (ф. интихобӣ)
+              (интихобӣ)
             </ng-template>
           </td>
           <td>{{ subject.credits }}</td>
@@ -142,76 +99,15 @@
           <td>{{ subject.toTeacher.including.audit }}</td>
           <td>{{ subject.toTeacher.including.kmro }}</td>
           <td>{{ subject.IWS }}</td>
-          <td>
-            <ng-template ngFor let-i="index" let-term [ngForOf]="subject.creditDividing.terms">
-              <span *ngIf="term === 1">
+          <ng-template ngFor let-_term [ngForOf]="_terms">
+            <td>
+              <ng-template ngFor let-i="index" let-term [ngForOf]="subject.creditDividing.terms">
+              <span *ngIf="term === _term">
                 {{ subject.creditDividing.credits[i] }}
               </span>
-            </ng-template>
-          </td>
-          <td>
-            <ng-template ngFor let-i="index" let-term [ngForOf]="subject.creditDividing.terms">
-              <span *ngIf="term === 2">
-                {{ subject.creditDividing.credits[i] }}
-              </span>
-            </ng-template>
-          </td>
-          <td>
-            <ng-template ngFor let-i="index" let-term [ngForOf]="subject.creditDividing.terms">
-              <span *ngIf="term === 3">
-                {{ subject.creditDividing.credits[i] }}
-              </span>
-            </ng-template>
-          </td>
-          <td>
-            <ng-template ngFor let-i="index" let-term [ngForOf]="subject.creditDividing.terms">
-              <span *ngIf="term === 4">
-                {{ subject.creditDividing.credits[i] }}
-              </span>
-            </ng-template>
-          </td>
-          <td>
-            <ng-template ngFor let-i="index" let-term [ngForOf]="subject.creditDividing.terms">
-              <span *ngIf="term === 5">
-                {{ subject.creditDividing.credits[i] }}
-              </span>
-            </ng-template>
-          </td>
-          <td>
-            <ng-template ngFor let-i="index" let-term [ngForOf]="subject.creditDividing.terms">
-              <span *ngIf="term === 6">
-                {{ subject.creditDividing.credits[i] }}
-              </span>
-            </ng-template>
-          </td>
-          <td>
-            <ng-template ngFor let-i="index" let-term [ngForOf]="subject.creditDividing.terms">
-              <span *ngIf="term === 7">
-                {{ subject.creditDividing.credits[i] }}
-              </span>
-            </ng-template>
-          </td>
-          <td>
-            <ng-template ngFor let-i="index" let-term [ngForOf]="subject.creditDividing.terms">
-              <span *ngIf="term === 8">
-                {{ subject.creditDividing.credits[i] }}
-              </span>
-            </ng-template>
-          </td>
-          <td>
-            <ng-template ngFor let-i="index" let-term [ngForOf]="subject.creditDividing.terms">
-              <span *ngIf="term === 9">
-                {{ subject.creditDividing.credits[i] }}
-              </span>
-            </ng-template>
-          </td>
-          <td>
-            <ng-template ngFor let-i="index" let-term [ngForOf]="subject.creditDividing.terms">
-              <span *ngIf="term === 10">
-                {{ subject.creditDividing.credits[i] }}
-              </span>
-            </ng-template>
-          </td>
+              </ng-template>
+            </td>
+          </ng-template>
         </tr>
         <div *ngIf="Standard.locked === 0" class="settings " (mouseover)="subject.showConfigIcons = true" (mouseleave)="subject.showConfigIcons = false">
           <div (click)="editSubject(subject, i)">
@@ -232,56 +128,13 @@
       <td>{{ sum(0, 'audit') }}</td>
       <td>{{ sum(0, 'kmro') }}</td>
       <td>{{ sum(0, 'iws') }}</td>
-      <td>
-          <span *ngIf="sumTerms(0, 1) !== 0">
-            {{ sumTerms(0, 1) }}
+      <ng-template ngFor let-i="index" let-term [ngForOf]="_terms">
+        <td>
+          <span *ngIf="sumTerms(0, term) !== 0">
+            {{ sumTerms(0, term) }}
           </span>
-      </td>
-      <td>
-          <span *ngIf="sumTerms(0, 2) !== 0">
-            {{ sumTerms(0, 2) }}
-          </span>
-      </td>
-      <td>
-          <span *ngIf="sumTerms(0, 3) !== 0">
-            {{ sumTerms(0, 3) }}
-          </span>
-      </td>
-      <td>
-          <span *ngIf="sumTerms(0, 4) !== 0">
-            {{ sumTerms(0, 4) }}
-          </span>
-      </td>
-      <td>
-          <span *ngIf="sumTerms(0, 5) !== 0">
-            {{ sumTerms(0, 5) }}
-          </span>
-      </td>
-      <td>
-          <span *ngIf="sumTerms(0, 6) !== 0">
-            {{ sumTerms(0, 6) }}
-          </span>
-      </td>
-      <td>
-          <span *ngIf="sumTerms(0, 7) !== 0">
-            {{ sumTerms(0, 7) }}
-          </span>
-      </td>
-      <td>
-          <span *ngIf="sumTerms(0, 8) !== 0">
-            {{ sumTerms(0, 8) }}
-          </span>
-      </td>
-      <td>
-          <span *ngIf="sumTerms(0, 9) !== 0">
-            {{ sumTerms(0, 9) }}
-          </span>
-      </td>
-      <td>
-          <span *ngIf="sumTerms(0, 10) !== 0">
-            {{ sumTerms(0, 10) }}
-          </span>
-      </td>
+        </td>
+      </ng-template>
     </tr>
   </table>
 </div>

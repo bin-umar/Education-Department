@@ -44,9 +44,10 @@ export class MainService {
       this.auth.host + 'self.php?route=subjects&operation=list&token=' + this.auth.token
     ).map((response: ISubjectResponse) => {
       if (!response.error) {
+        this.subjects = [];
         response.data.forEach(item => {
           this.subjects.push({
-            id: item.id,
+            id: +item.id,
             name: item.name
           });
         });
@@ -75,7 +76,7 @@ export class MainService {
 
         response.data.forEach(item => {
           this.subjectTypes.push({
-            id: item.id,
+            id: +item.id,
             name: item.name,
             showConfigIcons: false
           });

@@ -9,7 +9,7 @@
     <table class="text-center">
       <tr>
         <td colspan="4">
-          <mat-form-field class="example-full-width">
+          <mat-form-field class="full-width">
             <input type="text"
                    matInput
                    name="name"
@@ -21,7 +21,7 @@
       </tr>
       <tr>
         <td colspan="4">
-          <mat-form-field class="example-full-width">
+          <mat-form-field class="full-width">
             <mat-select [(value)]="data.kfName" placeholder="Кафедраи фанн" required>
               <mat-optgroup *ngIf="recommendKaf.length > 0" [label]="'Кафедра(ҳо)и пештара интихобшуда'">
                 <mat-option *ngFor="let kafedra of recommendKaf" value="{{ kafedra.shortName }}">
@@ -219,7 +219,7 @@
       </tr>
     </table>
     <mat-accordion>
-      <mat-expansion-panel class="example-full-width" [expanded]="panelOpenState">
+      <mat-expansion-panel class="full-width" [expanded]="panelOpenState">
         <mat-expansion-panel-header>
           <mat-panel-title>
             Майдонҳои иловагӣ
@@ -232,7 +232,7 @@
         <table>
           <tr>
             <td colspan="2">
-              <mat-form-field class="example-full-width">
+              <mat-form-field class="full-width">
                 <input type="number"
                        matInput
                        name="trainingPrac"
@@ -241,7 +241,7 @@
               </mat-form-field>
             </td>
             <td colspan="2">
-              <mat-form-field class="example-full-width">
+              <mat-form-field class="full-width">
                 <input type="number"
                        matInput
                        name="manuPrac"
@@ -250,7 +250,7 @@
               </mat-form-field>
             </td>
             <td colspan="2">
-              <mat-form-field class="example-full-width">
+              <mat-form-field class="full-width">
                 <input type="number"
                        matInput
                        name="diplomPrac"
@@ -261,7 +261,7 @@
           </tr>
           <tr>
             <td colspan="3">
-              <mat-form-field class="example-full-width">
+              <mat-form-field class="full-width">
                 <input type="number"
                        matInput
                        name="bachelorWork"
@@ -270,7 +270,7 @@
               </mat-form-field>
             </td>
             <td colspan="3">
-              <mat-form-field class="example-full-width">
+              <mat-form-field class="full-width">
                 <input type="number"
                        matInput
                        name="gosExam"
