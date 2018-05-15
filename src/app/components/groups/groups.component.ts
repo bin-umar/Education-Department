@@ -122,7 +122,7 @@ export class GroupsComponent implements OnInit {
         this.refreshTable();
         this.setStToDefault();
       } else {
-        console.log("Problem happened while adding new group");
+        console.log('Problem happened while adding new group');
       }
     });
   }
@@ -150,7 +150,7 @@ export class GroupsComponent implements OnInit {
         this.refreshTable();
         this.setStToDefault();
       } else {
-        console.log("Problem with updating group");
+        console.log('Problem with updating group');
       }
     });
   }
@@ -201,7 +201,7 @@ export class GroupsComponent implements OnInit {
             this.groupDatabase.dataChange.value.splice(foundIndex, 1);
             this.refreshTable();
           } else {
-            console.log("Error has been happened while deleting Group");
+            console.log('Error has been happened while deleting Group');
           }
         });
       }

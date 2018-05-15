@@ -42,7 +42,6 @@ export class StSubjectsService {
   updateSubject(subject: ISubject) {
     const body = new HttpParams()
       .set('id',        subject.id.toString())
-      .set('idStandard', subject.idStandard.toString())
       .set('idSubject', subject.name)
       .set('idType',    subject.idType.toString())
       .set('selective', subject.selective.toString())

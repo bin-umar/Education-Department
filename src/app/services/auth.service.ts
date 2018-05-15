@@ -10,8 +10,8 @@ import { CheckResponse, IAuth, UserInfo } from '../models/common';
 @Injectable()
 export class AuthService {
 
-  public host = 'http://api.techuni.lo/';
-  // public host = 'http://asu.techuni.tj/jxapi/';
+  // public host = 'http://api.techuni.lo/';
+  public host = 'http://asu.techuni.tj/jxapi/';
   public token: string;
 
   public DEGREES = ['бакалавр', 'магистр', 'PhD'];
@@ -19,23 +19,29 @@ export class AuthService {
 
   constructor(public http: HttpClient) {}
 
-  checkUserSession(user: UserInfo) {
-    const body = new HttpParams()
-      .set('uid', user.userId.toString())
-      .set('type', user.type)
-      .set('time', user.time)
-      .set('route', 'authsess')
-      .set('operation', 'custom')
-      .set('action', 'check')
-      .set('token', this.token);
+  checkUserSession(user: UserInfo): Observable<boolean> {
 
-    return this.http.post(this.host, body.toString(),
-      {
-        headers: new HttpHeaders()
-          .set('Content-Type', 'application/x-www-form-urlencoded')
-      }).map((response: CheckResponse) => {
-      return response;
-    });
+    console.log(user);
+    return this.http.get(
+      this.host + 'self.php?route=authsess&operation=custom&action=check&uid=' + user.userId
+      + '&type=' + user.type + '&time=' + user.time
+    ).map((response: IAuth) => {
+        const token = response.data.token;
+        if (token) {
+          // set token property
+          this.token = token;
+          console.log(token);
+
+          // store username and jwt token in local storage to keep user logged in between page refreshes
+          localStorage.setItem('currentUser', JSON.stringify({token: token }));
+
+          // return true to indicate successful login
+          return true;
+        } else {
+          // return false to indicate failed login
+          return false;
+        }
+      });
   }
 
   getToken(username: string, password: string): Observable<boolean> {

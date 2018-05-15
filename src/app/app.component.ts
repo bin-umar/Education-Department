@@ -31,7 +31,7 @@ export class AppComponent implements OnDestroy {
   standardsListCmp = StandardsListComponent;
   groupsComponent = GroupsComponent;
   curriculumListComponent = CurriculumListComponent;
-  component = "";
+  component = '';
   welcome = true;
 
   @ViewChild('content', {read: ViewContainerRef})
@@ -43,25 +43,10 @@ export class AppComponent implements OnDestroy {
                private mainService: MainService,
                private auth: AuthService) {
 
-    this.auth.getToken('jaxa', 'jaxa97').subscribe(result => {
-      if (result) {
-        // this.checkUser();
-      } else {
-        console.log('Username or password is incorrect');
-      }
-    });
-  }
-
-  // @HostListener('window:scroll', ['$event'])
-  // onWindowScroll($event) {
-  //   console.log(window.pageYOffset);
-  // }
-
-  checkUser() {
     const href = window.location.href;
-    if (href.indexOf("hash") !== -1) {
-      const hash = href.split("hash=")[1];
-      const data = atob(hash).split("$");
+    if (href.indexOf('hash') !== -1) {
+      const hash = href.split('hash=')[1];
+      const data = atob(hash).split('$');
 
       console.log(href);
 
@@ -72,13 +57,20 @@ export class AppComponent implements OnDestroy {
       };
 
       this.auth.checkUserSession(user).subscribe(response => {
-        if (response.error) {
-          window.location.replace("./error.html");
+        if (!response) {
+          window.location.replace('./error.html');
         }
       });
     } else {
-      window.location.replace("./error.html");
+      window.location.replace('./error.html');
     }
+
+    // this.auth.getToken('jaxa', 'jaxa97').subscribe(result => {
+    //   if (result) {
+      // } else {
+      //   console.log('Username or password is incorrect');
+      // }
+    // });
   }
 
   ngOnDestroy() {

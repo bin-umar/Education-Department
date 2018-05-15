@@ -53,8 +53,8 @@ export class StandardComponent implements OnInit {
         this.credits = [];
         this.terms = [];
 
-        const credits = item.cCredits.split(",");
-        const terms = item.cTerms.split(",");
+        const credits = item.cCredits.split(',');
+        const terms = item.cTerms.split(',');
 
         credits.forEach( (el, i) => {
           this.credits.push(+el);
@@ -115,7 +115,7 @@ export class StandardComponent implements OnInit {
 
   romanize (num) {
     if (!+num) { return false; }
-    const	digits = String(+num).split(""),
+    const	digits = String(+num).split(''),
       key = ["", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM",
         "", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC",
         "", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"];
@@ -158,7 +158,6 @@ export class StandardComponent implements OnInit {
 
   editSubject(subject: ISubject, index: number) {
     if (this.isSubjectsAvailable) {
-      console.log(this.getSubjectsById(subject.idType)[index]);
       const dialogRef = this.dialog.open(AddStandardComponent, {
         width: '600px',
         data: {
@@ -175,7 +174,7 @@ export class StandardComponent implements OnInit {
         }
       });
     } else {
-      console.error("Subjects list haven't been loaded yet!");
+      console.error('Subjects list haven\'t been loaded yet!');
     }
   }
 

@@ -1,16 +1,5 @@
-import {
-  OnInit,
-  Inject,
-  ViewChild,
-  Component,
-  ElementRef
-} from '@angular/core';
-
-import {
-  MatDialogRef,
-  MAT_DIALOG_DATA
-} from '@angular/material';
-
+import { OnInit, Inject, ViewChild, Component, ElementRef } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormControl } from '@angular/forms';
 
 import { Observable } from 'rxjs/Observable';
@@ -18,14 +7,15 @@ import { startWith } from 'rxjs/operators/startWith';
 import { map } from 'rxjs/operators/map';
 
 import { MainService } from '../../services/main.service';
-import { ISubject, ISubjectList } from '../../models/standards';
 import { StSubjectsService } from '../../services/st-subjects.service';
+import { ISubject, ISubjectList } from '../../models/standards';
 
 @Component({
   selector: 'app-add-standard',
   templateUrl: './add-standard.component.html',
   styleUrls: ['./add-standard.component.css']
 })
+
 export class AddStandardComponent implements OnInit {
 
   @ViewChild('filter') filterInput: ElementRef;
@@ -44,8 +34,8 @@ export class AddStandardComponent implements OnInit {
   data: ISubject;
   checked = false;
 
-  credits = "";
-  terms = "";
+  credits = '';
+  terms = '';
 
   constructor(public dialogRef: MatDialogRef<AddStandardComponent>,
               @Inject(MAT_DIALOG_DATA) public input: any,
@@ -65,10 +55,7 @@ export class AddStandardComponent implements OnInit {
     this.terms = this.data.creditDividing.terms.toString();
     this.checked = (this.data.selective === 1);
 
-    this.selectedSubject = {
-      id: this.data.id,
-      name: this.data.name
-    };
+    this.selectedSubject = this.options.find(x => x.name === this.data.name);
 
     this.filteredOptions = this.myControl.valueChanges
       .pipe(
@@ -96,8 +83,8 @@ export class AddStandardComponent implements OnInit {
   }
 
   confirmAddSubject(): void {
-    const credits = this.credits.split(",");
-    const terms = this.terms.split(",");
+    const credits = this.credits.split(',');
+    const terms = this.terms.split(',');
 
     if (credits.length === terms.length && credits.length > 0) {
       for (let i = 0; i < credits.length; i++) {
@@ -118,13 +105,13 @@ export class AddStandardComponent implements OnInit {
       });
 
     } else {
-      console.error("Terms isn't equal to credits. Make them equal");
+      console.error('Terms isn\'t equal to credits. Make them equal');
     }
   }
 
   confirmSavingSubject() {
-    const credits = this.credits.split(",");
-    const terms = this.terms.split(",");
+    const credits = this.credits.split(',');
+    const terms = this.terms.split(',');
 
     this.data.creditDividing.credits = [];
     this.data.creditDividing.terms = [];
@@ -145,12 +132,12 @@ export class AddStandardComponent implements OnInit {
           this.data.name = this.selectedSubject.name;
           this.dialogRef.close(this.data);
         } else {
-          console.error("Error happened while updating subject");
+          console.error('Error happened while updating subject');
         }
       });
 
     } else {
-      console.error("Terms isn't equal to credits. Make them equal");
+      console.error('Terms isn\'t equal to credits. Make them equal');
     }
   }
 

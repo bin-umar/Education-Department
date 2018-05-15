@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild, HostListener} from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild, HostListener} from '@angular/core';
 import { MatDialog } from '@angular/material';
 
 import { AddExtractionSubjectComponent } from '../../dialogs/add-extraction-subject/add-extraction-subject.component';
@@ -41,11 +41,17 @@ export class ExtractionComponent implements OnInit {
     this.extractionService.getSubjectsByExtractionId(this.Curriculum.id).subscribe(resp => {
       if (!resp.error) {
         resp.data.forEach(item => {
+
+          // if (item.terms.length >= 2) {
+          //   console.log(item);
+          // }
+
           this.subjects.push({
             id: +item.id,
             name: item.name,
             idStSubject: +item.idStSubject,
             credits: +item.credits,
+            terms: item.terms,
             auditCredits: +item.auditCredits,
             course: +item.course,
             lessonHours: +item.lessonHours,
@@ -100,7 +106,7 @@ export class ExtractionComponent implements OnInit {
             if (!data.error) {
               this.subjects.splice(i, 1);
             } else {
-              console.error("Error has been happened while deleting subject");
+              console.error('Error has been happened while deleting subject');
             }
           });
         }

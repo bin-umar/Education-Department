@@ -10,7 +10,8 @@ export interface UserInfo {
 export interface IAuth {
   error: boolean;
   data: {
-    hash: string
+    token?: string
+    hash?: string
   };
 }
 
