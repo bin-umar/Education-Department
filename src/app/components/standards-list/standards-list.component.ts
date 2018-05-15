@@ -42,7 +42,7 @@ import { Spec } from '../../models/common';
 
 export class StandardsListComponent implements OnInit {
 
-  @Output() cmpName: any = "Стандартҳо";
+  @Output() cmpName: any = 'Стандартҳо';
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('standard', {read: ViewContainerRef}) parent: ViewContainerRef;
@@ -257,6 +257,19 @@ export class StandardsListComponent implements OnInit {
         this.setStToDefault();
       } else {
         console.log("Problem with updating standard");
+      }
+    });
+  }
+
+  lockStandard(row: StandardList, status: number) {
+    this.dataService.lockStandard(row.id, status).subscribe(res => {
+      if (!res.error) {
+        const sIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.id === row.id);
+        row.locked = status;
+        this.exampleDatabase.dataChange.value.splice(sIndex, 1, row);
+
+        this.refreshTable();
+        this.setStToDefault();
       }
     });
   }

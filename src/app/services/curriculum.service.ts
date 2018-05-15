@@ -116,4 +116,22 @@ export class CurriculumService {
     });
   }
 
+
+  lockCurriculum(id: number, status: number) {
+    const body = new HttpParams()
+      .set('id', id.toString())
+      .set('status', status.toString())
+      .set('route', 'extractions')
+      .set('operation', 'custom')
+      .set('action', 'lock')
+      .set('token', this.auth.token);
+
+    return this.auth.http.post(this.auth.host, body.toString(),
+      {
+        headers: new HttpHeaders()
+          .set('Content-Type', 'application/x-www-form-urlencoded')
+      }).map((response: UpdateResponse) => {
+      return response;
+    });
+  }
 }

@@ -26,7 +26,7 @@ import { AuthService } from '../../services/auth.service';
 
 import { Spec } from '../../models/common';
 import { CurriculumList } from '../../models/curriculum';
-import { Standard } from '../../models/standards';
+import {Standard, StandardList} from '../../models/standards';
 import { DeleteDialogComponent } from '../../dialogs/delete/delete.dialog.component';
 
 @Component({
@@ -318,6 +318,19 @@ export class CurriculumListComponent implements OnInit {
         this.setStToDefault();
       } else {
         console.log("Problem with updating extraction");
+      }
+    });
+  }
+
+  lockCurriculum(row: CurriculumList, status: number) {
+    this.curriculumService.lockCurriculum(row.id, status).subscribe(res => {
+      if (!res.error) {
+        const sIndex = this.curriculumDatabase.dataChange.value.findIndex(x => x.id === row.id);
+        row.locked = status;
+        this.curriculumDatabase.dataChange.value.splice(sIndex, 1, row);
+
+        this.refreshTable();
+        this.setStToDefault();
       }
     });
   }

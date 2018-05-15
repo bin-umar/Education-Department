@@ -116,9 +116,26 @@
         <mat-icon class="md-24" [class.locked]="row.locked === 1"
                   [class.hovered-color]="row.locked === 0"
                   title="{{ (row.locked === 1) ? 'Иҷозат нест' : 'Хориҷ кардан'}}"
-                  (click)="deleteSt(row);">delete</mat-icon>
+                  (click)="deleteSt(row);">delete
+        </mat-icon>
 
-        <mat-icon class="md-24 hovered-color" (click)="openSt(row);">open_with</mat-icon>
+        <mat-icon class="md-24 hovered-color"
+                  title="Дидани фанҳои стандарт"
+                  (click)="openSt(row);">open_with
+        </mat-icon>
+
+        <mat-icon *ngIf="row.locked === 0"
+                  class="md-24 hovered-color"
+                  title="Қулф кардан (Стандарт пурра шуморида мешавад)"
+                  (click)="lockStandard(row, 1);">lock
+        </mat-icon>
+
+        <mat-icon *ngIf="row.locked === 1"
+                  class="md-24 hovered-color"
+                  title="Кушодани қулф (Стандарт нопурра шуморида мешавад)"
+                  (click)="lockStandard(row, 0);">lock_open
+        </mat-icon>
+
       </mat-cell>
     </ng-container>
 

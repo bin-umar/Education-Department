@@ -35,8 +35,8 @@ export class GroupsComponent implements OnInit {
   dataSource: GroupsDataSource | null;
   panelOpenState = false;
 
-  displayedColumns = ['number', 'name',  'degree',
-    'type', 'course', 'studentsAmount', 'educationYear', 'actions'];
+  displayedColumns = ['number', 'name', 'course', 'degree', 'type',
+    'subgroup', 'subgroup2', 'studentsAmount', 'educationYear', 'actions'];
 
   myControl: FormControl = new FormControl();
   filteredOptions: Observable<Spec[]>;
@@ -94,6 +94,8 @@ export class GroupsComponent implements OnInit {
       degree: null,
       type: null,
       course: null,
+      subgroup: null,
+      subgroup2: null,
       studentsAmount: null,
       educationYear: null
     };
@@ -111,6 +113,8 @@ export class GroupsComponent implements OnInit {
           degree: this.auth.DEGREES[this.group.degree],
           type: this.auth.TYPES[this.group.type],
           course: this.group.course,
+          subgroup: this.group.subgroup,
+          subgroup2: this.group.subgroup2,
           studentsAmount: this.group.studentsAmount,
           educationYear: (+this.group.educationYear - 2000).toString()
         });
@@ -137,6 +141,8 @@ export class GroupsComponent implements OnInit {
           degree: this.auth.DEGREES[this.group.degree],
           type: this.auth.TYPES[this.group.type],
           course: this.group.course,
+          subgroup: this.group.subgroup,
+          subgroup2: this.group.subgroup2,
           studentsAmount: this.group.studentsAmount,
           educationYear: (+this.group.educationYear - 2000).toString()
         });
@@ -170,6 +176,8 @@ export class GroupsComponent implements OnInit {
       degree: dIndex.toString(),
       type: tIndex.toString(),
       course: row.course,
+      subgroup: row.subgroup,
+      subgroup2: row.subgroup2,
       studentsAmount: row.studentsAmount,
       educationYear: 20 + row.educationYear
     };

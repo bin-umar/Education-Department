@@ -73,6 +73,8 @@ export interface IGroup {
   degree: string;
   type: string;
   course: number;
+  subgroup: number;
+  subgroup2: number;
   studentsAmount: number;
   educationYear: string;
 }

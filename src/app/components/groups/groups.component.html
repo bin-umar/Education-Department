@@ -109,6 +109,16 @@
       <mat-cell *matCellDef="let row"> {{row.studentsAmount}} </mat-cell>
     </ng-container>
 
+    <ng-container matColumnDef="subgroup">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Зергурӯҳҳо (асосӣ) </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.subgroup}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="subgroup2">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Зергурӯҳҳо<sup style="color: red;">*</sup> </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.subgroup2}} </mat-cell>
+    </ng-container>
+
     <ng-container matColumnDef="educationYear">
       <mat-header-cell *matHeaderCellDef mat-sort-header> Соли таҳсил </mat-header-cell>
       <mat-cell *matCellDef="let row"> {{row.educationYear | educationYear}} </mat-cell>
@@ -119,8 +129,9 @@
       <mat-cell *matCellDef="let row;">
         <input type="number" value="{{row.id}}" hidden #id>
 
-        <mat-icon class="md-24 hovered-color" (click)="editGroup(row)">edit</mat-icon>
-        <mat-icon class="md-24 hovered-color" (click)="deleteGroup(row)">delete</mat-icon>
+        <mat-icon class="md-24 hovered-color" title="Тағйир додани гурӯҳ" (click)="editGroup(row)">edit</mat-icon>
+        <mat-icon class="md-24 hovered-color" title="Хориҷ кардани гурӯҳ" (click)="deleteGroup(row)">delete</mat-icon>
+        <mat-icon class="md-24 hovered-color" title="Сохтани сарборӣ" (click)="deleteGroup(row)">add</mat-icon>
 
       </mat-cell>
     </ng-container>

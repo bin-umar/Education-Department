@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
-
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-
 import { AuthService } from './auth.service';
-
 import { GroupResponse, IGroup, ResponseAdd, UpdateResponse } from '../models/common';
 
 @Injectable()
@@ -22,26 +19,28 @@ export class GroupsService {
     this.httpClient.get<GroupResponse>(
       this.auth.host + 'self.php?route=groups&operation=list&token=' + this.auth.token
     ).subscribe(response => {
-        const groups: IGroup[] = [];
-        response.data.forEach( (item, i) => {
-          groups.push({
-            id: item.id,
-            idSpec: item.idSpec,
-            number: i + 1,
-            name: item.name,
-            degree: this.auth.DEGREES[Number(item.degree)],
-            type: this.auth.TYPES[Number(item.type)],
-            course: item.course,
-            studentsAmount: item.studentsAmount,
-            educationYear: item.educationYear
-          });
+      const groups: IGroup[] = [];
+      response.data.forEach( (item, i) => {
+        groups.push({
+          id: +item.id,
+          idSpec: item.idSpec,
+          number: i + 1,
+          name: item.name,
+          degree: this.auth.DEGREES[+item.degree],
+          type: this.auth.TYPES[+item.type],
+          course: +item.course,
+          subgroup: +item.subgroup,
+          subgroup2: +item.subgroup2,
+          studentsAmount: +item.studentsAmount,
+          educationYear: item.educationYear
         });
-
-        this.dataChange.next(groups);
-      },
-      (error: HttpErrorResponse) => {
-        console.log (error.name + ' ' + error.message);
       });
+
+      this.dataChange.next(groups);
+    },
+    (error: HttpErrorResponse) => {
+      console.log (error.name + ' ' + error.message);
+    });
   }
 
   addGroup(group: IGroup) {
@@ -52,6 +51,8 @@ export class GroupsService {
       .set('degree', group.degree)
       .set('type', group.type)
       .set('course', group.course.toString())
+      .set('subgroup', group.subgroup.toString())
+      .set('subgroup2', group.subgroup2.toString())
       .set('studentsAmount', group.studentsAmount.toString())
       .set('educationYear', group.educationYear.toString())
       .set('route', 'groups')
@@ -75,6 +76,8 @@ export class GroupsService {
       .set('degree', group.degree)
       .set('type', group.type)
       .set('course', group.course.toString())
+      .set('subgroup', group.subgroup.toString())
+      .set('subgroup2', group.subgroup2.toString())
       .set('studentsAmount', group.studentsAmount.toString())
       .set('educationYear', group.educationYear.toString())
       .set('route', 'groups')
