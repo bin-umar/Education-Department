@@ -1,7 +1,7 @@
 <div mat-dialog-title>
   <div *ngIf="add">Иловакунии фанни нав</div>
   <div *ngIf="!add">Тағйирдиҳии фанни иқтибос</div>
-  <div *ngIf="error" class="text-danger text-right error">Соатҳои дарсӣ ба суммаи ҳамагӣ баробар нест!</div>
+  <div *ngIf="error" class="text-danger text-right error">{{errorText}}</div>
 </div>
 
 <div mat-dialog-content>

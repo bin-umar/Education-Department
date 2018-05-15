@@ -110,7 +110,7 @@
       <ng-template ngFor let-i="index" let-subject [ngForOf]="getSubjectsByTerm(semester)">
         <tr>
           <td>{{ i + 1 }}</td>
-          <td>{{ subject.name }}</td>
+          <td class="text-left" style="padding-left: 10px;">{{ subject.name }}</td>
           <td>
             <span *ngIf="subject.credits !== 0 ">{{ subject.credits }}</span>
           </td>

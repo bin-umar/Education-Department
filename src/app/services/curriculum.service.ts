@@ -63,7 +63,7 @@ export class CurriculumService {
       .set('course', curriculum.course.toString())
       .set('degree', curriculum.degree.toString())
       .set('type',   curriculum.type.toString())
-      .set('educationYear', curriculum.educationYear.toString())
+      .set('educationYear', (+curriculum.educationYear - 2000).toString())
       .set('idStandard', curriculum.idStandard.toString())
       .set('route', 'extractions')
       .set('operation', 'insert')

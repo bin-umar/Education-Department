@@ -5,7 +5,7 @@ import {
   ViewContainerRef,
   ViewChild,
   ComponentFactoryResolver,
-  ComponentRef, HostListener
+  ComponentRef
 } from '@angular/core';
 
 import { StandardsListComponent } from './components/standards-list/standards-list.component';

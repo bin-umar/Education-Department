@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
 
-import { CheckResponse, IAuth, UserInfo } from '../models/common';
+import { IAuth, UserInfo } from '../models/common';
 
 @Injectable()
 export class AuthService {
@@ -21,7 +21,6 @@ export class AuthService {
 
   checkUserSession(user: UserInfo): Observable<boolean> {
 
-    console.log(user);
     return this.http.get(
       this.host + 'self.php?route=authsess&operation=custom&action=check&uid=' + user.userId
       + '&type=' + user.type + '&time=' + user.time

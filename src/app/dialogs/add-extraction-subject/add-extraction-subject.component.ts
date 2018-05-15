@@ -16,6 +16,7 @@ export class AddExtractionSubjectComponent implements OnInit {
   panelOpenState = false;
   add = true;
   error = false;
+  errorText = '';
 
   data: ExtractionSubject;
   kafedras: Kafedra[] = [];
@@ -46,9 +47,17 @@ export class AddExtractionSubjectComponent implements OnInit {
   total(subject: ExtractionSubject) {
     subject.total =  +subject.lkTotal + +subject.lkPlan + +subject.smTotal +
       +subject.smPlan + +subject.lbPlan + +subject.lbTotal +
-      +subject.prTotal + +subject.prTotal + +subject.trainingPrac +
+      +subject.prPlan + +subject.prTotal + +subject.trainingPrac +
       +subject.manuPrac + +subject.diplomPrac + +subject.bachelorWork +
       +subject.gosExam;
+  }
+
+  showError(text: string) {
+    this.error = true;
+    this.errorText = text;
+    setTimeout(() => {
+      this.error = false;
+    }, 3000);
   }
 
   confirmSavingSubject() {
@@ -57,22 +66,24 @@ export class AddExtractionSubjectComponent implements OnInit {
     if (this.data.lessonHours === this.data.total) {
 
       const kafedra = this.kafedras.find(x => x.shortName === this.data.kfName);
-      this.data.kfName = kafedra.id.toString();
 
-      this.extractionService.updateSubject(this.data).subscribe( resp => {
-        if (!resp.error) {
-          this.data.kfName = kafedra.shortName;
-          this.dialogRef.close(this.data);
-        } else {
-          console.error("Error happened while updating subject");
-        }
-      });
+      if (!kafedra) {
+        this.showError('Интихоби кафедра ҳатмист!');
+      } else {
+        this.data.kfName = kafedra.id.toString();
+
+        this.extractionService.updateSubject(this.data).subscribe( resp => {
+          if (!resp.error) {
+            this.data.kfName = kafedra.shortName;
+            this.dialogRef.close(this.data);
+          } else {
+            console.error('Error happened while updating subject');
+          }
+        });
+      }
 
     } else {
-      this.error = true;
-      setTimeout(() => {
-        this.error = false;
-      }, 3000);
+      this.showError('Соатҳои дарсӣ ба суммаи ҳамагӣ баробар нест!');
     }
   }
 
