@@ -58,36 +58,39 @@ export class ExtractionComponent implements OnInit {
               exam = (exams === undefined ? '' : exams[i] );
               kmd = (kmds === undefined ? '' : kmds[i]);
 
-              this.subjects.push({
-                id: +item.id,
-                name: item.name,
-                idStSubject: +item.idStSubject,
-                credits: +el,
-                terms: +terms[i],
-                auditCredits: +item.auditCredits,
-                course: +item.course,
-                lessonHours: +item.lessonHours,
-                exam: exam,
-                kmd: kmd,
-                courseProject: +item.courseProject,
-                courseWork: +item.courseWork,
-                lkPlan: +item.lkPlan,
-                lkTotal: +item.lkTotal,
-                lbPlan: +item.lbPlan,
-                lbTotal: +item.lbTotal,
-                prPlan: +item.prPlan,
-                prTotal: +item.prTotal,
-                smPlan: +item.smPlan,
-                smTotal: +item.smTotal,
-                trainingPrac: +item.trainingPrac,
-                manuPrac: +item.manuPrac,
-                diplomPrac: +item.diplomPrac,
-                bachelorWork: +item.bachelorWork,
-                gosExam: +item.gosExam,
-                total: this.total(item),
-                kfName: item.kfName,
-                selective: +item.selective
-              });
+              if ((1 + (+item.course - 1) * 2 === +terms[i]) ||
+                  (2 + (+item.course - 1) * 2 === +terms[i])) {
+                this.subjects.push({
+                  id: +item.id,
+                  name: item.name,
+                  idStSubject: +item.idStSubject,
+                  credits: +el,
+                  terms: +terms[i],
+                  auditCredits: +item.auditCredits,
+                  course: +item.course,
+                  lessonHours: +item.lessonHours,
+                  exam: exam,
+                  kmd: kmd,
+                  courseProject: +item.courseProject,
+                  courseWork: +item.courseWork,
+                  lkPlan: +item.lkPlan,
+                  lkTotal: +item.lkTotal,
+                  lbPlan: +item.lbPlan,
+                  lbTotal: +item.lbTotal,
+                  prPlan: +item.prPlan,
+                  prTotal: +item.prTotal,
+                  smPlan: +item.smPlan,
+                  smTotal: +item.smTotal,
+                  trainingPrac: +item.trainingPrac,
+                  manuPrac: +item.manuPrac,
+                  diplomPrac: +item.diplomPrac,
+                  bachelorWork: +item.bachelorWork,
+                  gosExam: +item.gosExam,
+                  total: this.total(item),
+                  kfName: item.kfName,
+                  selective: +item.selective
+                });
+              }
             });
           } else {
             this.subjects.push({
@@ -95,7 +98,7 @@ export class ExtractionComponent implements OnInit {
               name: item.name,
               idStSubject: +item.idStSubject,
               credits: +item.credits,
-              terms: item.terms,
+              terms: +item.terms,
               auditCredits: +item.auditCredits,
               course: +item.course,
               lessonHours: +item.lessonHours,
@@ -122,6 +125,7 @@ export class ExtractionComponent implements OnInit {
             });
           }
         });
+        console.log(this.subjects);
       }
     });
   }

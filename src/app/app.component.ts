@@ -15,6 +15,7 @@ import { CurriculumListComponent } from './components/curriculum-list/curriculum
 import { MainService } from './services/main.service';
 import { AuthService } from './services/auth.service';
 import { UserInfo } from './models/common';
+import {SubjectsComponent} from "./components/subjects/subjects.component";
 
 @Component({
   selector: 'app-root',
@@ -23,12 +24,14 @@ import { UserInfo } from './models/common';
   entryComponents: [
     StandardsListComponent,
     GroupsComponent,
-    CurriculumListComponent
+    CurriculumListComponent,
+    SubjectsComponent
   ]
 })
 export class AppComponent implements OnDestroy {
 
   standardsListCmp = StandardsListComponent;
+  subjectsComponent = SubjectsComponent;
   groupsComponent = GroupsComponent;
   curriculumListComponent = CurriculumListComponent;
   component = '';

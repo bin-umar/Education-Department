@@ -73,7 +73,7 @@ export class MainService {
       this.auth.host + 'self.php?route=subtype&operation=list&token=' + this.auth.token
     ).map((response: ResSubType) => {
       if (!response.error) {
-
+        this.subjectTypes = [];
         response.data.forEach(item => {
           this.subjectTypes.push({
             id: +item.id,

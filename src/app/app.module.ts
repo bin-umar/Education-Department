@@ -38,6 +38,7 @@ import { DeleteDialogComponent } from './dialogs/delete/delete.dialog.component'
 import { AddStandardComponent } from './dialogs/add-standard/add-standard.component';
 import { GetNamePipe } from './pipes/get-name.pipe';
 import { EducationYearPipe } from './pipes/education-year.pipe';
+import { SubjectsComponent } from './components/subjects/subjects.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { EducationYearPipe } from './pipes/education-year.pipe';
     ExtractionComponent,
     AddExtractionSubjectComponent,
     GetNamePipe,
-    EducationYearPipe
+    EducationYearPipe,
+    SubjectsComponent
   ],
   imports: [
     BrowserModule,
