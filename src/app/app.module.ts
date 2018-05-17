@@ -17,7 +17,8 @@ import {
   MatExpansionModule,
   MatButtonModule,
   MatDialogModule,
-  MatCheckboxModule
+  MatCheckboxModule,
+  MatTooltipModule
 } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -75,7 +76,8 @@ import { SubjectsComponent } from './components/subjects/subjects.component';
     MatExpansionModule,
     MatButtonModule,
     MatDialogModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatTooltipModule
   ],
   entryComponents: [
     AddStandardComponent,

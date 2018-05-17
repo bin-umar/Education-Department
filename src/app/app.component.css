@@ -298,3 +298,7 @@ figure:hover{
   color: #ff5a60 !important;
   margin-bottom: 0;
 }
+
+/deep/ .mat-tooltip {
+  font-size: 13px;
+}

@@ -21,3 +21,23 @@
 .sixteen-width { width: 16.6%; }
 
 .twenty-one-width { width: 21%; }
+
+.mat-column-number {
+  flex: 0 0 40px;
+}
+
+.mat-column-name_tj {
+  flex: 0 0 35%;
+}
+
+.mat-column-name_ru {
+  flex: 0 0 25%;
+}
+
+.mat-column-actions {
+  flex: 0 0 150px;
+}
+
+.mat-column-subjects_actions {
+  flex: 0 0 90px;
+}

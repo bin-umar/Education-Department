@@ -75,13 +75,18 @@
       <mat-cell *matCellDef="let row"> {{row.shortname_ru}} </mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="actions">
+    <ng-container matColumnDef="subjects_actions">
       <mat-header-cell *matHeaderCellDef mat-sort-header> Амалиёт </mat-header-cell>
       <mat-cell *matCellDef="let row;">
         <input type="number" value="{{row.id}}" hidden #id>
 
-        <mat-icon class="md-24 hovered-color" title="Тағйир додани фан" (click)="editSubject(row)">edit</mat-icon>
-        <mat-icon class="md-24 hovered-color" title="Хориҷ кардани фан" (click)="deleteSubject(row)">delete</mat-icon>
+        <mat-icon class="md-24 hovered-color" matTooltip="Тағйир додани фан" (click)="editSubject(row)">edit</mat-icon>
+        <mat-icon class="md-24 hovered-color"
+                  [class.locked]="row.removable > 0"
+                  [class.hovered-color]="row.removable === 0"
+                  matTooltip="{{ (row.removable > 0) ? 'Фанн дар ' + row.removable + ' стандарт истифода шудааст.' +
+                  'Аз ин сабаб хориҷ кардан ғайриимкон аст' : 'Хориҷ кардани фан'}}"
+                  (click)="deleteSubject(row)">delete</mat-icon>
 
       </mat-cell>
     </ng-container>

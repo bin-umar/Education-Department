@@ -189,7 +189,7 @@
             <mat-icon (click)="editSubject(subject)" class="md-18 hovered-color">edit</mat-icon>
             <mat-icon class="md-18" [class.locked]="subject.selective === 0"
                       [class.hovered-color]="subject.selective === 1"
-                      title="{{ (subject.selective === 0) ? 'Иҷозат нест' : 'Хориҷ кардан'}}"
+                      matTooltip="{{ (subject.selective === 0) ? 'Иҷозат нест' : 'Хориҷ кардан'}}"
                       (click)="deleteSubject(subject)"
             >delete</mat-icon>
           </td>

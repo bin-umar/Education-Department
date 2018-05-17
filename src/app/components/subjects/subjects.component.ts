@@ -32,7 +32,7 @@ export class SubjectsComponent implements OnInit {
   dataSource: SubjectsDataSource | null;
   panelOpenState = false;
 
-  displayedColumns = ['number', 'name_tj', 'name_ru', 'shortname_tj', 'shortname_ru', 'actions'];
+  displayedColumns = ['number', 'name_tj', 'name_ru', 'shortname_tj', 'shortname_ru', 'subjects_actions'];
 
   add = true;
   subject: ISubject;
@@ -58,7 +58,8 @@ export class SubjectsComponent implements OnInit {
       name_tj: '',
       name_ru: '',
       shortname_ru: '',
-      shortname_tj: ''
+      shortname_tj: '',
+      removable: 0
     };
   }
 
@@ -71,7 +72,8 @@ export class SubjectsComponent implements OnInit {
           name_tj: this.subject.name_tj,
           name_ru: this.subject.name_ru,
           shortname_ru: this.subject.shortname_ru,
-          shortname_tj: this.subject.shortname_tj
+          shortname_tj: this.subject.shortname_tj,
+          removable: this.subject.removable
         });
 
         this.refreshTable();
@@ -93,7 +95,8 @@ export class SubjectsComponent implements OnInit {
           name_tj: this.subject.name_tj,
           name_ru: this.subject.name_ru,
           shortname_ru: this.subject.shortname_ru,
-          shortname_tj: this.subject.shortname_tj
+          shortname_tj: this.subject.shortname_tj,
+          removable: this.subject.removable
         });
 
         this.refreshTable();
@@ -114,33 +117,36 @@ export class SubjectsComponent implements OnInit {
       name_tj: row.name_tj,
       name_ru: row.name_ru,
       shortname_ru: row.shortname_ru,
-      shortname_tj: row.shortname_tj
+      shortname_tj: row.shortname_tj,
+      removable: row.removable
     };
   }
 
   deleteSubject(row: ISubject) {
-    const dialogRef = this.dialog.open(DeleteDialogComponent, {
-      width: '500px',
-      data: {
-        data: row,
-        type: 'subjects'
-      }
-    });
+    if (row.removable < 0) {
+      const dialogRef = this.dialog.open(DeleteDialogComponent, {
+        width: '500px',
+        data: {
+          data: row,
+          type: 'subjects'
+        }
+      });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result === 1) {
-        this.subjectsService.deleteSubject(row.id).subscribe( data => {
-          if (!data.error) {
-            const foundIndex = this.subjectDatabase.dataChange.value.findIndex(x => x.id === row.id);
+      dialogRef.afterClosed().subscribe(result => {
+        if (result === 1) {
+          this.subjectsService.deleteSubject(row.id).subscribe( data => {
+            if (!data.error) {
+              const foundIndex = this.subjectDatabase.dataChange.value.findIndex(x => x.id === row.id);
 
-            this.subjectDatabase.dataChange.value.splice(foundIndex, 1);
-            this.refreshTable();
-          } else {
-            console.log('Error has been happened while deleting Subject');
-          }
-        });
-      }
-    });
+              this.subjectDatabase.dataChange.value.splice(foundIndex, 1);
+              this.refreshTable();
+            } else {
+              console.log('Error has been happened while deleting Subject');
+            }
+          });
+        }
+      });
+    }
   }
 
   private refreshTable() {

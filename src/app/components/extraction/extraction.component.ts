@@ -199,8 +199,6 @@ export class ExtractionComponent implements OnInit {
       +subject.manuPrac + +subject.diplomPrac + +subject.bachelorWork +
       +subject.gosExam;
 
-    console.log(subject);
-    console.log(result);
     subject.total = result;
     return result;
   }

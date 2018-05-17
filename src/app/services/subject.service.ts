@@ -29,7 +29,8 @@ export class SubjectService {
             name_tj: item.name_tj,
             name_ru: item.name_ru,
             shortname_tj: item.shortname_tj,
-            shortname_ru: item.shortname_ru
+            shortname_ru: item.shortname_ru,
+            removable: +item.removable
           });
         });
 

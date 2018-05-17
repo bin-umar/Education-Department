@@ -96,6 +96,7 @@ export interface ISubject {
   name_ru: string;
   shortname_tj: string;
   shortname_ru: string;
+  removable: number;
 }
 
 export interface SubjectResponse {
