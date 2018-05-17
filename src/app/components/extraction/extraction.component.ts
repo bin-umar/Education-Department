@@ -125,7 +125,6 @@ export class ExtractionComponent implements OnInit {
             });
           }
         });
-        console.log(this.subjects);
       }
     });
   }
@@ -194,12 +193,14 @@ export class ExtractionComponent implements OnInit {
   }
 
   total(subject: ExtractionSubject) {
-    const result =  +subject.lkTotal + +subject.lkPlan + +subject.smTotal +
+    const result = +subject.lkTotal + +subject.lkPlan + +subject.smTotal +
       +subject.smPlan + +subject.lbPlan + +subject.lbTotal +
-      +subject.prTotal + +subject.prTotal + +subject.trainingPrac +
+      +subject.prPlan + +subject.prTotal + +subject.trainingPrac +
       +subject.manuPrac + +subject.diplomPrac + +subject.bachelorWork +
       +subject.gosExam;
 
+    console.log(subject);
+    console.log(result);
     subject.total = result;
     return result;
   }

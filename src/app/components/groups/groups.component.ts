@@ -36,7 +36,7 @@ export class GroupsComponent implements OnInit {
   panelOpenState = false;
 
   displayedColumns = ['number', 'name', 'course', 'degree', 'type',
-    'subgroup', 'subgroup2', 'studentsAmount', 'educationYear', 'actions'];
+    'studentsAmount', 'subgroup', 'subgroup2', 'educationYear', 'actions'];
 
   myControl: FormControl = new FormControl();
   filteredOptions: Observable<Spec[]>;

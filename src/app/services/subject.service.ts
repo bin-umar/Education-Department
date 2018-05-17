@@ -1,8 +1,99 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+
+import { AuthService } from './auth.service';
+import { ISubject, ResponseAdd, SubjectResponse, UpdateResponse } from '../models/common';
 
 @Injectable()
 export class SubjectService {
 
-  constructor() { }
+  dataChange: BehaviorSubject<ISubject[]> = new BehaviorSubject<ISubject[]>([]);
+
+  constructor (private httpClient: HttpClient,
+               private auth: AuthService) {}
+
+  get data(): ISubject[] {
+    return this.dataChange.value;
+  }
+
+  getAllSubjects(): void {
+    this.httpClient.get<SubjectResponse>(
+      this.auth.host + 'self.php?route=subjects&operation=one&id=1&token=' + this.auth.token
+    ).subscribe(response => {
+        const subjects: ISubject[] = [];
+        response.data.forEach( (item, i) => {
+          subjects.push({
+            id: +item.id,
+            number: i + 1,
+            name_tj: item.name_tj,
+            name_ru: item.name_ru,
+            shortname_tj: item.shortname_tj,
+            shortname_ru: item.shortname_ru
+          });
+        });
+
+        this.dataChange.next(subjects);
+      },
+      (error: HttpErrorResponse) => {
+        console.log (error.name + ' ' + error.message);
+      });
+  }
+
+  addSubject(subject: ISubject) {
+    const body = new HttpParams()
+      .set('id', '')
+      .set('name_tj', subject.name_tj)
+      .set('name_ru', subject.name_ru)
+      .set('shortname_tj', subject.shortname_tj)
+      .set('shortname_ru', subject.shortname_ru)
+      .set('route', 'subjects')
+      .set('operation', 'insert')
+      .set('token', this.auth.token);
+
+    return this.auth.http.post(this.auth.host, body.toString(),
+      {
+        headers: new HttpHeaders()
+          .set('Content-Type', 'application/x-www-form-urlencoded')
+      }).map((response: ResponseAdd) => {
+      return response;
+    });
+  }
+
+  updateSubject(subject: ISubject) {
+    const body = new HttpParams()
+      .set('id', subject.id.toString())
+      .set('name_tj', subject.name_tj)
+      .set('name_ru', subject.name_ru)
+      .set('shortname_tj', subject.shortname_tj)
+      .set('shortname_ru', subject.shortname_ru)
+      .set('route', 'subjects')
+      .set('operation', 'update')
+      .set('token', this.auth.token);
+
+    return this.auth.http.post(this.auth.host, body.toString(),
+      {
+        headers: new HttpHeaders()
+          .set('Content-Type', 'application/x-www-form-urlencoded')
+      }).map((response: UpdateResponse) => {
+      return response;
+    });
+  }
+
+  deleteSubject (id: number) {
+    const body = new HttpParams()
+      .set('id', id.toString())
+      .set('route', 'subjects')
+      .set('operation', 'remove')
+      .set('token', this.auth.token);
+
+    return this.auth.http.post(this.auth.host, body.toString(),
+      {
+        headers: new HttpHeaders()
+          .set('Content-Type', 'application/x-www-form-urlencoded')
+      }).map((response: UpdateResponse) => {
+      return response;
+    });
+  }
 
 }

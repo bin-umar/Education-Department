@@ -1,149 +1,98 @@
-<!--<mat-accordion>-->
-  <!--<mat-expansion-panel [expanded]="panelOpenState"-->
-                       <!--(opened)="panelOpenState = true"-->
-                       <!--(closed)="panelOpenState = false; setStToDefault()">-->
-    <!--<mat-expansion-panel-header>-->
-      <!--<mat-panel-title>-->
-        <!--Иловакунии гурӯҳ-->
-      <!--</mat-panel-title>-->
-    <!--</mat-expansion-panel-header>-->
+<mat-accordion>
+  <mat-expansion-panel [expanded]="panelOpenState"
+                       (opened)="panelOpenState = true"
+                       (closed)="panelOpenState = false; setStToDefault()">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Иловакунии фанн
+      </mat-panel-title>
+    </mat-expansion-panel-header>
 
-    <!--<form class="example-form" #formControl="ngForm">-->
-      <!--<mat-form-field class="eighty-width">-->
-        <!--<input matInput name="special" [(ngModel)]="selectedSpec"-->
-               <!--placeholder="Ихтисос" aria-label="Number" [formControl]="myControl"-->
-               <!--[matAutocomplete]="auto" value="" required>-->
-        <!--<mat-autocomplete  #auto="matAutocomplete" [displayWith]="displayFn">-->
-          <!--<mat-option *ngFor="let option of filteredOptions | async" [value]="option">-->
-            <!--{{ option.fSpec_Shifr + " " + option.fSpec_NameTaj }}-->
-          <!--</mat-option>-->
-        <!--</mat-autocomplete>-->
-      <!--</mat-form-field>-->
+    <form class="example-form">
+      <mat-form-field class="eighty-width">
+        <input type="text" name="name_tj" [(ngModel)]="subject.name_tj" matInput
+               placeholder="Номи тоҷикӣ (пурра)" required>
+      </mat-form-field>
 
-      <!--<mat-form-field class="twenty-width">-->
-        <!--<input type="text" name="name" [(ngModel)]="group.name" matInput-->
-               <!--placeholder="Номи гурӯҳ" required>-->
-      <!--</mat-form-field>-->
+      <mat-form-field class="twenty-width">
+        <input type="text" name="shortname_tj" [(ngModel)]="subject.shortname_tj" matInput
+               placeholder="Номи тоҷикӣ (кӯтоҳ)">
+      </mat-form-field>
 
-      <!--<mat-form-field class="sixteen-width">-->
-        <!--<mat-select [(value)]="group.degree"-->
-                    <!--placeholder="Дараҷаи таҳсилот" required>-->
-          <!--<mat-option value="0">бакалавр</mat-option>-->
-          <!--<mat-option value="1">магистр</mat-option>-->
-          <!--<mat-option value="2">PhD</mat-option>-->
-        <!--</mat-select>-->
-      <!--</mat-form-field>-->
+      <mat-form-field class="eighty-width">
+        <input type="text" name="name_ru" [(ngModel)]="subject.name_ru" matInput
+               placeholder="Номи русӣ (пурра)">
+      </mat-form-field>
 
-      <!--<mat-form-field class="sixteen-width">-->
-        <!--<mat-select [(value)]="group.type"-->
-                    <!--placeholder="Шакли таҳсил" required>-->
-          <!--<mat-option value="0">рӯзона</mat-option>-->
-          <!--<mat-option value="1">ғоибона</mat-option>-->
-          <!--<mat-option value="2">фосилавӣ</mat-option>-->
-        <!--</mat-select>-->
-      <!--</mat-form-field>-->
+      <mat-form-field class="twenty-width">
+        <input type="text" name="shortname_ru" [(ngModel)]="subject.shortname_ru" matInput
+               placeholder="Номи русӣ (кӯтоҳ)">
+      </mat-form-field>
 
-      <!--<mat-form-field class="sixteen-width">-->
-        <!--<input type="number" name="course" [(ngModel)]="group.course" matInput-->
-               <!--placeholder="Курс" required>-->
-      <!--</mat-form-field>-->
+      <div class="text-right">
+        <button [hidden]="!add" (click)="addSubject();" mat-raised-button class="bg-dark text-colored">
+          <mat-icon>add_circle_outline</mat-icon> Илова намудан
+        </button>
+        <button [hidden]="add" (click)="saveModifiedSubject();" mat-raised-button class="bg-dark text-colored">
+          <mat-icon>save</mat-icon> Сабт кардан
+        </button>
+      </div>
+    </form>
+  </mat-expansion-panel>
+</mat-accordion>
 
-      <!--<mat-form-field class="sixteen-width">-->
-        <!--<input type="number" name="studentsAmount" [(ngModel)]="group.studentsAmount" matInput-->
-               <!--placeholder="Миқдори донишҷӯён" required>-->
-      <!--</mat-form-field>-->
+<div class="example-header">
+  <mat-form-field class="full-width">
+    <input matInput #filter placeholder="Filter">
+  </mat-form-field>
+</div>
+<div class="example-container mat-elevation-z8">
 
-      <!--<mat-form-field class="sixteen-width">-->
-        <!--<input type="number" name="educationYear" [(ngModel)]="group.educationYear" matInput-->
-               <!--placeholder="Соли таҳсил" required>-->
-      <!--</mat-form-field>-->
+  <mat-table class="table-hover" [(dataSource)]="dataSource" matSort>
 
-      <!--<span class="text-right">-->
-        <!--<button [hidden]="!add" [disabled]="!formControl.valid" (click)="addGroup();" mat-raised-button class="bg-dark text-colored">-->
-          <!--<mat-icon>add_circle_outline</mat-icon> Илова намудан-->
-        <!--</button>-->
-        <!--<button [hidden]="add" (click)="saveModifiedGroup();" mat-raised-button class="bg-dark text-colored">-->
-          <!--<mat-icon>save</mat-icon> Сабт кардан-->
-        <!--</button>-->
-      <!--</span>-->
-    <!--</form>-->
-  <!--</mat-expansion-panel>-->
-<!--</mat-accordion>-->
+    <ng-container matColumnDef="number">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> № </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.number}} </mat-cell>
+    </ng-container>
 
-<!--<div class="example-header">-->
-  <!--<mat-form-field class="full-width">-->
-    <!--<input matInput #filter placeholder="Filter">-->
-  <!--</mat-form-field>-->
-<!--</div>-->
-<!--<div class="example-container mat-elevation-z8">-->
+    <ng-container matColumnDef="name_tj">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Номи тоҷикӣ (пурра) </mat-header-cell>
+      <mat-cell *matCellDef="let row;"> {{row.name_tj}} </mat-cell>
+    </ng-container>
 
-  <!--<mat-table class="table-hover" [(dataSource)]="dataSource" matSort>-->
+    <ng-container matColumnDef="name_ru">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Номи русӣ (пурра) </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.name_ru}} </mat-cell>
+    </ng-container>
 
-    <!--<ng-container matColumnDef="number">-->
-      <!--<mat-header-cell *matHeaderCellDef mat-sort-header> № </mat-header-cell>-->
-      <!--<mat-cell *matCellDef="let row"> {{row.number}} </mat-cell>-->
-    <!--</ng-container>-->
+    <ng-container matColumnDef="shortname_tj">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Номи тоҷикӣ (кӯтоҳ) </mat-header-cell>
+      <mat-cell *matCellDef="let row">{{row.shortname_tj}} </mat-cell>
+    </ng-container>
 
-    <!--<ng-container matColumnDef="name">-->
-      <!--<mat-header-cell *matHeaderCellDef mat-sort-header> Ном </mat-header-cell>-->
-      <!--<mat-cell *matCellDef="let row;"> {{row.name}} </mat-cell>-->
-    <!--</ng-container>-->
+    <ng-container matColumnDef="shortname_ru">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Номи русӣ (кӯтоҳ) </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.shortname_ru}} </mat-cell>
+    </ng-container>
 
-    <!--<ng-container matColumnDef="degree">-->
-      <!--<mat-header-cell *matHeaderCellDef mat-sort-header> Дараҷаи таҳсилот </mat-header-cell>-->
-      <!--<mat-cell *matCellDef="let row"> {{row.degree}} </mat-cell>-->
-    <!--</ng-container>-->
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Амалиёт </mat-header-cell>
+      <mat-cell *matCellDef="let row;">
+        <input type="number" value="{{row.id}}" hidden #id>
 
-    <!--<ng-container matColumnDef="type">-->
-      <!--<mat-header-cell *matHeaderCellDef mat-sort-header> Шакли таҳсил </mat-header-cell>-->
-      <!--<mat-cell *matCellDef="let row">{{row.type}} </mat-cell>-->
-    <!--</ng-container>-->
+        <mat-icon class="md-24 hovered-color" title="Тағйир додани фан" (click)="editSubject(row)">edit</mat-icon>
+        <mat-icon class="md-24 hovered-color" title="Хориҷ кардани фан" (click)="deleteSubject(row)">delete</mat-icon>
 
-    <!--<ng-container matColumnDef="course">-->
-      <!--<mat-header-cell *matHeaderCellDef mat-sort-header> Курс </mat-header-cell>-->
-      <!--<mat-cell *matCellDef="let row"> {{row.course}} </mat-cell>-->
-    <!--</ng-container>-->
+      </mat-cell>
+    </ng-container>
 
-    <!--<ng-container matColumnDef="studentsAmount">-->
-      <!--<mat-header-cell *matHeaderCellDef mat-sort-header> Донишҷӯён </mat-header-cell>-->
-      <!--<mat-cell *matCellDef="let row"> {{row.studentsAmount}} </mat-cell>-->
-    <!--</ng-container>-->
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;">
+    </mat-row>
+  </mat-table>
 
-    <!--<ng-container matColumnDef="subgroup">-->
-      <!--<mat-header-cell *matHeaderCellDef mat-sort-header> Зергурӯҳҳо (асосӣ) </mat-header-cell>-->
-      <!--<mat-cell *matCellDef="let row"> {{row.subgroup}} </mat-cell>-->
-    <!--</ng-container>-->
-
-    <!--<ng-container matColumnDef="subgroup2">-->
-      <!--<mat-header-cell *matHeaderCellDef mat-sort-header> Зергурӯҳҳо<sup style="color: red;">*</sup> </mat-header-cell>-->
-      <!--<mat-cell *matCellDef="let row"> {{row.subgroup2}} </mat-cell>-->
-    <!--</ng-container>-->
-
-    <!--<ng-container matColumnDef="educationYear">-->
-      <!--<mat-header-cell *matHeaderCellDef mat-sort-header> Соли таҳсил </mat-header-cell>-->
-      <!--<mat-cell *matCellDef="let row"> {{row.educationYear | educationYear}} </mat-cell>-->
-    <!--</ng-container>-->
-
-    <!--<ng-container matColumnDef="actions">-->
-      <!--<mat-header-cell *matHeaderCellDef mat-sort-header> Амалиёт </mat-header-cell>-->
-      <!--<mat-cell *matCellDef="let row;">-->
-        <!--<input type="number" value="{{row.id}}" hidden #id>-->
-
-        <!--<mat-icon class="md-24 hovered-color" title="Тағйир додани гурӯҳ" (click)="editGroup(row)">edit</mat-icon>-->
-        <!--<mat-icon class="md-24 hovered-color" title="Хориҷ кардани гурӯҳ" (click)="deleteGroup(row)">delete</mat-icon>-->
-        <!--<mat-icon class="md-24 hovered-color" title="Сохтани сарборӣ">add_circle</mat-icon>-->
-        <!--&lt;!&ndash;<mat-icon class="md-24 hovered-color" title="Сохтани сарборӣ" (click)="deleteGroup(row)">done</mat-icon>&ndash;&gt;-->
-
-      <!--</mat-cell>-->
-    <!--</ng-container>-->
-
-    <!--<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>-->
-    <!--<mat-row *matRowDef="let row; columns: displayedColumns;">-->
-    <!--</mat-row>-->
-  <!--</mat-table>-->
-
-  <!--<mat-paginator [length]="dataSource.filteredData.length"-->
-                 <!--[pageIndex]="0"-->
-                 <!--[pageSize]="10"-->
-                 <!--[pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>-->
-<!--</div>-->
+  <mat-paginator [length]="dataSource.filteredData.length"
+                 [pageIndex]="0"
+                 [pageSize]="10"
+                 [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+</div>

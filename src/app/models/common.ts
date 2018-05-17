@@ -84,3 +84,21 @@ export interface GroupResponse {
   error: boolean;
   data: [IGroup];
 }
+
+/**
+ * Subjects interfaces
+ */
+
+export interface ISubject {
+  id: number;
+  number: number;
+  name_tj: string;
+  name_ru: string;
+  shortname_tj: string;
+  shortname_ru: string;
+}
+
+export interface SubjectResponse {
+  error: boolean;
+  data: [ISubject];
+}

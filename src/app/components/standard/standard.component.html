@@ -61,7 +61,7 @@
       <th *ngFor="let i of columns">{{i}}</th>
     </tr>
     <ng-template ngFor let-j="index" let-type [ngForOf]="subjectTypes">
-      <tr class="bg-eee" [class.hovered]="type.showConfigIcons && (Standard.locked === 0)">
+      <tr class="bg-eee text-total" [class.hovered]="type.showConfigIcons && (Standard.locked === 0)">
         <td colspan="2">{{romanize(j + 1) + "." + type.name}}</td>
         <td>{{ sum(type.id, 'credits') }}</td>
         <td></td>
@@ -119,7 +119,7 @@
         </div>
       </ng-template>
     </ng-template>
-    <tr class="bg-eee">
+    <tr class="bg-eee text-total">
       <td colspan="2">Ҳамагӣ</td>
       <td>{{ sum(0, 'credits') }}</td>
       <td></td>

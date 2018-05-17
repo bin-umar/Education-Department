@@ -70,9 +70,9 @@ export class AppComponent implements OnDestroy {
 
     // this.auth.getToken('jaxa', 'jaxa97').subscribe(result => {
     //   if (result) {
-      // } else {
-      //   console.log('Username or password is incorrect');
-      // }
+    //   } else {
+    //     console.log('Username or password is incorrect');
+    //   }
     // });
   }
 
