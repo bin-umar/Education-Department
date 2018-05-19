@@ -42,95 +42,58 @@ export class ExtractionComponent implements OnInit {
       if (!resp.error) {
         resp.data.forEach(item => {
 
-          if (item.terms.toString().length >= 2) {
-            const credits = item.credits.toString().split(',');
-            const terms = item.terms.toString().split(',');
-            let exams, kmds, exam, kmd;
+          const i = item.terms.split(',').indexOf(item.term.toString());
+          const credits = item.credits.toString().split(',')[i];
+          const term = item.terms.toString().split(',')[i];
+          let exams, kmds, exam, kmd;
 
-            if (item.exam.length > 1) {
-              exams = item.exam.toString().split(',');
-            } else if (item.kmd.length > 1) {
-              kmds = item.kmd.toString().split(',');
-            }
-
-            credits.forEach((el, i) => {
-
-              exam = (exams === undefined ? '' : exams[i] );
-              kmd = (kmds === undefined ? '' : kmds[i]);
-
-              if ((1 + (+item.course - 1) * 2 === +terms[i]) ||
-                  (2 + (+item.course - 1) * 2 === +terms[i])) {
-                this.subjects.push({
-                  id: +item.id,
-                  name: item.name,
-                  idStSubject: +item.idStSubject,
-                  credits: +el,
-                  terms: +terms[i],
-                  auditCredits: +item.auditCredits,
-                  course: +item.course,
-                  lessonHours: +item.lessonHours,
-                  exam: exam,
-                  kmd: kmd,
-                  courseProject: +item.courseProject,
-                  courseWork: +item.courseWork,
-                  lkPlan: +item.lkPlan,
-                  lkTotal: +item.lkTotal,
-                  lbPlan: +item.lbPlan,
-                  lbTotal: +item.lbTotal,
-                  prPlan: +item.prPlan,
-                  prTotal: +item.prTotal,
-                  smPlan: +item.smPlan,
-                  smTotal: +item.smTotal,
-                  trainingPrac: +item.trainingPrac,
-                  manuPrac: +item.manuPrac,
-                  diplomPrac: +item.diplomPrac,
-                  bachelorWork: +item.bachelorWork,
-                  gosExam: +item.gosExam,
-                  total: this.total(item),
-                  kfName: item.kfName,
-                  selective: +item.selective
-                });
-              }
-            });
-          } else {
-            this.subjects.push({
-              id: +item.id,
-              name: item.name,
-              idStSubject: +item.idStSubject,
-              credits: +item.credits,
-              terms: +item.terms,
-              auditCredits: +item.auditCredits,
-              course: +item.course,
-              lessonHours: +item.lessonHours,
-              exam: item.exam,
-              kmd: item.kmd,
-              courseProject: +item.courseProject,
-              courseWork: +item.courseWork,
-              lkPlan: +item.lkPlan,
-              lkTotal: +item.lkTotal,
-              lbPlan: +item.lbPlan,
-              lbTotal: +item.lbTotal,
-              prPlan: +item.prPlan,
-              prTotal: +item.prTotal,
-              smPlan: +item.smPlan,
-              smTotal: +item.smTotal,
-              trainingPrac: +item.trainingPrac,
-              manuPrac: +item.manuPrac,
-              diplomPrac: +item.diplomPrac,
-              bachelorWork: +item.bachelorWork,
-              gosExam: +item.gosExam,
-              total: this.total(item),
-              kfName: item.kfName,
-              selective: +item.selective
-            });
+          if (item.exam.length > 1) {
+            exams = item.exam.toString().split(',');
+          } else if (item.kmd.length > 1) {
+            kmds = item.kmd.toString().split(',');
           }
+
+          exam = (exams === undefined ? '' : exams[i] );
+          kmd = (kmds === undefined ? '' : kmds[i]);
+
+          this.subjects.push({
+            id: +item.id,
+            name: item.name,
+            idStSubject: +item.idStSubject,
+            credits: +credits,
+            terms: item.terms,
+            term: +term,
+            auditCredits: +item.auditCredits,
+            course: +item.course,
+            lessonHours: +item.lessonHours,
+            exam: exam,
+            kmd: kmd,
+            courseProject: +item.courseProject,
+            courseWork: +item.courseWork,
+            lkPlan: +item.lkPlan,
+            lkTotal: +item.lkTotal,
+            lbPlan: +item.lbPlan,
+            lbTotal: +item.lbTotal,
+            prPlan: +item.prPlan,
+            prTotal: +item.prTotal,
+            smPlan: +item.smPlan,
+            smTotal: +item.smTotal,
+            trainingPrac: +item.trainingPrac,
+            manuPrac: +item.manuPrac,
+            diplomPrac: +item.diplomPrac,
+            bachelorWork: +item.bachelorWork,
+            gosExam: +item.gosExam,
+            total: this.total(item),
+            kfName: item.kfName,
+            selective: +item.selective
+          });
         });
       }
     });
   }
 
   getSubjectsByTerm(semester: number) {
-    return this.subjects.filter(item => +item.terms - (item.course - 1) * 2 === semester);
+    return this.subjects.filter(item => +item.term - (item.course - 1) * 2 === semester);
   }
 
   deleteSubject(subject: ExtractionSubject) {
@@ -213,6 +176,7 @@ export class ExtractionComponent implements OnInit {
             idStSubject: subject.idStSubject,
             credits: subject.credits,
             terms: subject.terms,
+            term: subject.term,
             auditCredits: subject.auditCredits,
             course: subject.course,
             lessonHours: subject.lessonHours,

@@ -123,11 +123,12 @@ export class SubjectsComponent implements OnInit {
   }
 
   deleteSubject(row: ISubject) {
-    if (row.removable < 0) {
+    console.log(row);
+    if (row.removable === 0) {
       const dialogRef = this.dialog.open(DeleteDialogComponent, {
         width: '500px',
         data: {
-          data: row,
+          data: row.name_tj,
           type: 'subjects'
         }
       });

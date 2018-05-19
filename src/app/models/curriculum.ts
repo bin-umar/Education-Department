@@ -38,7 +38,8 @@ export interface ExtractionSubject {
   id: number;
   name: string;
   idStSubject: number;
-  terms: number;
+  terms: string;
+  term: number;
   credits: number;
   auditCredits: number;
   course: number;

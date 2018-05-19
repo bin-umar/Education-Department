@@ -37,6 +37,9 @@ export class AddStandardComponent implements OnInit {
   credits = '';
   terms = '';
 
+  error = false;
+  errorText = '';
+
   constructor(public dialogRef: MatDialogRef<AddStandardComponent>,
               @Inject(MAT_DIALOG_DATA) public input: any,
               private mainService: MainService,
@@ -74,71 +77,107 @@ export class AddStandardComponent implements OnInit {
     return subject ? subject.name : undefined;
   }
 
-  creditInput() {
-    console.log(this.data.credits);
-  }
-
   onNoClick(): void {
     this.dialogRef.close();
   }
 
-  confirmAddSubject(): void {
+  showError(text: string) {
+    this.error = true;
+    this.errorText = text;
+    setTimeout(() => {
+      this.error = false;
+    }, 3000);
+  }
+
+  checkValidation () {
+    const subject = this.data;
+
     const credits = this.credits.split(',');
     const terms = this.terms.split(',');
 
-    if (credits.length === terms.length && credits.length > 0) {
-      for (let i = 0; i < credits.length; i++) {
-        this.data.creditDividing.credits.push(+credits[i]);
-        this.data.creditDividing.terms.push(+terms[i]);
+    let creditSum = 0;
+
+    if (this.credits === '') {
+      this.showError('Кредитҳо холӣ ҳастанд!!!');
+    } else if (this.terms === '') {
+      this.showError('Семестрҳо холӣ ҳастанд!!!');
+    } else {
+      if (credits.length === terms.length) {
+
+        if (subject.typeOfMonitoring.goUpIWS === ''
+          && subject.typeOfMonitoring.exam === '') {
+          this.showError('Ҳам имтиҳон ва ҳам КМД холӣ будан наметавонад!!!');
+
+        } else if (subject.typeOfMonitoring.exam !== this.terms &&
+          subject.typeOfMonitoring.goUpIWS === '' &&
+          subject.typeOfMonitoring.exam !== '') {
+          this.showError('Семестрҳо ба семестрҳои имтиҳон баробар нестанд!!!');
+
+        } else if (subject.typeOfMonitoring.goUpIWS !== this.terms &&
+          subject.typeOfMonitoring.exam === '' &&
+          subject.typeOfMonitoring.goUpIWS !== '') {
+          this.showError('Семестрҳо ба семестрҳои КМД баробар нестанд!!!');
+
+        } else {
+          terms.forEach((el, i) => {
+            creditSum += +credits[i];
+          });
+
+          if (creditSum !== subject.credits ) {
+            this.showError('Суммаи кредитҳои семестрҳо ба кредитҳои умумӣ баробар нест!!!');
+          } else {
+            subject.creditDividing.credits = [];
+            subject.creditDividing.terms = [];
+            for (let i = 0; i < credits.length; i++) {
+              subject.creditDividing.credits.push(+credits[i]);
+              subject.creditDividing.terms.push(+terms[i]);
+            }
+
+            if (this.selectedSubject === undefined) {
+              this.showError('Фаннро интихоб намоед!!!');
+            } else {
+              return true;
+            }
+          }
+        }
+      } else {
+        this.showError('Кредитҳо ба семестрҳо баробар нестанд!!!');
       }
+    }
+  }
 
-      this.data.name = this.selectedSubject.id.toString();
+  confirmAddSubject(): void {
+    if (this.checkValidation()) {
+      const subject = this.data;
+      subject.name = this.selectedSubject.id.toString();
 
-      if (this.checked) { this.data.selective = 1;
+      if (this.checked) { subject.selective = 1;
       } else { this.data.selective = 0; }
 
-      this.stSubjectService.addSubject(this.data).subscribe( resp => {
-
-        this.data.id = resp.data.id;
-        this.data.name = this.selectedSubject.name;
-        this.dialogRef.close(this.data);
+      this.stSubjectService.addSubject(subject).subscribe( resp => {
+        subject.id = resp.data.id;
+        subject.name = this.selectedSubject.name;
+        this.dialogRef.close(subject);
       });
-
-    } else {
-      console.error('Terms isn\'t equal to credits. Make them equal');
     }
   }
 
   confirmSavingSubject() {
-    const credits = this.credits.split(',');
-    const terms = this.terms.split(',');
-
-    this.data.creditDividing.credits = [];
-    this.data.creditDividing.terms = [];
-
-    if (credits.length === terms.length && credits.length > 0) {
-      for (let i = 0; i < credits.length; i++) {
-        this.data.creditDividing.credits.push(+credits[i]);
-        this.data.creditDividing.terms.push(+terms[i]);
-      }
+    if (this.checkValidation()) {
+      const subject = this.data;
 
       this.data.name = this.selectedSubject.id.toString();
-
       if (this.checked) { this.data.selective = 1;
       } else { this.data.selective = 0; }
 
-      this.stSubjectService.updateSubject(this.data).subscribe( resp => {
+      this.stSubjectService.updateSubject(subject).subscribe( resp => {
         if (!resp.error) {
-          this.data.name = this.selectedSubject.name;
-          this.dialogRef.close(this.data);
+          subject.name = this.selectedSubject.name;
+          this.dialogRef.close(subject);
         } else {
           console.error('Error happened while updating subject');
         }
       });
-
-    } else {
-      console.error('Terms isn\'t equal to credits. Make them equal');
     }
   }
-
 }

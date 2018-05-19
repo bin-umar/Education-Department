@@ -1,5 +1,8 @@
-<h1 *ngIf="add" mat-dialog-title>Иловакунии фанни нав</h1>
-<h1 *ngIf="!add" mat-dialog-title>Тағйирдиҳии фанни стандарт</h1>
+<div mat-dialog-title>
+  <div *ngIf="add">Иловакунии фанни нав</div>
+  <div *ngIf="!add">Тағйирдиҳии фанни стандарт</div>
+  <div *ngIf="error" class="text-danger text-right error">{{errorText}}</div>
+</div>
 
 <div mat-dialog-content>
     <form class="example-form">
@@ -14,7 +17,7 @@
                required
                cdkFocusInitial>
 
-        <mat-autocomplete  #auto="matAutocomplete" [displayWith]="displayFn">
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
           <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
             {{ option.name }}
           </mat-option>
@@ -51,7 +54,6 @@
                      name="credits"
                      matInput
                      [(ngModel)]="data.credits"
-                     (input)="creditInput()"
                      required
                      placeholder="Ҳаҷми кредитҳо">
             </mat-form-field>

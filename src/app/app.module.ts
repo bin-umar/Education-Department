@@ -40,6 +40,8 @@ import { AddStandardComponent } from './dialogs/add-standard/add-standard.compon
 import { GetNamePipe } from './pipes/get-name.pipe';
 import { EducationYearPipe } from './pipes/education-year.pipe';
 import { SubjectsComponent } from './components/subjects/subjects.component';
+import { LoadComponent } from './components/load/load.component';
+import { LoadSubjectComponent } from './dialogs/load-subject/load-subject.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +56,9 @@ import { SubjectsComponent } from './components/subjects/subjects.component';
     AddExtractionSubjectComponent,
     GetNamePipe,
     EducationYearPipe,
-    SubjectsComponent
+    SubjectsComponent,
+    LoadComponent,
+    LoadSubjectComponent
   ],
   imports: [
     BrowserModule,

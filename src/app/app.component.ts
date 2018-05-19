@@ -46,34 +46,34 @@ export class AppComponent implements OnDestroy {
                private mainService: MainService,
                private auth: AuthService) {
 
-    const href = window.location.href;
-    if (href.indexOf('hash') !== -1) {
-      const hash = href.split('hash=')[1];
-      const data = atob(hash).split('$');
+    // const href = window.location.href;
+    // if (href.indexOf('hash') !== -1) {
+    //   const hash = href.split('hash=')[1];
+    //   const data = atob(hash).split('$');
+    //
+    //   console.log(href);
+    //
+    //   const user: UserInfo = {
+    //     userId: +data[0],
+    //     type: data[1],
+    //     time: data[2]
+    //   };
+    //
+    //   this.auth.checkUserSession(user).subscribe(response => {
+    //     if (!response) {
+    //       window.location.replace('./error.html');
+    //     }
+    //   });
+    // } else {
+    //   window.location.replace('./error.html');
+    // }
 
-      console.log(href);
-
-      const user: UserInfo = {
-        userId: +data[0],
-        type: data[1],
-        time: data[2]
-      };
-
-      this.auth.checkUserSession(user).subscribe(response => {
-        if (!response) {
-          window.location.replace('./error.html');
-        }
-      });
-    } else {
-      window.location.replace('./error.html');
-    }
-
-    // this.auth.getToken('jaxa', 'jaxa97').subscribe(result => {
-    //   if (result) {
-    //   } else {
-    //     console.log('Username or password is incorrect');
-    //   }
-    // });
+    this.auth.getToken('jaxa', 'jaxa97').subscribe(result => {
+      if (result) {
+      } else {
+        console.log('Username or password is incorrect');
+      }
+    });
   }
 
   ngOnDestroy() {
