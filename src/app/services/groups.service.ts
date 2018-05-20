@@ -16,9 +16,16 @@ export class GroupsService {
   }
 
   getAllGroups(): void {
-    this.httpClient.get<GroupResponse>(
-      this.auth.host + 'self.php?route=groups&operation=list&token=' + this.auth.token
-    ).subscribe(response => {
+    const body = new HttpParams()
+      .set('route', 'groups')
+      .set('operation', 'list')
+      .set('token', this.auth.token);
+
+    this.auth.http.post<GroupResponse>(this.auth.host, body.toString(),
+      {
+        headers: new HttpHeaders()
+          .set('Content-Type', 'application/x-www-form-urlencoded')
+      }).subscribe(response => {
       const groups: IGroup[] = [];
       response.data.forEach( (item, i) => {
         groups.push({
@@ -32,7 +39,9 @@ export class GroupsService {
           subgroup: +item.subgroup,
           subgroup2: +item.subgroup2,
           studentsAmount: +item.studentsAmount,
-          educationYear: item.educationYear
+          educationYear: item.educationYear,
+          extraction: +item.extraction,
+          load: +item.load
         });
       });
 

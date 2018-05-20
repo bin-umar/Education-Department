@@ -140,12 +140,30 @@
     <ng-container matColumnDef="actions">
       <mat-header-cell *matHeaderCellDef mat-sort-header> Амалиёт </mat-header-cell>
       <mat-cell *matCellDef="let row;">
-        <input type="number" value="{{row.id}}" hidden #id>
 
-        <mat-icon class="md-24 hovered-color" matTooltip="Тағйир додани гурӯҳ" (click)="editGroup(row)">edit</mat-icon>
-        <mat-icon class="md-24 hovered-color" matTooltip="Хориҷ кардани гурӯҳ" (click)="deleteGroup(row)">delete</mat-icon>
-        <mat-icon class="md-24 hovered-color" matTooltip="Сохтани сарборӣ">add_circle</mat-icon>
-        <!--<mat-icon class="md-24 hovered-color" matTooltip="Сохтани сарборӣ" (click)="deleteGroup(row)">done</mat-icon>-->
+        <mat-icon class="md-24"
+                  [class.locked]="row.load > 0"
+                  [class.hovered-color]="row.load === 0"
+                  matTooltip="{{ (row.load > 0) ? 'Ин гурӯҳ аллакай сарборӣ дорад' : 'Тағйир додани гурӯҳ'}}"
+                  (click)="editGroup(row)">edit</mat-icon>
+
+        <mat-icon class="md-24"
+                  [class.locked]="row.load > 0"
+                  [class.hovered-color]="row.load === 0"
+                  matTooltip="{{ (row.load > 0) ? 'Ин гурӯҳ аллакай сарборӣ дорад' : 'Хориҷ кардани гурӯҳ'}}"
+                  (click)="deleteGroup(row)">delete</mat-icon>
+
+        <mat-icon class="md-24"
+                  *ngIf="row.load === 0"
+                  [class.locked]="row.extraction === 0"
+                  [class.hovered-color]="row.extraction > 0"
+                  matTooltip="{{ (row.extraction === 0) ? 'Ин гурӯҳ иқтибос надорад' : 'Сохтани сарборӣ'}}"
+                  >add_circle</mat-icon>
+
+        <mat-icon class="md-24 hovered-color"
+                  *ngIf="row.load > 0"
+                  matTooltip="Кушодани сарбории гурӯҳ"
+                  (click)="openLoad(row); ">open_with</mat-icon>
 
       </mat-cell>
     </ng-container>
@@ -160,3 +178,5 @@
                  [pageSize]="10"
                  [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
 </div>
+
+<div #load></div>

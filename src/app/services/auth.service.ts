@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/map';
@@ -21,10 +21,19 @@ export class AuthService {
 
   checkUserSession(user: UserInfo): Observable<boolean> {
 
-    return this.http.get(
-      this.host + 'self.php?route=authsess&operation=custom&action=check&uid=' + user.userId
-      + '&type=' + user.type + '&time=' + user.time
-    ).map((response: IAuth) => {
+    const body = new HttpParams()
+      .set('uid', user.userId.toString())
+      .set('type', user.type)
+      .set('time', user.time)
+      .set('action', 'check')
+      .set('route', 'authsess')
+      .set('operation', 'custom');
+
+    return this.http.post(this.host, body.toString(),
+      {
+        headers: new HttpHeaders()
+          .set('Content-Type', 'application/x-www-form-urlencoded')
+      }).map((response: IAuth) => {
         const token = response.data.token;
         if (token) {
           // set token property

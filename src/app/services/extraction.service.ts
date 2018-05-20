@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpParams } from '@angular/common/http';
 
 import { AuthService } from './auth.service';
-
 import { UpdateResponse } from '../models/common';
 import { ExtractionSubject, KafedraRes, ResponseExtractionSubject } from '../models/curriculum';
 
@@ -12,27 +11,48 @@ export class ExtractionService {
   constructor(private auth: AuthService) { }
 
   getSubjectsByExtractionId(id: number) {
-    return this.auth.http.get(
-      this.auth.host + 'self.php?route=exsubjects&operation=one' +
-      '&id=' + id + '&token=' + this.auth.token
-    ).map((response: ResponseExtractionSubject) => {
+    const body = new HttpParams()
+      .set('id', id.toString())
+      .set('route', 'exsubjects')
+      .set('operation', 'one')
+      .set('token', this.auth.token);
+
+    return this.auth.http.post(this.auth.host, body.toString(),
+      {
+        headers: new HttpHeaders()
+          .set('Content-Type', 'application/x-www-form-urlencoded')
+      }).map((response: ResponseExtractionSubject) => {
       return response;
     });
   }
 
   getKafedras() {
-    return this.auth.http.get(
-      this.auth.host + 'self.php?route=kafedra&operation=list&token=' + this.auth.token
-    ).map((response: KafedraRes) => {
+    const body = new HttpParams()
+      .set('route', 'kafedra')
+      .set('operation', 'list')
+      .set('token', this.auth.token);
+
+    return this.auth.http.post(this.auth.host, body.toString(),
+      {
+        headers: new HttpHeaders()
+          .set('Content-Type', 'application/x-www-form-urlencoded')
+      }).map((response: KafedraRes) => {
       return response;
     });
   }
 
   getKafedraBySubjectId(id: number) {
-    return this.auth.http.get(
-      this.auth.host + 'self.php?route=kafedra&operation=one' +
-      '&id=' + id + '&token=' + this.auth.token
-    ).map((response: KafedraRes) => {
+    const body = new HttpParams()
+      .set('id', id.toString())
+      .set('route', 'kafedra')
+      .set('operation', 'one')
+      .set('token', this.auth.token);
+
+    return this.auth.http.post(this.auth.host, body.toString(),
+      {
+        headers: new HttpHeaders()
+          .set('Content-Type', 'application/x-www-form-urlencoded')
+      }).map((response: KafedraRes) => {
       return response;
     });
   }

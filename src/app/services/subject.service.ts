@@ -18,9 +18,17 @@ export class SubjectService {
   }
 
   getAllSubjects(): void {
-    this.httpClient.get<SubjectResponse>(
-      this.auth.host + 'self.php?route=subjects&operation=one&id=1&token=' + this.auth.token
-    ).subscribe(response => {
+    const body = new HttpParams()
+      .set('id', '1')
+      .set('route', 'subjects')
+      .set('operation', 'one')
+      .set('token', this.auth.token);
+
+    this.auth.http.post<SubjectResponse>(this.auth.host, body.toString(),
+      {
+        headers: new HttpHeaders()
+          .set('Content-Type', 'application/x-www-form-urlencoded')
+      }).subscribe(response => {
         const subjects: ISubject[] = [];
         response.data.forEach( (item, i) => {
           subjects.push({

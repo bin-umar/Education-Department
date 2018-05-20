@@ -78,6 +78,8 @@ export interface IGroup {
   subgroup2: number;
   studentsAmount: number;
   educationYear: string;
+  extraction: number;
+  load: number;
 }
 
 export interface GroupResponse {

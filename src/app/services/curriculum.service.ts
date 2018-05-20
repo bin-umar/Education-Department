@@ -22,17 +22,32 @@ export class CurriculumService {
   }
 
   getStandardsBySpec(idSpec) {
-    return this.httpClient.get(
-      this.auth.host + 'self.php?route=extractions&operation=one&id=' + idSpec + '&token=' + this.auth.token
-    ).map((response: IStandard) => {
+    const body = new HttpParams()
+      .set('id', idSpec)
+      .set('route', 'extractions')
+      .set('operation', 'one')
+      .set('token', this.auth.token);
+
+    return this.auth.http.post(this.auth.host, body.toString(),
+      {
+        headers: new HttpHeaders()
+          .set('Content-Type', 'application/x-www-form-urlencoded')
+      }).map((response: IStandard) => {
       return response;
     });
   }
 
   getAllCurriculums(): void {
-    this.httpClient.get<ICurriculumList>(
-      this.auth.host + 'self.php?route=extractions&operation=list&token=' + this.auth.token
-    ).subscribe(response => {
+    const body = new HttpParams()
+      .set('route', 'extractions')
+      .set('operation', 'list')
+      .set('token', this.auth.token);
+
+    this.auth.http.post<ICurriculumList>(this.auth.host, body.toString(),
+      {
+        headers: new HttpHeaders()
+          .set('Content-Type', 'application/x-www-form-urlencoded')
+      }).subscribe(response => {
         const curriculums: CurriculumList[] = [];
         response.data.forEach( (item, i) => {
           curriculums.push({

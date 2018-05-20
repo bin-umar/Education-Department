@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { HttpHeaders, HttpParams } from '@angular/common/http';
 
 import { AuthService } from './auth.service';
 
@@ -32,17 +33,31 @@ export class MainService {
   }
 
   getSpecialityList() {
-    return this.auth.http.get(
-      this.auth.host + 'self.php?route=spec&operation=list&token=' + this.auth.token
-    ).map((response: ISpec) => {
+    const body = new HttpParams()
+      .set('route', 'spec')
+      .set('operation', 'list')
+      .set('token', this.auth.token);
+
+    return this.auth.http.post(this.auth.host, body.toString(),
+      {
+        headers: new HttpHeaders()
+          .set('Content-Type', 'application/x-www-form-urlencoded')
+      }).map((response: ISpec) => {
       return response;
     });
   }
 
   getSubjectsList() {
-    return this.auth.http.get(
-      this.auth.host + 'self.php?route=subjects&operation=list&token=' + this.auth.token
-    ).map((response: ISubjectResponse) => {
+    const body = new HttpParams()
+      .set('route', 'subjects')
+      .set('operation', 'list')
+      .set('token', this.auth.token);
+
+    return this.auth.http.post(this.auth.host, body.toString(),
+      {
+        headers: new HttpHeaders()
+          .set('Content-Type', 'application/x-www-form-urlencoded')
+      }).map((response: ISubjectResponse) => {
       if (!response.error) {
         this.subjects = [];
         response.data.forEach(item => {
@@ -60,18 +75,32 @@ export class MainService {
   }
 
   getSubjectsByStandardId(id: number) {
-    return this.auth.http.get(
-      this.auth.host + 'self.php?route=stsubjects&operation=one' +
-      '&id=' + id + '&token=' + this.auth.token
-    ).map((response: StSubjectResp) => {
+    const body = new HttpParams()
+      .set('id', id.toString())
+      .set('route', 'stsubjects')
+      .set('operation', 'one')
+      .set('token', this.auth.token);
+
+    return this.auth.http.post(this.auth.host, body.toString(),
+      {
+        headers: new HttpHeaders()
+          .set('Content-Type', 'application/x-www-form-urlencoded')
+      }).map((response: StSubjectResp) => {
       return response;
     });
   }
 
   getSubjectTypesList() {
-    return this.auth.http.get(
-      this.auth.host + 'self.php?route=subtype&operation=list&token=' + this.auth.token
-    ).map((response: ResSubType) => {
+    const body = new HttpParams()
+      .set('route', 'subtype')
+      .set('operation', 'list')
+      .set('token', this.auth.token);
+
+    return this.auth.http.post(this.auth.host, body.toString(),
+      {
+        headers: new HttpHeaders()
+          .set('Content-Type', 'application/x-www-form-urlencoded')
+      }).map((response: ResSubType) => {
       if (!response.error) {
         this.subjectTypes = [];
         response.data.forEach(item => {

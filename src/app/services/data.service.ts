@@ -28,9 +28,16 @@ export class DataService {
 
   /** CRUD METHODS */
   getAllStandards(): void {
-    this.httpClient.get<IStandard>(
-      this.auth.host + 'self.php?route=standards&operation=list&token=' + this.auth.token
-    ).subscribe(response => {
+    const body = new HttpParams()
+      .set('route', 'standards')
+      .set('operation', 'list')
+      .set('token', this.auth.token);
+
+    this.auth.http.post<IStandard>(this.auth.host, body.toString(),
+      {
+        headers: new HttpHeaders()
+          .set('Content-Type', 'application/x-www-form-urlencoded')
+      }).subscribe(response => {
         const standards: StandardList[] = [];
         response.data.forEach( (item, i) => {
           standards.push({
