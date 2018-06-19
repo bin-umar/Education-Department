@@ -1,3 +1,12 @@
+<ng-template ngFor let-erSubject [ngForOf]="erSubjects">
+  <div class="alert alert-danger mat-elevation-z8" *ngIf="error">
+    Нимсолаи фанни <strong>"{{ erSubject.name }}"</strong> ба стандарт мувофиқ нест.
+    Дар стандарт <strong>{{ erSubject.terms }}</strong> дар иқтибос <strong> {{ erSubject.term }}</strong>.
+    Ин сабаби нодуруст кор кардани барнома мегардад.
+    Барои ислоҳи ин хатогӣ тугмачаи <strong>"Обновить"</strong>-ро пахш намоед.
+  </div>
+</ng-template>
+
 <mat-card class="mat-elevation-z8">
   <div class="text-center">
     <h3>Иқтибос</h3>
@@ -186,7 +195,11 @@
             <span>{{ subject.kfName | getName:'tj' }}</span>
           </td>
           <td *ngIf="Curriculum.locked === 0">
-            <mat-icon (click)="editSubject(subject)" class="md-18 hovered-color">edit</mat-icon>
+            <mat-icon (click)="editSubject(subject)"
+                      matTooltip="Тағйир додан"
+                      class="md-18 hovered-color">edit
+            </mat-icon>
+
             <mat-icon class="md-18" [class.locked]="subject.selective === 0"
                       [class.hovered-color]="subject.selective === 1"
                       matTooltip="{{ (subject.selective === 0) ? 'Иҷозат нест' : 'Хориҷ кардан'}}"

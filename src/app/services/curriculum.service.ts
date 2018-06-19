@@ -95,12 +95,8 @@ export class CurriculumService {
 
   updateCurriculum(curriculum: CurriculumList) {
     const body = new HttpParams()
-      .set('id', '')
-      .set('idSpec', curriculum.speciality)
+      .set('id', curriculum.id.toString())
       .set('course', curriculum.course.toString())
-      .set('degree', curriculum.degree.toString())
-      .set('type',   curriculum.type.toString())
-      .set('educationYear', curriculum.educationYear.toString())
       .set('idStandard', curriculum.idStandard.toString())
       .set('route', 'extractions')
       .set('operation', 'update')

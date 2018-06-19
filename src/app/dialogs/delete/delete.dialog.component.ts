@@ -6,7 +6,7 @@ import {Component, Inject, OnInit} from '@angular/core';
   templateUrl: '../../dialogs/delete/delete.dialog.html',
   styleUrls: ['../../dialogs/delete/delete.dialog.css']
 })
-export class DeleteDialogComponent implements OnInit{
+export class DeleteDialogComponent implements OnInit {
 
   data: any;
   type: any;

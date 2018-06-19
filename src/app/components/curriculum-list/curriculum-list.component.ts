@@ -26,7 +26,8 @@ import { AuthService } from '../../services/auth.service';
 
 import { Spec } from '../../models/common';
 import { CurriculumList } from '../../models/curriculum';
-import {Standard, StandardList} from '../../models/standards';
+import { Standard } from '../../models/standards';
+
 import { DeleteDialogComponent } from '../../dialogs/delete/delete.dialog.component';
 
 @Component({
@@ -61,6 +62,7 @@ export class CurriculumListComponent implements OnInit {
   standards: Standard[] = [];
   _standards: Standard[] = [];
   add = true;
+  isDataLoaded = false;
 
   constructor(private componentFactoryResolver: ComponentFactoryResolver,
               private mainService: MainService,
@@ -96,6 +98,11 @@ export class CurriculumListComponent implements OnInit {
 
   displayFn(spec?: Spec): string | undefined {
     return spec ? spec.fSpec_Shifr + " " + spec.fSpec_NameTaj : undefined;
+  }
+
+  getContentByKfId(data: {kfId: number, fcId: number}) {
+
+    this.isDataLoaded = true;
   }
 
   specChange() {
@@ -268,6 +275,16 @@ export class CurriculumListComponent implements OnInit {
         }
       });
     }
+  }
+
+  updateCurriculum(row: CurriculumList) {
+    this.curriculumService.updateCurriculum(row).subscribe(response => {
+      if (!response.error) {
+        console.log('Successfully updated');
+      } else {
+        console.error('Something wrong happened while updating');
+      }
+    });
   }
 
   openSt(row: CurriculumList) {

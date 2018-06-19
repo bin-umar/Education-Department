@@ -14,6 +14,14 @@ table{
   margin: 20px 0;
 }
 
+.alert:first-child {
+  margin-top: 20px;
+}
+
+.alert {
+  margin-top: 10px;
+}
+
 .showConfig {
   background-color: #FFF;
   transition: background-color 0.1s;

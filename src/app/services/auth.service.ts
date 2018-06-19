@@ -10,8 +10,8 @@ import { IAuth, UserInfo } from '../models/common';
 @Injectable()
 export class AuthService {
 
-  public host = 'http://api.techuni.lo/';
-  // public host = 'http://asu.techuni.tj/jxapi/';
+  // public host = 'http://api.techuni.lo/';
+  public host = 'http://asu.techuni.tj/jxapi/';
   public token: string;
 
   public DEGREES = ['бакалавр', 'магистр', 'PhD'];

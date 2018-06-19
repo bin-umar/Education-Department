@@ -32,6 +32,7 @@ export class MainService {
     return year + '-' + month + '-' + day;
   }
 
+// .set('id', fcId.toString())
   getSpecialityList() {
     const body = new HttpParams()
       .set('route', 'spec')

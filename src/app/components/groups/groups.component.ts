@@ -1,12 +1,10 @@
 import {
   Component,
   ComponentFactoryResolver,
-  ComponentRef,
   ElementRef,
   OnInit,
   Output,
-  ViewChild,
-  ViewContainerRef
+  ViewChild
 } from '@angular/core';
 import { MatDialog, MatPaginator, MatSort } from '@angular/material';
 import { DataSource } from '@angular/cdk/collections';
@@ -25,14 +23,12 @@ import { AuthService } from '../../services/auth.service';
 import { MainService } from '../../services/main.service';
 
 import { IGroup, Spec } from '../../models/common';
-import { LoadComponent } from '../load/load.component';
 
 @Component({
   selector: 'app-groups',
   templateUrl: './groups.component.html',
   styleUrls: ['../standards-list/standards-list.component.css'],
-  providers: [ GroupsService ],
-  entryComponents: [ LoadComponent ]
+  providers: [ GroupsService ]
 })
 
 export class GroupsComponent implements OnInit {
@@ -40,7 +36,6 @@ export class GroupsComponent implements OnInit {
   @Output() cmpName = 'Гурӯҳҳо';
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  @ViewChild('load', {read: ViewContainerRef}) parent: ViewContainerRef;
   @ViewChild('filter') filterInput: ElementRef;
 
   groupDatabase: GroupsService | null;
@@ -51,7 +46,6 @@ export class GroupsComponent implements OnInit {
     'studentsAmount', 'subgroup', 'subgroup2', 'educationYear', 'actions'];
 
   myControl: FormControl = new FormControl();
-  cmpRef: ComponentRef<LoadComponent>;
   filteredOptions: Observable<Spec[]>;
   selectedSpec: Spec;
   options: Spec[] = [];
@@ -228,16 +222,6 @@ export class GroupsComponent implements OnInit {
         });
       }
     });
-  }
-
-  openLoad(row: IGroup) {
-    if (this.cmpRef) { this.cmpRef.destroy(); }
-
-    const childComponent = this.componentFactoryResolver.resolveComponentFactory(LoadComponent);
-    const CmpRef = this.parent.createComponent(childComponent);
-
-    CmpRef.instance.group = row;
-    this.cmpRef = CmpRef;
   }
 
   private refreshTable() {

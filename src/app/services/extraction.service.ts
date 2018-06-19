@@ -41,6 +41,22 @@ export class ExtractionService {
     });
   }
 
+  getKafedraByFacultyId(fcId: number) {
+    const body = new HttpParams()
+      .set('id', fcId.toString())
+      .set('route', 'kafedra')
+      .set('operation', 'list')
+      .set('token', this.auth.token);
+
+    return this.auth.http.post(this.auth.host, body.toString(),
+      {
+        headers: new HttpHeaders()
+          .set('Content-Type', 'application/x-www-form-urlencoded')
+      }).map((response: KafedraRes) => {
+      return response;
+    });
+  }
+
   getKafedraBySubjectId(id: number) {
     const body = new HttpParams()
       .set('id', id.toString())
@@ -61,6 +77,7 @@ export class ExtractionService {
     const body = new HttpParams()
       .set('id', subject.id.toString())
       .set('idStSubject', subject.idStSubject.toString())
+      .set('audit', subject.auditCredits.toString())
       .set('lessonHours', subject.lessonHours.toString())
       .set('courseProject', subject.courseProject.toString())
       .set('courseWork', subject.courseWork.toString())

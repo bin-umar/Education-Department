@@ -1,64 +1,65 @@
-<mat-accordion>
-  <mat-expansion-panel [expanded]="panelOpenState"
-                       (opened)="panelOpenState = true"
-                       (closed)="panelOpenState = false; setStToDefault()">
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        Иловакунии иқтибос
-      </mat-panel-title>
-    </mat-expansion-panel-header>
+<!--<app-fk-filter (OnChooseKafedra)="getContentByKfId($event);"></app-fk-filter>-->
 
-    <form class="example-form" #formControl="ngForm">
-      <mat-form-field class="eighty-width">
-        <input matInput name="special" [(ngModel)]="selectedSpec"
-               placeholder="Ихтисос" aria-label="Number" [formControl]="myControl"
-               [matAutocomplete]="auto" required>
-        <!-- (keydown)="specChange();"-->
-        <!--(onSelectionChange)="specChange(option);"-->
-        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="specChange();" [displayWith]="displayFn">
-          <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-            {{ option.fSpec_Shifr + " " + option.fSpec_NameTaj }}
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
+<!--<div *ngIf="isDataLoaded">-->
+  <mat-accordion>
+    <mat-expansion-panel [expanded]="panelOpenState"
+                         (opened)="panelOpenState = true"
+                         (closed)="panelOpenState = false; setStToDefault()">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Иловакунии иқтибос
+        </mat-panel-title>
+      </mat-expansion-panel-header>
 
-      <mat-form-field class="twenty-width">
-        <input type="number" name="course" [(ngModel)]="curriculumList.course" matInput
-               placeholder="Курс" required>
-      </mat-form-field>
+      <form class="example-form" #formControl="ngForm">
+        <mat-form-field class="eighty-width">
+          <input matInput name="special" [(ngModel)]="selectedSpec"
+                 placeholder="Ихтисос" aria-label="Number" [formControl]="myControl"
+                 [matAutocomplete]="auto" required>
+          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="specChange();" [displayWith]="displayFn">
+            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+              {{ option.fSpec_Shifr + " " + option.fSpec_NameTaj }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
 
-      <mat-form-field class="fifteen-width">
-        <mat-select (onClose)="findStandard();" [(value)]="curriculumList.degree" placeholder="Дараҷаи таҳсилот" required>
-          <mat-option value="0">бакалавр</mat-option>
-          <mat-option value="1">магистр</mat-option>
-          <mat-option value="2">PhD</mat-option>
-        </mat-select>
-      </mat-form-field>
+        <mat-form-field class="twenty-width">
+          <input type="number" name="course" [(ngModel)]="curriculumList.course" matInput
+                 placeholder="Курс" required>
+        </mat-form-field>
 
-      <mat-form-field class="fifteen-width">
-        <mat-select (onClose)="findStandard();" [(value)]="curriculumList.type" placeholder="Шакли таҳсил" required>
-          <mat-option value="0">рӯзона</mat-option>
-          <mat-option value="1">ғоибона</mat-option>
-          <mat-option value="2">фосилавӣ</mat-option>
-        </mat-select>
-      </mat-form-field>
+        <mat-form-field class="fifteen-width">
+          <mat-select (onClose)="findStandard();" [(value)]="curriculumList.degree" placeholder="Дараҷаи таҳсилот" required>
+            <mat-option value="0">бакалавр</mat-option>
+            <mat-option value="1">магистр</mat-option>
+            <mat-option value="2">PhD</mat-option>
+          </mat-select>
+        </mat-form-field>
 
-      <mat-form-field class="fifteen-width">
-        <input type="number" name="educationYear" [(ngModel)]="curriculumList.educationYear" matInput
-               placeholder="Соли таҳсил" required>
-      </mat-form-field>
+        <mat-form-field class="fifteen-width">
+          <mat-select (onClose)="findStandard();" [(value)]="curriculumList.type" placeholder="Шакли таҳсил" required>
+            <mat-option value="0">рӯзона</mat-option>
+            <mat-option value="1">ғоибона</mat-option>
+            <mat-option value="2">фосилавӣ</mat-option>
+          </mat-select>
+        </mat-form-field>
 
-      <mat-form-field class="thirty-width">
-        <mat-select [(value)]="curriculumList.idStandard" placeholder="Стандарт" required>
-          <mat-option *ngFor="let standard of standards" value="{{standard.ids}}">
-            Стандарти санаи {{standard.dateOfAcceptance | date:'dd/MM/yyyy'}}
-            {{ standard.degreeOfStudying + " " + standard.typeOfStudying}}
-            (<i *ngIf="+standard.locked === 1">пурра</i><i *ngIf="+standard.locked === 0">нопурра</i>)
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+        <mat-form-field class="fifteen-width">
+          <input type="number" name="educationYear" [(ngModel)]="curriculumList.educationYear" matInput
+                 placeholder="Соли таҳсил" required>
+        </mat-form-field>
 
-      <span class="text-right fifteen-width">
+        <mat-form-field class="thirty-width">
+          <mat-select [(value)]="curriculumList.idStandard" placeholder="Стандарт" required>
+            <mat-option *ngFor="let standard of standards" value="{{standard.ids}}">
+              Стандарти санаи {{standard.dateOfAcceptance | date:'dd/MM/yyyy'}}
+              {{ standard.degreeOfStudying + " " + standard.typeOfStudying}}
+              (<i *ngIf="+standard.locked === 1">пурра</i><i *ngIf="+standard.locked === 0">нопурра</i>)
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <span class="text-right fifteen-width">
         <button [hidden]="!add" (click)="addExtraction();" mat-raised-button class="bg-dark text-colored">
           <mat-icon>add_circle_outline</mat-icon> Илова намудан
         </button>
@@ -66,94 +67,102 @@
           <mat-icon>save</mat-icon> Сабт кардан
         </button>
       </span>
-    </form>
-  </mat-expansion-panel>
-</mat-accordion>
+      </form>
+    </mat-expansion-panel>
+  </mat-accordion>
 
-<div class="example-header">
-  <mat-form-field class="full-width">
-    <input matInput #filter placeholder="Filter">
-  </mat-form-field>
-</div>
-<div class="example-container mat-elevation-z8">
+  <div class="example-header">
+    <mat-form-field class="full-width">
+      <input matInput #filter placeholder="Filter">
+    </mat-form-field>
+  </div>
+  <div class="example-container mat-elevation-z8">
 
-  <mat-table class="table-hover" [(dataSource)]="dataSource" matSort>
+    <mat-table class="table-hover" [(dataSource)]="dataSource" matSort>
 
-    <ng-container matColumnDef="number">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> № </mat-header-cell>
-      <mat-cell *matCellDef="let row"> {{row.number}} </mat-cell>
-    </ng-container>
+      <ng-container matColumnDef="number">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> № </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.number}} </mat-cell>
+      </ng-container>
 
-    <ng-container matColumnDef="speciality">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Ихтисос </mat-header-cell>
-      <mat-cell *matCellDef="let row"> {{row.speciality}} </mat-cell>
-    </ng-container>
+      <ng-container matColumnDef="speciality">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Ихтисос </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.speciality}} </mat-cell>
+      </ng-container>
 
-    <ng-container matColumnDef="course">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Курс </mat-header-cell>
-      <mat-cell *matCellDef="let row;"> {{row.course}} </mat-cell>
-    </ng-container>
+      <ng-container matColumnDef="course">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Курс </mat-header-cell>
+        <mat-cell *matCellDef="let row;"> {{row.course}} </mat-cell>
+      </ng-container>
 
-    <ng-container matColumnDef="degree">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Дараҷаи таҳсилот </mat-header-cell>
-      <mat-cell *matCellDef="let row;"> {{row.degree}} </mat-cell>
-    </ng-container>
+      <ng-container matColumnDef="degree">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Дараҷаи таҳсилот </mat-header-cell>
+        <mat-cell *matCellDef="let row;"> {{row.degree}} </mat-cell>
+      </ng-container>
 
-    <ng-container matColumnDef="type">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Шӯъба </mat-header-cell>
-      <mat-cell *matCellDef="let row;"> {{row.type}} </mat-cell>
-    </ng-container>
+      <ng-container matColumnDef="type">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Шӯъба </mat-header-cell>
+        <mat-cell *matCellDef="let row;"> {{row.type}} </mat-cell>
+      </ng-container>
 
-    <ng-container matColumnDef="educationYear">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Соли таҳсил </mat-header-cell>
-      <mat-cell *matCellDef="let row"> {{row.educationYear | educationYear}} </mat-cell>
-    </ng-container>
+      <ng-container matColumnDef="educationYear">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Соли таҳсил </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.educationYear | educationYear}} </mat-cell>
+      </ng-container>
 
-    <ng-container matColumnDef="dateOfStandard">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Санаи стандарт </mat-header-cell>
-      <mat-cell *matCellDef="let row">{{row.dateOfStandard | date:'dd/MM/yyyy'}} </mat-cell>
-    </ng-container>
+      <ng-container matColumnDef="dateOfStandard">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Санаи стандарт </mat-header-cell>
+        <mat-cell *matCellDef="let row">{{row.dateOfStandard | date:'dd/MM/yyyy'}} </mat-cell>
+      </ng-container>
 
-    <ng-container matColumnDef="actions">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Амалиёт </mat-header-cell>
-      <mat-cell *matCellDef="let row;">
-        <!--<mat-icon class="md-24" [class.locked]="row.locked === 1"-->
-                  <!--[class.hovered-color]="row.locked === 0"-->
-                  <!--matTooltip="{{ (row.locked === 1) ? 'Иҷозат нест' : 'Тағйир додан'}}"-->
-                  <!--(click)="editSt(row);">edit</mat-icon>-->
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Амалиёт </mat-header-cell>
+        <mat-cell *matCellDef="let row;">
+          <!--<mat-icon class="md-24" [class.locked]="row.locked === 1"-->
+          <!--[class.hovered-color]="row.locked === 0"-->
+          <!--matTooltip="{{ (row.locked === 1) ? 'Иҷозат нест' : 'Тағйир додан'}}"-->
+          <!--(click)="editSt(row);">edit</mat-icon>-->
 
-        <mat-icon class="md-24" [class.locked]="row.locked === 1"
-                  [class.hovered-color]="row.locked === 0"
-                  matTooltip="{{ (row.locked === 1) ? 'Иҷозат нест' : 'Хориҷ кардан'}}"
-                  (click)="deleteSt(row);">delete</mat-icon>
+          <mat-icon class="md-24" [class.locked]="row.locked === 1"
+                    [class.hovered-color]="row.locked === 0"
+                    matTooltip="{{ (row.locked === 1) ? 'Иҷозат нест' : 'Хориҷ кардан'}}"
+                    (click)="deleteSt(row);">delete</mat-icon>
 
-        <mat-icon class="md-24 hovered-color"
-                  matTooltip="Дидани фанҳои иқтибос"
-                  (click)="openSt(row);">open_with
-        </mat-icon>
+          <mat-icon class="md-24" [class.locked]="row.locked === 1"
+                    [class.hovered-color]="row.locked === 0"
+                    matTooltip="{{ (row.locked === 1) ? 'Иҷозат нест' : 'Обновить'}}"
+                    (click)="updateCurriculum(row);">update
+          </mat-icon>
 
-        <mat-icon *ngIf="row.locked === 0"
-                  class="md-24 hovered-color"
-                  matTooltip="Қулф кардан (Стандарт пурра шуморида мешавад)"
-                  (click)="lockCurriculum(row, 1);">lock
-        </mat-icon>
+          <mat-icon class="md-24 hovered-color"
+                    matTooltip="Дидани фанҳои иқтибос"
+                    (click)="openSt(row);">open_with
+          </mat-icon>
 
-        <mat-icon *ngIf="row.locked === 1"
-                  class="md-24 hovered-color"
-                  matTooltip="Кушодани қулф (Стандарт нопурра шуморида мешавад)"
-                  (click)="lockCurriculum(row, 0);">lock_open
-        </mat-icon>
-      </mat-cell>
-    </ng-container>
+          <mat-icon *ngIf="row.locked === 0"
+                    class="md-24 hovered-color"
+                    matTooltip="Қулф кардан (Стандарт пурра шуморида мешавад)"
+                    (click)="lockCurriculum(row, 1);">lock
+          </mat-icon>
 
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;">
-    </mat-row>
-  </mat-table>
+          <mat-icon *ngIf="row.locked === 1"
+                    class="md-24 hovered-color"
+                    matTooltip="Кушодани қулф (Стандарт нопурра шуморида мешавад)"
+                    (click)="lockCurriculum(row, 0);">lock_open
+          </mat-icon>
 
-  <mat-paginator [length]="dataSource.filteredData.length"
-                 [pageIndex]="0"
-                 [pageSize]="10"
-                 [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
-</div>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;">
+      </mat-row>
+    </mat-table>
+
+    <mat-paginator [length]="dataSource.filteredData.length"
+                   [pageIndex]="0"
+                   [pageSize]="10"
+                   [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+  </div>
+<!--</div>-->
 <div #curriculum></div>

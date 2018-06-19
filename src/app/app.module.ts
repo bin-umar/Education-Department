@@ -42,6 +42,7 @@ import { EducationYearPipe } from './pipes/education-year.pipe';
 import { SubjectsComponent } from './components/subjects/subjects.component';
 import { LoadComponent } from './components/load/load.component';
 import { LoadSubjectComponent } from './dialogs/load-subject/load-subject.component';
+import { FkFilterComponent } from './components/fk-filter/fk-filter.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { LoadSubjectComponent } from './dialogs/load-subject/load-subject.compon
     EducationYearPipe,
     SubjectsComponent,
     LoadComponent,
-    LoadSubjectComponent
+    LoadSubjectComponent,
+    FkFilterComponent
   ],
   imports: [
     BrowserModule,

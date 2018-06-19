@@ -20,6 +20,8 @@ export class ExtractionComponent implements OnInit {
   @ViewChild('header') header: ElementRef;
 
   subjects: ExtractionSubject[] = [];
+  error = false;
+  erSubjects: ExtractionSubject[] = [];
   fixed = false;
 
   // @HostListener('window:scroll', ['$event'])
@@ -43,50 +45,56 @@ export class ExtractionComponent implements OnInit {
         resp.data.forEach(item => {
 
           const i = item.terms.split(',').indexOf(item.term.toString());
-          const credits = item.credits.toString().split(',')[i];
-          const term = item.terms.toString().split(',')[i];
-          let exams, kmds, exam, kmd;
 
-          if (item.exam.length > 1) {
-            exams = item.exam.toString().split(',');
-          } else if (item.kmd.length > 1) {
-            kmds = item.kmd.toString().split(',');
+          if (i === -1) {
+            this.error = true;
+            this.erSubjects.push(item);
+          } else {
+            const credits = item.credits.toString().split(',')[i];
+            const term = item.terms.toString().split(',')[i];
+            let exams, kmds, exam, kmd;
+
+            if (item.exam.length > 1) {
+              exams = item.exam.toString().split(',');
+            } else if (item.kmd.length > 1) {
+              kmds = item.kmd.toString().split(',');
+            }
+
+            exam = (exams === undefined ? '' : exams[i] );
+            kmd = (kmds === undefined ? '' : kmds[i]);
+
+            this.subjects.push({
+              id: +item.id,
+              name: item.name,
+              idStSubject: +item.idStSubject,
+              credits: +credits,
+              terms: item.terms,
+              term: +term,
+              auditCredits: +item.auditCredits,
+              course: +item.course,
+              lessonHours: +item.lessonHours,
+              exam: exam,
+              kmd: kmd,
+              courseProject: +item.courseProject,
+              courseWork: +item.courseWork,
+              lkPlan: +item.lkPlan,
+              lkTotal: +item.lkTotal,
+              lbPlan: +item.lbPlan,
+              lbTotal: +item.lbTotal,
+              prPlan: +item.prPlan,
+              prTotal: +item.prTotal,
+              smPlan: +item.smPlan,
+              smTotal: +item.smTotal,
+              trainingPrac: +item.trainingPrac,
+              manuPrac: +item.manuPrac,
+              diplomPrac: +item.diplomPrac,
+              bachelorWork: +item.bachelorWork,
+              gosExam: +item.gosExam,
+              total: this.total(item),
+              kfName: item.kfName,
+              selective: +item.selective
+            });
           }
-
-          exam = (exams === undefined ? '' : exams[i] );
-          kmd = (kmds === undefined ? '' : kmds[i]);
-
-          this.subjects.push({
-            id: +item.id,
-            name: item.name,
-            idStSubject: +item.idStSubject,
-            credits: +credits,
-            terms: item.terms,
-            term: +term,
-            auditCredits: +item.auditCredits,
-            course: +item.course,
-            lessonHours: +item.lessonHours,
-            exam: exam,
-            kmd: kmd,
-            courseProject: +item.courseProject,
-            courseWork: +item.courseWork,
-            lkPlan: +item.lkPlan,
-            lkTotal: +item.lkTotal,
-            lbPlan: +item.lbPlan,
-            lbTotal: +item.lbTotal,
-            prPlan: +item.prPlan,
-            prTotal: +item.prTotal,
-            smPlan: +item.smPlan,
-            smTotal: +item.smTotal,
-            trainingPrac: +item.trainingPrac,
-            manuPrac: +item.manuPrac,
-            diplomPrac: +item.diplomPrac,
-            bachelorWork: +item.bachelorWork,
-            gosExam: +item.gosExam,
-            total: this.total(item),
-            kfName: item.kfName,
-            selective: +item.selective
-          });
         });
       }
     });
@@ -152,7 +160,7 @@ export class ExtractionComponent implements OnInit {
       }
     });
 
-    return sum;
+    return +sum.toFixed(2);
   }
 
   total(subject: ExtractionSubject) {

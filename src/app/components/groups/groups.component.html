@@ -162,8 +162,7 @@
 
         <mat-icon class="md-24 hovered-color"
                   *ngIf="row.load > 0"
-                  matTooltip="Кушодани сарбории гурӯҳ"
-                  (click)="openLoad(row); ">open_with</mat-icon>
+                  matTooltip="Ин гурӯҳ сарборӣ дорад">done</mat-icon>
 
       </mat-cell>
     </ng-container>
@@ -178,5 +177,3 @@
                  [pageSize]="10"
                  [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
 </div>
-
-<div #load></div>
