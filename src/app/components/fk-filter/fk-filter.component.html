@@ -2,8 +2,8 @@
   <form>
     <mat-form-field class="forty-width">
       <mat-select (onClose)="findKafedra();" [(value)]="selectedFc" placeholder="Факултаро интихоб намоед" required>
-        <mat-option *ngFor="let fc of faculties" value="{{fc.id}}">
-          {{ fc.name }}
+        <mat-option *ngFor="let fc of faculties" value="{{ fc.id }}">
+          {{ fc.fullName }}
         </mat-option>
       </mat-select>
     </mat-form-field>
@@ -15,10 +15,5 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
-
-    <!--<button mat-raised-button -->
-            <!--class="nine-width bg-dark btn-dark text-colored"-->
-            <!--(click)=""-->
-    <!--&gt;>>></button>-->
   </form>
 </mat-card>

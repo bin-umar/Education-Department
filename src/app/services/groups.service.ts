@@ -117,4 +117,21 @@ export class GroupsService {
       return response;
     });
   }
+
+  generateLoad (idGroup: number, idExtraction: number) {
+    const body = new HttpParams()
+      .set('group_id', idGroup.toString())
+      .set('extraction_id', idExtraction.toString())
+      .set('route', 'loads')
+      .set('operation', 'insert')
+      .set('token', this.auth.token);
+
+    return this.auth.http.post(this.auth.host, body.toString(),
+      {
+        headers: new HttpHeaders()
+          .set('Content-Type', 'application/x-www-form-urlencoded')
+      }).map((response: ResponseAdd) => {
+      return response;
+    });
+  }
 }

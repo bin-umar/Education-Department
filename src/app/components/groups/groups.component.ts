@@ -199,6 +199,15 @@ export class GroupsComponent implements OnInit {
     };
   }
 
+  connectGrouopExt(group: IGroup) {
+    console.log(group);
+    if (group.extraction > 0) {
+      this.groupsService.generateLoad(group.id, group.extraction).subscribe(resp => {
+        console.log(resp);
+      });
+    }
+  }
+
   deleteGroup(row: IGroup) {
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
         width: '500px',

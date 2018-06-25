@@ -158,7 +158,7 @@
                   [class.locked]="row.extraction === 0"
                   [class.hovered-color]="row.extraction > 0"
                   matTooltip="{{ (row.extraction === 0) ? 'Ин гурӯҳ иқтибос надорад' : 'Сохтани сарборӣ'}}"
-                  >add_circle</mat-icon>
+                  (click)="connectGrouopExt(row);">add_circle</mat-icon>
 
         <mat-icon class="md-24 hovered-color"
                   *ngIf="row.load > 0"

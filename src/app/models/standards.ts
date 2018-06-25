@@ -16,7 +16,7 @@ export interface ISubject {
       kmro: number
     }
   };
-    IWS: number;
+  IWS: number;
   creditDividing: {
     terms: number[],
     credits: number[]

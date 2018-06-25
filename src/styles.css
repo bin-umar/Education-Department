@@ -52,6 +52,10 @@
   width: 32%;
 }
 
+.toogle {
+  cursor: pointer;
+}
+
 .two-third-width{
   width: 64%;
 }

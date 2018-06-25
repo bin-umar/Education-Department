@@ -82,6 +82,17 @@ export interface IGroup {
   load: number;
 }
 
+export interface Faculty {
+  id: number;
+  fullName: string;
+  shortName: string;
+}
+
+export interface IFaculty {
+  error: boolean;
+  data: [Faculty];
+}
+
 export interface GroupResponse {
   error: boolean;
   data: [IGroup];

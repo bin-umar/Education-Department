@@ -12,10 +12,10 @@ import { StandardsListComponent } from './components/standards-list/standards-li
 import { GroupsComponent } from './components/groups/groups.component';
 import { CurriculumListComponent } from './components/curriculum-list/curriculum-list.component';
 
-import { MainService } from './services/main.service';
 import { AuthService } from './services/auth.service';
 import { UserInfo } from './models/common';
-import {SubjectsComponent} from "./components/subjects/subjects.component";
+import { SubjectsComponent } from './components/subjects/subjects.component';
+import { LoadComponent } from './components/load/load.component';
 
 @Component({
   selector: 'app-root',
@@ -25,7 +25,8 @@ import {SubjectsComponent} from "./components/subjects/subjects.component";
     StandardsListComponent,
     GroupsComponent,
     CurriculumListComponent,
-    SubjectsComponent
+    SubjectsComponent,
+    LoadComponent
   ]
 })
 export class AppComponent implements OnDestroy {
@@ -34,6 +35,7 @@ export class AppComponent implements OnDestroy {
   subjectsComponent = SubjectsComponent;
   groupsComponent = GroupsComponent;
   curriculumListComponent = CurriculumListComponent;
+  loadComponent = LoadComponent;
   component = '';
   welcome = true;
 
@@ -43,7 +45,6 @@ export class AppComponent implements OnDestroy {
   cmpRef: ComponentRef<StandardsListComponent>;
 
   constructor (private componentFactoryResolver: ComponentFactoryResolver,
-               private mainService: MainService,
                private auth: AuthService) {
 
     const href = window.location.href;

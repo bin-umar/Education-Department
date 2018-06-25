@@ -10,7 +10,7 @@ import {
   StSubjectResp,
   ISubjectResponse
 } from '../models/standards';
-import { ISpec } from '../models/common';
+import {IFaculty, ISpec} from '../models/common';
 
 @Injectable()
 export class MainService {
@@ -32,7 +32,6 @@ export class MainService {
     return year + '-' + month + '-' + day;
   }
 
-// .set('id', fcId.toString())
   getSpecialityList() {
     const body = new HttpParams()
       .set('route', 'spec')
@@ -44,6 +43,21 @@ export class MainService {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/x-www-form-urlencoded')
       }).map((response: ISpec) => {
+      return response;
+    });
+  }
+
+  getFacultyList() {
+    const body = new HttpParams()
+      .set('route', 'fc')
+      .set('operation', 'list')
+      .set('token', this.auth.token);
+
+    return this.auth.http.post(this.auth.host, body.toString(),
+      {
+        headers: new HttpHeaders()
+          .set('Content-Type', 'application/x-www-form-urlencoded')
+      }).map((response: IFaculty) => {
       return response;
     });
   }
