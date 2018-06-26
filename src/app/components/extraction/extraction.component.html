@@ -200,11 +200,19 @@
                       class="md-18 hovered-color">edit
             </mat-icon>
 
-            <mat-icon class="md-18" [class.locked]="subject.selective === 0"
+            <mat-icon *ngIf="isStupidSpec === false"
+                      class="md-18" [class.locked]="subject.selective === 0"
                       [class.hovered-color]="subject.selective === 1"
                       matTooltip="{{ (subject.selective === 0) ? 'Иҷозат нест' : 'Хориҷ кардан'}}"
                       (click)="deleteSubject(subject)"
             >delete</mat-icon>
+
+            <mat-icon *ngIf="isStupidSpec === true"
+                      class="md-18 hovered-color"
+                      matTooltip="Хориҷ кардан"
+                      (click)="deleteSubject(subject)">
+              delete
+            </mat-icon>
           </td>
         </tr>
       </ng-template>

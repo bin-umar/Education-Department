@@ -41,55 +41,63 @@
         Соат
       </th>
       <th>
-        Омӯзгор
+        Селанамоӣ
       </th>
     </tr>
-    <ng-template ngFor let-i="index" let-id [ngForOf]="arrExSubjects">
-      <ng-template ngFor let-j="index" let-subject [ngForOf]="findSubjects(id)">
-        <tr>
-          <ng-template [ngIf]="j === 0">
-            <td [attr.rowspan]="findSubjects(id).length">{{ i + 1 }}</td>
-            <td class="text-left" style="padding-left: 10px;"
-                [attr.rowspan]="findSubjects(id).length">
-              {{ subject.subjectName }}
-            </td>
-            <td [attr.rowspan]="findSubjects(id).length">{{ subject.course }}</td>
-            <td [attr.rowspan]="findSubjects(id).length">{{ subject.term }}</td>
-            <td [attr.rowspan]="findSubjects(id).length">{{ subject.group }}</td>
-            <td [attr.rowspan]="findSubjects(id).length">{{ subject.degree }}</td>
-            <td [attr.rowspan]="findSubjects(id).length">{{ subject.type }}</td>
-            <td [attr.rowspan]="findSubjects(id).length">{{ subject.studentsAmount }}</td>
-          </ng-template>
-
+    <ng-template ngFor let-i="index" let-subject [ngForOf]="filteredSubjects()">
+        <tr [class.bg_eee]="i % 2 === 1">
+          <td>{{ i + 1 }}</td>
+          <td class="text-left" style="padding-left: 10px;">
+            {{ subject.subjectName }}
+          </td>
+          <td>{{ subject.course }}</td>
+          <td>{{ subject.term }}</td>
+          <td>{{ subject.group }}</td>
+          <td>{{ subject.degree }}</td>
+          <td>{{ subject.type }}</td>
+          <td>{{ sumStudentsAmount(+subject.id) }}</td>
           <td>{{ subject.section }}</td>
           <td>{{ subject.hour }}</td>
           <td class="teacher-column">
-            <ng-template [ngIf]="subject.idTeacher !== ''">
-              <div class="toogle" matTooltip="{{subject.idTeacher}}">{{ subject.idTeacher | teacherName }}</div>
-              <div style="float: right;">
-                <mat-icon class="md-18"
-                          *ngIf="subject.isTeacherSaved === true"
-                          (click)="deleteTeacherId(+subject.id);">delete
-                </mat-icon>
-
-                <mat-icon class="md-18"
-                          *ngIf="subject.isTeacherSaved === false"
-                          (click)="connectTeacherWithSubject(subject.idTeacher, +subject.id)">save
-                </mat-icon>
+            <ng-template ngFor let-flowSubject [ngForOf]="findFlowGroup(+subject.id)">
+              <div style="width: 100%;">
+                <div style="display: inline-block;">{{ flowSubject.group }}</div>
+                <div style="display: inline-block; float: right;">
+                  <mat-icon
+                    *ngIf="flowSubject.isFlowSaved === true"
+                    class="md-18"
+                    (click)="disConnectFlowedGroups(+subject.id, +flowSubject.id);">delete</mat-icon>
+                  <mat-icon
+                    *ngIf="flowSubject.isFlowSaved === false"
+                    class="md-18"
+                    (click)="saveFlowedSubject(+subject.id, +flowSubject.id);">save</mat-icon>
+                </div>
               </div>
             </ng-template>
-
-            <mat-select *ngIf="subject.idTeacher === ''"
-                        [(value)]="subject.idTeacher"
-                        placeholder="Интихоб намоед"
-                        panelClass="custom-select-panel">
-              <mat-option *ngFor="let teacher of teachers" value="{{teacher.Fio}}">
-                {{ teacher.Fio + ' ' +  teacher.Post  }}
+            <mat-select *ngIf="findSimilarSubjects(subject).length !== 0
+                        && findFlowGroup(+subject.id).length === 0"
+                        [(value)]="subject.idGroup"
+                        placeholder="Интихоб намоед">
+              <mat-option *ngFor="let sb of findSimilarSubjects(subject)" value="{{sb.id}}">
+                {{ sb.group }}
               </mat-option>
             </mat-select>
+            <!--<ng-template [ngIf]="subject.idTeacher !== ''">-->
+              <!--<div class="toogle" matTooltip="{{subject.idTeacher}}">{{ subject.idTeacher | teacherName }}</div>-->
+              <!--<div style="float: right;">-->
+                <!--<mat-icon class="md-18"-->
+                          <!--*ngIf="subject.isTeacherSaved === true"-->
+                          <!--(click)="deleteTeacherId(+subject.id);">delete-->
+                <!--</mat-icon>-->
+
+                <!--<mat-icon class="md-18"-->
+                          <!--*ngIf="subject.isTeacherSaved === false"-->
+                          <!--(click)="connectTeacherWithSubject(subject.idTeacher, +subject.id)">save-->
+                <!--</mat-icon>-->
+              <!--</div>-->
+            <!--</ng-template>-->
           </td>
         </tr>
-      </ng-template>
     </ng-template>
     <!--<tr>-->
       <!--<th *ngFor="let i of [1,2,3,4,5,6,7,8,9,10,11,12,13-->

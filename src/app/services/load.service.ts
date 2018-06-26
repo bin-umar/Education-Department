@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpParams } from '@angular/common/http';
 import { AuthService } from './auth.service';
-import { ILoad, ITeacher } from '../models/load';
+import { ILoad } from '../models/load';
 import { UpdateResponse } from '../models/common';
 
 @Injectable()
@@ -12,6 +12,7 @@ export class LoadService {
   getLoadSubjectsByKf (kfId: number) {
     const body = new HttpParams()
       .set('kf_id', kfId.toString())
+      .set('section_id', '4')
       .set('route', 'ldSubjects')
       .set('operation', 'list')
       .set('token', this.auth.token);
@@ -25,26 +26,10 @@ export class LoadService {
     });
   }
 
-  getTeachersByKf (kfId: number) {
+  saveFlowedSubject (mainSubjectId: number, flowedId: number) {
     const body = new HttpParams()
-      .set('kf_id', kfId.toString())
-      .set('route', 'teachers')
-      .set('operation', 'list')
-      .set('token', this.auth.token);
-
-    return this.auth.http.post(this.auth.host, body.toString(),
-      {
-        headers: new HttpHeaders()
-          .set('Content-Type', 'application/x-www-form-urlencoded')
-      }).map((response: ITeacher) => {
-      return response;
-    });
-  }
-
-  saveTeacherId (idTeacher: number, idSubject: number) {
-    const body = new HttpParams()
-      .set('idTeacher', idTeacher.toString())
-      .set('idSubject', idSubject.toString())
+      .set('mainSubjectId', mainSubjectId.toString())
+      .set('flowedId', flowedId.toString())
       .set('route', 'ldSubjects')
       .set('operation', 'update')
       .set('token', this.auth.token);
@@ -58,11 +43,14 @@ export class LoadService {
     });
   }
 
-  deleteTeacherId (idSubject: number) {
+
+  disConnectFlowedGroups (mainSubjectId: number, flowedId: number) {
     const body = new HttpParams()
-      .set('id', idSubject.toString())
+      .set('mainSubjectId', mainSubjectId.toString())
+      .set('flowedId', flowedId.toString())
+      .set('disconnect', '')
       .set('route', 'ldSubjects')
-      .set('operation', 'remove')
+      .set('operation', 'update')
       .set('token', this.auth.token);
 
     return this.auth.http.post(this.auth.host, body.toString(),
@@ -73,4 +61,5 @@ export class LoadService {
       return response;
     });
   }
+
 }

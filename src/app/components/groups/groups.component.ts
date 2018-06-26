@@ -174,42 +174,67 @@ export class GroupsComponent implements OnInit {
   }
 
   editGroup(row: IGroup) {
-    this.add = false;
-    this.panelOpenState = true;
 
-    const sIndex = this.options.findIndex(x => x.fID === row.idSpec);
-    const tIndex = this.auth.TYPES.findIndex(x => x === row.type);
-    const dIndex = this.auth.DEGREES.findIndex(x => x === row.degree);
+    if (row.load === 0) {
+      this.add = false;
+      this.panelOpenState = true;
 
-    this.selectedSpec = this.options[sIndex];
-    this.group = {
-      id: row.id,
-      idSpec: row.idSpec,
-      number: row.number,
-      name: row.name,
-      degree: dIndex.toString(),
-      type: tIndex.toString(),
-      course: row.course,
-      subgroup: row.subgroup,
-      subgroup2: row.subgroup2,
-      studentsAmount: row.studentsAmount,
-      educationYear: 20 + row.educationYear,
-      extraction: row.extraction,
-      load: row.load
-    };
+      const sIndex = this.options.findIndex(x => x.fID === row.idSpec);
+      const tIndex = this.auth.TYPES.findIndex(x => x === row.type);
+      const dIndex = this.auth.DEGREES.findIndex(x => x === row.degree);
+
+      this.selectedSpec = this.options[sIndex];
+      this.group = {
+        id: row.id,
+        idSpec: row.idSpec,
+        number: row.number,
+        name: row.name,
+        degree: dIndex.toString(),
+        type: tIndex.toString(),
+        course: row.course,
+        subgroup: row.subgroup,
+        subgroup2: row.subgroup2,
+        studentsAmount: row.studentsAmount,
+        educationYear: 20 + row.educationYear,
+        extraction: +row.extraction,
+        load: +row.load
+      };
+    }
   }
 
-  connectGrouopExt(group: IGroup) {
-    console.log(group);
+  connectGroupExt(group: IGroup) {
     if (group.extraction > 0) {
       this.groupsService.generateLoad(group.id, group.extraction).subscribe(resp => {
-        console.log(resp);
+          if (!resp.error) {
+            group.load = resp.data.id;
+          }
       });
     }
   }
 
-  deleteGroup(row: IGroup) {
+  disconnectGroupExt(group: IGroup) {
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
+      width: '500px',
+      data: {
+        data: group,
+        type: 'loads'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 1) {
+        this.groupsService.deleteLoad(group.load).subscribe(resp => {
+          if (!resp.error) {
+            group.load = 0;
+          }
+        });
+      }
+    });
+  }
+
+  deleteGroup(row: IGroup) {
+    if (row.load === 0) {
+      const dialogRef = this.dialog.open(DeleteDialogComponent, {
         width: '500px',
         data: {
           data: row,
@@ -217,20 +242,21 @@ export class GroupsComponent implements OnInit {
         }
       });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result === 1) {
-        this.groupsService.deleteGroup(row.id).subscribe( data => {
-          if (!data.error) {
-            const foundIndex = this.groupDatabase.dataChange.value.findIndex(x => x.id === row.id);
+      dialogRef.afterClosed().subscribe(result => {
+        if (result === 1) {
+          this.groupsService.deleteGroup(row.id).subscribe( data => {
+            if (!data.error) {
+              const foundIndex = this.groupDatabase.dataChange.value.findIndex(x => x.id === row.id);
 
-            this.groupDatabase.dataChange.value.splice(foundIndex, 1);
-            this.refreshTable();
-          } else {
-            console.log('Error has been happened while deleting Group');
-          }
-        });
-      }
-    });
+              this.groupDatabase.dataChange.value.splice(foundIndex, 1);
+              this.refreshTable();
+            } else {
+              console.log('Error has been happened while deleting Group');
+            }
+          });
+        }
+      });
+    }
   }
 
   private refreshTable() {

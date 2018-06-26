@@ -11,24 +11,10 @@ export interface Load {
   section: string;
   hour: number;
   idGroup: number;
-  idTeacher: string;
-  isTeacherSaved: boolean;
+  isFlowSaved: boolean;
 }
 
 export interface ILoad {
   error: boolean;
   data: [Load];
-}
-
-export interface Teacher {
-  Id: number;
-  Fio: string;
-  Post: string;
-  UchStep: string;
-  Science_degree: string;
-}
-
-export interface ITeacher {
-  error: boolean;
-  data: [Teacher];
 }

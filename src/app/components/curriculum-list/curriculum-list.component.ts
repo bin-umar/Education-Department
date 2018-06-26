@@ -302,12 +302,14 @@ export class CurriculumListComponent implements OnInit {
       speciality: speciality.fSpec_Shifr + " - \"" + speciality.fSpec_NameTaj + "\"",
       degree: row.degree,
       type: row.type,
-      course: row.course,
+      course: +row.course,
       educationYear: row.educationYear,
       idStandard: row.idStandard,
       dateOfStandard: row.dateOfStandard,
       locked: row.locked
     };
+
+    CmpRef.instance.idSpec = +speciality.fID;
 
     this.cmpRef = CmpRef;
   }

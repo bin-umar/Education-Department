@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, ViewChild, HostListener} from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material';
 
 import { AddExtractionSubjectComponent } from '../../dialogs/add-extraction-subject/add-extraction-subject.component';
@@ -17,29 +17,22 @@ import { CurriculumList, ExtractionSubject } from '../../models/curriculum';
 export class ExtractionComponent implements OnInit {
 
   @Input() Curriculum: CurriculumList;
+  @Input() idSpec: number;
   @ViewChild('header') header: ElementRef;
 
   subjects: ExtractionSubject[] = [];
   error = false;
   erSubjects: ExtractionSubject[] = [];
   fixed = false;
-
-  // @HostListener('window:scroll', ['$event'])
-  //   onWindowScroll($event) {
-  //     const number = $event.target.documentElement.scrollTop;
-  //
-  //     if (number > 600) {
-  //       this.fixed = true;
-  //     } else {
-  //       this.fixed = false;
-  //     }
-  //
-  //   }
+  isStupidSpec = false;
 
   constructor(private extractionService: ExtractionService,
               private dialog: MatDialog) { }
 
   ngOnInit() {
+    this.isStupidSpec = ((this.idSpec === 299 && this.Curriculum.course === 4) ||
+                          (this.idSpec === 298 && this.Curriculum.course === 4));
+
     this.extractionService.getSubjectsByExtractionId(this.Curriculum.id).subscribe(resp => {
       if (!resp.error) {
         resp.data.forEach(item => {

@@ -158,11 +158,16 @@
                   [class.locked]="row.extraction === 0"
                   [class.hovered-color]="row.extraction > 0"
                   matTooltip="{{ (row.extraction === 0) ? 'Ин гурӯҳ иқтибос надорад' : 'Сохтани сарборӣ'}}"
-                  (click)="connectGrouopExt(row);">add_circle</mat-icon>
+                  (click)="connectGroupExt(row);">add_circle</mat-icon>
 
         <mat-icon class="md-24 hovered-color"
                   *ngIf="row.load > 0"
                   matTooltip="Ин гурӯҳ сарборӣ дорад">done</mat-icon>
+
+        <mat-icon class="md-24 hovered-color"
+                  *ngIf="row.load > 0"
+                  matTooltip="Хориҷ кардани сарбории гурӯҳ"
+                  (click)="disconnectGroupExt(row);">delete_outline</mat-icon>
 
       </mat-cell>
     </ng-container>

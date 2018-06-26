@@ -50,6 +50,13 @@
     хориҷ кардан мехоҳед?</h3>
 </div>
 
+<div *ngIf="type === 'loads'" class="container">
+  <h3 mat-dialog-title>Оё шумо барои хориҷ кардани сарбории гурӯҳи
+    <i class="highlighted">{{ data.name }}-и курси {{ data.course }}</i>
+    мутмаин ҳастед??? Ин боиси гум шудани маълумотҳое ки аллакай мудири кафедраи
+    ин гурӯҳ ворид намудааст мегардад!!!</h3>
+</div>
+
 <div *ngIf="type === 'groups'" class="container">
   <h3 mat-dialog-title>Гурӯҳи зеринро хориҷ кардан мехоҳед?</h3>
   <div mat-dialog-content>
@@ -117,15 +124,15 @@
 
 <div mat-dialog-actions>
   <button mat-raised-button
+          class="bg-dark text-colored half-width"
+          [mat-dialog-close]="1">
+          <mat-icon>done</mat-icon>Ҳа
+  </button>
+  <button mat-raised-button
           cdkFocusInitial
           class="bg-dark text-colored half-width"
-          [mat-dialog-close]="1"
-  >
-    <mat-icon>done</mat-icon>Ҳа</button>
-  <button mat-raised-button
-          class="bg-dark text-colored half-width"
           (click)="onNoClick()"
-          tabindex="-1"
-  >
-    <mat-icon>cancel</mat-icon>Не</button>
+          tabindex="-1">
+          <mat-icon>cancel</mat-icon>Не
+  </button>
 </div>
