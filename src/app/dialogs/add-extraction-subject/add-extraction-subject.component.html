@@ -60,6 +60,7 @@
             <input type="number"
                    matInput
                    name="auditCredits"
+                   (input)="setHourOfCredit(data.auditCredits, 'lH')"
                    [(ngModel)]="data.auditCredits"
                    placeholder="Кредитҳои аудиторӣ">
           </mat-form-field>
@@ -73,18 +74,27 @@
                    placeholder="Соатҳои дарсӣ">
           </mat-form-field>
         </td>
-        <td>
+        <td *ngIf="type === types[2]">
           <mat-form-field>
             <input type="number"
                    matInput
-                   name="course"
-                   [(ngModel)]="data.course"
-                   readonly
-                   placeholder="Бахш">
+                   name="kmroCredits"
+                   (input)="setHourOfCredit(data.kmroCredits, 'kH')"
+                   [(ngModel)]="data.kmroCredits"
+                   placeholder="КМРО(кредит)">
           </mat-form-field>
         </td>
       </tr>
       <tr>
+        <td *ngIf="type === types[2]">
+          <mat-form-field>
+            <input type="number"
+                   matInput
+                   name="kmroHour"
+                   [(ngModel)]="data.kmroHour"
+                   placeholder="КМРО(соат)">
+          </mat-form-field>
+        </td>
         <td>
           <mat-form-field>
             <input type="number"
@@ -95,7 +105,7 @@
                    placeholder="Имтиҳон">
           </mat-form-field>
         </td>
-        <td>
+        <td  *ngIf="type === types[0]">
           <mat-form-field>
             <input type="number"
                    matInput
@@ -121,6 +131,15 @@
                    name="courseWork"
                    [(ngModel)]="data.courseWork"
                    placeholder="Кори курсӣ">
+          </mat-form-field>
+        </td>
+        <td *ngIf="type === types[1]">
+          <mat-form-field>
+            <input type="number"
+                   matInput
+                   name="workKont"
+                   [(ngModel)]="data.workKont"
+                   placeholder="Кори контролӣ">
           </mat-form-field>
         </td>
       </tr>
@@ -230,7 +249,16 @@
 
         <table>
           <tr>
-            <td colspan="2">
+            <td colspan="2" *ngIf="type === types[2]">
+              <mat-form-field class="full-width">
+                <input type="number"
+                       matInput
+                       name="advice"
+                       [(ngModel)]="data.advice"
+                       placeholder="Маслиҳат">
+              </mat-form-field>
+            </td>
+            <td colspan="2" *ngIf="type === types[0]">
               <mat-form-field class="full-width">
                 <input type="number"
                        matInput
@@ -239,7 +267,7 @@
                        placeholder="Таҷ.таълимӣ">
               </mat-form-field>
             </td>
-            <td colspan="2">
+            <td colspan="2" *ngIf="type === types[0]">
               <mat-form-field class="full-width">
                 <input type="number"
                        matInput

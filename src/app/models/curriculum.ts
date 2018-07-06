@@ -44,10 +44,13 @@ export interface ExtractionSubject {
   auditCredits: number;
   course: number;
   lessonHours: number;
+  kmroCredits: number;
+  kmroHour: number;
   exam: string;
   kmd: string;
   courseProject: number;
   courseWork: number;
+  workKont: number;
   lkPlan: number;
   lkTotal: number;
   lbPlan: number;
@@ -56,6 +59,7 @@ export interface ExtractionSubject {
   prTotal: number;
   smPlan: number;
   smTotal: number;
+  advice: number;
   trainingPrac: number;
   manuPrac: number;
   diplomPrac: number;

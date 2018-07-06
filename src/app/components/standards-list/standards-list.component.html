@@ -127,13 +127,13 @@
         <mat-icon *ngIf="row.locked === 0"
                   class="md-24 hovered-color"
                   matTooltip="Қулф кардан (Стандарт пурра шуморида мешавад)"
-                  (click)="lockStandard(row, 1);">lock
+                  (click)="lockStandard(row, 1);">lock_open
         </mat-icon>
 
         <mat-icon *ngIf="row.locked === 1"
                   class="md-24 hovered-color"
                   matTooltip="Кушодани қулф (Стандарт нопурра шуморида мешавад)"
-                  (click)="lockStandard(row, 0);">lock_open
+                  (click)="lockStandard(row, 0);">lock
         </mat-icon>
 
       </mat-cell>

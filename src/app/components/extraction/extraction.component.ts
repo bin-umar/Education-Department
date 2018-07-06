@@ -6,6 +6,7 @@ import { DeleteDialogComponent } from '../../dialogs/delete/delete.dialog.compon
 
 import { ExtractionService } from '../../services/extraction.service';
 import { CurriculumList, ExtractionSubject } from '../../models/curriculum';
+import {AuthService} from "../../services/auth.service";
 
 @Component({
   selector: 'app-extraction',
@@ -25,9 +26,15 @@ export class ExtractionComponent implements OnInit {
   erSubjects: ExtractionSubject[] = [];
   fixed = false;
   isStupidSpec = false;
+  types = [];
+  degrees = [];
 
   constructor(private extractionService: ExtractionService,
-              private dialog: MatDialog) { }
+              private authService: AuthService,
+              private dialog: MatDialog) {
+    this.types = this.authService.TYPES;
+    this.degrees = this.authService.DEGREES;
+  }
 
   ngOnInit() {
     this.isStupidSpec = ((this.idSpec === 299 && this.Curriculum.course === 4) ||
@@ -66,10 +73,13 @@ export class ExtractionComponent implements OnInit {
               auditCredits: +item.auditCredits,
               course: +item.course,
               lessonHours: +item.lessonHours,
+              kmroCredits: +item.kmroCredits,
+              kmroHour: +item.kmroHour,
               exam: exam,
               kmd: kmd,
               courseProject: +item.courseProject,
               courseWork: +item.courseWork,
+              workKont: +item.workKont,
               lkPlan: +item.lkPlan,
               lkTotal: +item.lkTotal,
               lbPlan: +item.lbPlan,
@@ -78,6 +88,7 @@ export class ExtractionComponent implements OnInit {
               prTotal: +item.prTotal,
               smPlan: +item.smPlan,
               smTotal: +item.smTotal,
+              advice: +item.advice,
               trainingPrac: +item.trainingPrac,
               manuPrac: +item.manuPrac,
               diplomPrac: +item.diplomPrac,
@@ -98,7 +109,7 @@ export class ExtractionComponent implements OnInit {
   }
 
   deleteSubject(subject: ExtractionSubject) {
-    if (subject.selective === 1) {
+    if (subject.selective === 1 || this.isStupidSpec) {
       const i = this.subjects.indexOf(subject);
 
       const dialogRef = this.dialog.open(DeleteDialogComponent, {
@@ -141,6 +152,8 @@ export class ExtractionComponent implements OnInit {
         case 'credits': sum += item.credits; break;
         case 'auditCredits': sum += item.auditCredits; break;
         case 'lessonHours': sum += item.lessonHours; break;
+        case 'kmroCredits': sum += item.kmroCredits; break;
+        case 'kmroHour': sum += item.kmroHour; break;
         case 'lkPlan': sum += item.lkPlan; break;
         case 'lkTotal': sum += item.lkTotal; break;
         case 'lbPlan': sum += item.lbPlan; break;
@@ -149,6 +162,12 @@ export class ExtractionComponent implements OnInit {
         case 'prTotal': sum += item.prTotal; break;
         case 'smPlan': sum += item.smPlan; break;
         case 'smTotal': sum += item.smTotal; break;
+        case 'advice': sum += item.advice; break;
+        case 'trainingPrac': sum += item.trainingPrac; break;
+        case 'manuPrac': sum += item.manuPrac; break;
+        case 'diplomPrac': sum += item.diplomPrac; break;
+        case 'bachelorWork': sum += item.bachelorWork; break;
+        case 'gosExam': sum += item.gosExam; break;
         case 'total': sum += item.total; break;
       }
     });
@@ -161,7 +180,7 @@ export class ExtractionComponent implements OnInit {
       +subject.smPlan + +subject.lbPlan + +subject.lbTotal +
       +subject.prPlan + +subject.prTotal + +subject.trainingPrac +
       +subject.manuPrac + +subject.diplomPrac + +subject.bachelorWork +
-      +subject.gosExam;
+      +subject.gosExam + +subject.advice;
 
     subject.total = result;
     return result;
@@ -181,10 +200,13 @@ export class ExtractionComponent implements OnInit {
             auditCredits: subject.auditCredits,
             course: subject.course,
             lessonHours: subject.lessonHours,
+            kmroCredits: subject.kmroCredits,
+            kmroHour: subject.kmroHour,
             exam: subject.exam,
             kmd: subject.kmd,
             courseProject: subject.courseProject,
             courseWork: subject.courseWork,
+            workKont: subject.workKont,
             lkPlan: subject.lkPlan,
             lkTotal: subject.lkTotal,
             lbPlan: subject.lbPlan,
@@ -193,6 +215,7 @@ export class ExtractionComponent implements OnInit {
             prTotal: subject.prTotal,
             smPlan: subject.smPlan,
             smTotal: subject.smTotal,
+            advice: subject.advice,
             trainingPrac: subject.trainingPrac,
             manuPrac: subject.manuPrac,
             diplomPrac: subject.diplomPrac,
@@ -200,7 +223,8 @@ export class ExtractionComponent implements OnInit {
             gosExam: subject.gosExam,
             total: subject.total,
             kfName: subject.kfName,
-            selective: subject.selective
+            selective: subject.selective,
+            type: this.Curriculum.type
           },
           add: false
         }

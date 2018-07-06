@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 import { ExtractionSubject, Kafedra } from '../../models/curriculum';
 import { ExtractionService } from '../../services/extraction.service';
+import {AuthService} from "../../services/auth.service";
 
 @Component({
   selector: 'app-add-extraction-subject',
@@ -15,6 +16,8 @@ export class AddExtractionSubjectComponent implements OnInit {
 
   panelOpenState = false;
   add = true;
+  type;
+  types = [];
   error = false;
   errorText = '';
 
@@ -24,12 +27,15 @@ export class AddExtractionSubjectComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<AddExtractionSubjectComponent>,
               @Inject(MAT_DIALOG_DATA) public input: any,
-              private extractionService: ExtractionService) {
+              private extractionService: ExtractionService,
+              private authService: AuthService) {
+    this.types = this.authService.TYPES;
   }
 
   ngOnInit() {
     this.data = this.input.data;
     this.add = this.input.add;
+    this.type = this.input.data.type;
 
     this.extractionService.getKafedras().subscribe(res => {
       if (!res.error) {
@@ -44,12 +50,20 @@ export class AddExtractionSubjectComponent implements OnInit {
     });
   }
 
+  setHourOfCredit(credit: number, destination: string) {
+    if (destination === 'lH') {
+      this.data.lessonHours = Math.round(credit * 24);
+    } else if (destination === 'kH') {
+      this.data.kmroHour = Math.round(credit * 24);
+    }
+  }
+
   total(subject: ExtractionSubject) {
-    subject.total =  +subject.lkTotal + +subject.lkPlan + +subject.smTotal +
+    subject.total = +subject.lkTotal + +subject.lkPlan + +subject.smTotal +
       +subject.smPlan + +subject.lbPlan + +subject.lbTotal +
       +subject.prPlan + +subject.prTotal + +subject.trainingPrac +
       +subject.manuPrac + +subject.diplomPrac + +subject.bachelorWork +
-      +subject.gosExam;
+      +subject.gosExam + +subject.advice;
   }
 
   showError(text: string) {
@@ -63,7 +77,7 @@ export class AddExtractionSubjectComponent implements OnInit {
   confirmSavingSubject() {
     this.total(this.data);
 
-    if (this.data.lessonHours === this.data.total) {
+    if ((+this.data.lessonHours + +this.data.kmroHour) === +this.data.total) {
 
       const kafedra = this.kafedras.find(x => x.shortName === this.data.kfName);
 

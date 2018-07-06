@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import { Component, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { Kafedra } from '../../models/curriculum';
 import { Faculty } from '../../models/common';
 import { Load } from '../../models/load';
@@ -14,6 +14,8 @@ import { AuthService } from '../../services/auth.service';
 })
 
 export class LoadComponent implements OnInit {
+
+  @Output() cmpName: any = 'Селанамоии гурӯҳҳо';
 
   kafedra: Kafedra = {
     id: null,
