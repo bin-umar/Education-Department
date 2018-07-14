@@ -63,6 +63,8 @@ export class CurriculumListComponent implements OnInit {
   _standards: Standard[] = [];
   add = true;
   isDataLoaded = false;
+  error = false;
+  errorText = '';
 
   constructor(private componentFactoryResolver: ComponentFactoryResolver,
               private mainService: MainService,
@@ -147,6 +149,8 @@ export class CurriculumListComponent implements OnInit {
 
   setStToDefault() {
     this.add = true;
+    this.error = false;
+    this.errorText = '';
     this.panelOpenState = false;
     this.selectedSpec = {
       fID: null,
@@ -170,34 +174,45 @@ export class CurriculumListComponent implements OnInit {
   }
 
   addExtraction() {
-    const standard = this.standards.find(item => item.ids === this.curriculumList.idStandard);
+    const cc = this.curriculumList;
+    const i = this.curriculumDatabase.dataChange.value.findIndex(x =>
+      (+x.course === +cc.course) && (x.type === this.auth.TYPES[cc.type])
+      && (x.degree === this.auth.DEGREES[cc.degree]) && (+x.educationYear === (+cc.educationYear - 2000))
+      && (x.speciality === this.selectedSpec.fSpec_Shifr));
 
-    if (+standard.locked === 1) {
-      this.curriculumList.dateOfStandard = standard.dateOfAcceptance;
+    if (i === -1) {
+      const standard = this.standards.find(item => item.ids === this.curriculumList.idStandard);
 
-      this.curriculumService.addCurriculum(this.curriculumList).subscribe((res) => {
-        if (!res.error) {
-          this.curriculumDatabase.dataChange.value.push({
-            id: res.data.id,
-            number: this.dataSource.filteredData.length + 1,
-            speciality: this.selectedSpec.fSpec_Shifr,
-            course: this.curriculumList.course,
-            degree: this.auth.DEGREES[+this.curriculumList.degree],
-            type: this.auth.TYPES[+this.curriculumList.type],
-            educationYear: (+this.curriculumList.educationYear - 2000).toString(),
-            idStandard: this.curriculumList.idStandard,
-            dateOfStandard: this.curriculumList.dateOfStandard,
-            locked: +this.curriculumList.locked
-          });
+      if (+standard.locked === 1) {
+        this.curriculumList.dateOfStandard = standard.dateOfAcceptance;
 
-          this.refreshTable();
-          this.setStToDefault();
-        } else {
-          console.log("Problem happened while adding new standard");
-        }
-      });
+        this.curriculumService.addCurriculum(this.curriculumList).subscribe((res) => {
+          if (!res.error) {
+            this.curriculumDatabase.dataChange.value.push({
+              id: res.data.id,
+              number: this.dataSource.filteredData.length + 1,
+              speciality: this.selectedSpec.fSpec_Shifr,
+              course: this.curriculumList.course,
+              degree: this.auth.DEGREES[+this.curriculumList.degree],
+              type: this.auth.TYPES[+this.curriculumList.type],
+              educationYear: (+this.curriculumList.educationYear - 2000).toString(),
+              idStandard: this.curriculumList.idStandard,
+              dateOfStandard: this.curriculumList.dateOfStandard,
+              locked: +this.curriculumList.locked
+            });
+
+            this.refreshTable();
+            this.setStToDefault();
+          } else {
+            console.log("Problem happened while adding new standard");
+          }
+        });
+      } else {
+        console.log("Standard isn't ready for getting data");
+      }
     } else {
-      console.log("Standard isn't ready for getting data");
+      this.error = true;
+      this.errorText = 'Инхел иқтибос аллакай вуҷуд дорад.';
     }
   }
 

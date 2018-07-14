@@ -32,6 +32,10 @@
   flex: 0 0 35%;
 }
 
+.mat-column-name {
+  flex: 0 0 170px;
+}
+
 .mat-column-name_ru {
   flex: 0 0 25%;
 }
@@ -42,4 +46,8 @@
 
 .mat-column-subjects_actions {
   flex: 0 0 90px;
+}
+
+.isArch {
+  float: left;
 }

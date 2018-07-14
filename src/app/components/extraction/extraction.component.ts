@@ -5,8 +5,8 @@ import { AddExtractionSubjectComponent } from '../../dialogs/add-extraction-subj
 import { DeleteDialogComponent } from '../../dialogs/delete/delete.dialog.component';
 
 import { ExtractionService } from '../../services/extraction.service';
-import { CurriculumList, ExtractionSubject } from '../../models/curriculum';
-import {AuthService} from "../../services/auth.service";
+import { CurriculumList, ExtractionSubject, PrintInfo } from '../../models/curriculum';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-extraction',
@@ -29,6 +29,16 @@ export class ExtractionComponent implements OnInit {
   types = [];
   degrees = [];
 
+  printInfo: PrintInfo = {
+    fFac_NameTaj: '',
+    fFac_NameTajShort: '',
+    fFac_Dekan: '',
+    kf_full_name: '',
+    kf_short_name: '',
+    kf_chief: '',
+    itm_chief: ''
+  };
+
   constructor(private extractionService: ExtractionService,
               private authService: AuthService,
               private dialog: MatDialog) {
@@ -37,6 +47,13 @@ export class ExtractionComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    this.extractionService.getPrintInfo(this.idSpec).subscribe(resp => {
+      if (!resp.error) {
+        this.printInfo = resp.data;
+      }
+    });
+
     this.isStupidSpec = ((this.idSpec === 299 && this.Curriculum.course === 4) ||
                           (this.idSpec === 298 && this.Curriculum.course === 4));
 
@@ -180,7 +197,7 @@ export class ExtractionComponent implements OnInit {
       +subject.smPlan + +subject.lbPlan + +subject.lbTotal +
       +subject.prPlan + +subject.prTotal + +subject.trainingPrac +
       +subject.manuPrac + +subject.diplomPrac + +subject.bachelorWork +
-      +subject.gosExam + +subject.advice;
+      +subject.gosExam + +subject.kmroHour + +subject.advice;
 
     subject.total = result;
     return result;
@@ -224,7 +241,8 @@ export class ExtractionComponent implements OnInit {
             total: subject.total,
             kfName: subject.kfName,
             selective: subject.selective,
-            type: this.Curriculum.type
+            type: this.Curriculum.type,
+            standardsYear: new Date(this.Curriculum.dateOfStandard).getFullYear()
           },
           add: false
         }
@@ -237,6 +255,10 @@ export class ExtractionComponent implements OnInit {
           this.subjects.splice(iSub, 1, result);
         }
       });
+  }
+
+  print() {
+    window.print();
   }
 
 }

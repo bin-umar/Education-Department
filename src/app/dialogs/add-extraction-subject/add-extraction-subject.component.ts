@@ -16,8 +16,11 @@ export class AddExtractionSubjectComponent implements OnInit {
 
   panelOpenState = false;
   add = true;
+
   type;
   types = [];
+  standardsYear: number;
+
   error = false;
   errorText = '';
 
@@ -33,9 +36,11 @@ export class AddExtractionSubjectComponent implements OnInit {
   }
 
   ngOnInit() {
+
     this.data = this.input.data;
     this.add = this.input.add;
     this.type = this.input.data.type;
+    this.standardsYear = this.input.data.standardsYear;
 
     this.extractionService.getKafedras().subscribe(res => {
       if (!res.error) {
@@ -51,10 +56,17 @@ export class AddExtractionSubjectComponent implements OnInit {
   }
 
   setHourOfCredit(credit: number, destination: string) {
+
+    let creditsHour;
+    if (this.standardsYear < 2016) { creditsHour = 16; } else {
+      creditsHour = 24;
+    }
+    const hour = Math.round(credit * creditsHour);
+
     if (destination === 'lH') {
-      this.data.lessonHours = Math.round(credit * 24);
+      this.data.lessonHours = hour;
     } else if (destination === 'kH') {
-      this.data.kmroHour = Math.round(credit * 24);
+      this.data.kmroHour = hour;
     }
   }
 
@@ -63,7 +75,7 @@ export class AddExtractionSubjectComponent implements OnInit {
       +subject.smPlan + +subject.lbPlan + +subject.lbTotal +
       +subject.prPlan + +subject.prTotal + +subject.trainingPrac +
       +subject.manuPrac + +subject.diplomPrac + +subject.bachelorWork +
-      +subject.gosExam + +subject.advice;
+      +subject.gosExam + +subject.kmroHour + +subject.advice;
   }
 
   showError(text: string) {

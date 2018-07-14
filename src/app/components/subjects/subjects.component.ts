@@ -32,7 +32,8 @@ export class SubjectsComponent implements OnInit {
   dataSource: SubjectsDataSource | null;
   panelOpenState = false;
 
-  displayedColumns = ['number', 'name_tj', 'name_ru', 'shortname_tj', 'shortname_ru', 'subjects_actions'];
+  displayedColumns = ['number', 'name_tj', 'name_ru', 'shortname_tj',
+    'shortname_ru', `isArch`, 'subjects_actions' ];
 
   add = true;
   subject: ISubject;
@@ -59,11 +60,13 @@ export class SubjectsComponent implements OnInit {
       name_ru: '',
       shortname_ru: '',
       shortname_tj: '',
+      isArch: 0,
       removable: 0
     };
   }
 
   addSubject() {
+
     this.subjectsService.addSubject(this.subject).subscribe((res) => {
       if (!res.error) {
         this.subjectDatabase.dataChange.value.push({
@@ -73,6 +76,7 @@ export class SubjectsComponent implements OnInit {
           name_ru: this.subject.name_ru,
           shortname_ru: this.subject.shortname_ru,
           shortname_tj: this.subject.shortname_tj,
+          isArch: this.subject.isArch,
           removable: this.subject.removable
         });
 
@@ -81,6 +85,14 @@ export class SubjectsComponent implements OnInit {
       } else {
         console.log('Problem happened while adding new subject');
       }
+    });
+  }
+
+  makeArchSubject(row: ISubject) {
+    row.isArch = (row.isArch === 1) ? 0 : 1;
+
+    this.subjectsService.makeArchSubject(row).subscribe(resp => {
+      if (resp.error) { console.log("Error happening while making arch Subject");}
     });
   }
 
@@ -96,6 +108,7 @@ export class SubjectsComponent implements OnInit {
           name_ru: this.subject.name_ru,
           shortname_ru: this.subject.shortname_ru,
           shortname_tj: this.subject.shortname_tj,
+          isArch: this.subject.isArch,
           removable: this.subject.removable
         });
 
@@ -118,12 +131,12 @@ export class SubjectsComponent implements OnInit {
       name_ru: row.name_ru,
       shortname_ru: row.shortname_ru,
       shortname_tj: row.shortname_tj,
+      isArch: row.isArch,
       removable: row.removable
     };
   }
 
   deleteSubject(row: ISubject) {
-    console.log(row);
     if (row.removable === 0) {
       const dialogRef = this.dialog.open(DeleteDialogComponent, {
         width: '500px',

@@ -6,15 +6,20 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class GetNamePipe implements PipeTransform {
 
   transform(name: string, lang: string): string {
-    const names = name.split("(");
-    if (names.length === 2) {
-      if (lang === 'tj') {
-        return names[0];
-      } else {
-        return names[1].replace(")", "");
-      }
+
+    if (name === '') {
+      return name;
     } else {
-      return names[0];
+      const names = name.split("(");
+      if (names.length === 2) {
+        if (lang === 'tj') {
+          return names[0];
+        } else {
+          return names[1].replace(")", "");
+        }
+      } else {
+        return names[0];
+      }
     }
   }
 

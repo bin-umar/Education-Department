@@ -85,3 +85,18 @@ export interface KafedraRes {
   error: boolean;
   data: [Kafedra];
 }
+
+export interface PrintInfo {
+  fFac_NameTaj: string;
+  fFac_NameTajShort: string;
+  fFac_Dekan: string;
+  kf_full_name: string;
+  kf_short_name: string;
+  kf_chief: string;
+  itm_chief: string;
+}
+
+export interface PrintInfoResp {
+  error: boolean;
+  data: PrintInfo;
+}

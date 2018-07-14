@@ -15,14 +15,14 @@
                    name="name"
                    [(ngModel)]="data.name"
                    readonly
-                   placeholder="Номи фанн">
+                   placeholder="Номи фан">
           </mat-form-field>
         </td>
       </tr>
       <tr>
         <td colspan="4">
           <mat-form-field class="full-width">
-            <mat-select [(value)]="data.kfName" placeholder="Кафедраи фанн" required>
+            <mat-select [(value)]="data.kfName" placeholder="Фанни кафедраи" required>
               <mat-optgroup *ngIf="recommendKaf.length > 0" [label]="'Кафедра(ҳо)и пештара интихобшуда'">
                 <mat-option *ngFor="let kafedra of recommendKaf" value="{{ kafedra.shortName }}">
                   {{ kafedra.fullName | getName:'tj' }}

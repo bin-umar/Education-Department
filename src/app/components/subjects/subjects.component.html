@@ -29,7 +29,16 @@
                placeholder="Номи русӣ (кӯтоҳ)">
       </mat-form-field>
 
+
       <div class="text-right">
+        <div class="isArch">
+          <mat-slide-toggle
+            (change)="subject.isArch = (subject.isArch === 1) ? 0 : 1"
+            [color]="'primary'"
+            [checked]="subject.isArch === 1">
+            Фанни архитектурӣ
+        </mat-slide-toggle>
+        </div>
         <button [hidden]="!add" (click)="addSubject();" mat-raised-button class="bg-dark text-colored">
           <mat-icon>add_circle_outline</mat-icon> Илова намудан
         </button>
@@ -43,7 +52,7 @@
 
 <div class="example-header">
   <mat-form-field class="full-width">
-    <input matInput #filter placeholder="Filter">
+    <input matInput #filter placeholder="Ҷустуҷӯ аз руйи номи фанн">
   </mat-form-field>
 </div>
 <div class="example-container mat-elevation-z8">
@@ -73,6 +82,17 @@
     <ng-container matColumnDef="shortname_ru">
       <mat-header-cell *matHeaderCellDef mat-sort-header> Номи русӣ (кӯтоҳ) </mat-header-cell>
       <mat-cell *matCellDef="let row"> {{row.shortname_ru}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="isArch">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Фанни архитектурӣ </mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <mat-slide-toggle
+          (change)="makeArchSubject(row)"
+          [color]="'primary'"
+          [checked]="row.isArch === 1">
+        </mat-slide-toggle>
+      </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="subjects_actions">

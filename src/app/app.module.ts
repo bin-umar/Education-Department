@@ -18,7 +18,8 @@ import {
   MatButtonModule,
   MatDialogModule,
   MatCheckboxModule,
-  MatTooltipModule
+  MatTooltipModule,
+  MatSlideToggleModule
 } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -83,7 +84,8 @@ import { TeacherNamePipe } from './pipes/teacher-name.pipe';
     MatButtonModule,
     MatDialogModule,
     MatCheckboxModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatSlideToggleModule
   ],
   entryComponents: [
     AddStandardComponent,

@@ -127,3 +127,87 @@ th div{
   left: 9.4%;
   top: 0;
 }
+
+.print {
+  position: absolute;
+  bottom: 0;
+  right: 20px;
+}
+
+.sign-column {
+  width: 100px;
+}
+
+.extraction-footer {
+  font-size: 13px;
+  line-height: 20px;
+  font-style: italic;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.extraction-footer .half-width {
+  width: 49.5%;
+  margin-bottom: 15px;
+  display: inline-block;
+}
+
+.extraction-footer .half-width>div,
+.extraction-footer .full-width>div{
+  display: inline-block;
+}
+
+.sign-gap {
+  margin: 0 7px -27px 7px;
+}
+
+@media print {
+  /deep/ body {
+    margin: 0;
+    padding: 0;
+    color: #000 !important;
+    background: #FFF;
+    font-size: 7pt;
+  }
+
+  /deep/ @page {
+    margin: 0;
+  }
+
+  table{ margin: 0 0 13px 0;}
+
+  table tr {
+    height: 15px;
+  }
+
+  mat-card { margin: -10px 0 0 0;}
+
+  mat-card h3 { font-size: 18pt; }
+  h4 { font-size: 16px;}
+  mat-card h6 { font-size: 11pt; }
+
+  th div {
+    height: 140px;
+  }
+
+  #container {
+    position: absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+  }
+
+  table th, table td{ padding: 1px 0;}
+
+  table th{
+    background-color: #fff;
+    color: #000;
+    font-size: 9pt;
+  }
+
+  .extraction .d-none {
+    display: table-cell !important;
+  }
+}

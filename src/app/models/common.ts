@@ -109,6 +109,7 @@ export interface ISubject {
   name_ru: string;
   shortname_tj: string;
   shortname_ru: string;
+  isArch: number;
   removable: number;
 }
 

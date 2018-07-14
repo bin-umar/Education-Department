@@ -3,7 +3,7 @@ import { HttpHeaders, HttpParams } from '@angular/common/http';
 
 import { AuthService } from './auth.service';
 import { UpdateResponse } from '../models/common';
-import { ExtractionSubject, KafedraRes, ResponseExtractionSubject } from '../models/curriculum';
+import {ExtractionSubject, KafedraRes, PrintInfoResp, ResponseExtractionSubject} from '../models/curriculum';
 
 @Injectable()
 export class ExtractionService {
@@ -124,6 +124,23 @@ export class ExtractionService {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/x-www-form-urlencoded')
       }).map((response: UpdateResponse) => {
+      return response;
+    });
+  }
+
+  getPrintInfo (id: number) {
+    const body = new HttpParams()
+      .set('id', id.toString())
+      .set('route', 'extractions')
+      .set('operation', 'custom')
+      .set('action', 'printInfo')
+      .set('token', this.auth.token);
+
+    return this.auth.http.post(this.auth.host, body.toString(),
+      {
+        headers: new HttpHeaders()
+          .set('Content-Type', 'application/x-www-form-urlencoded')
+      }).map((response: PrintInfoResp) => {
       return response;
     });
   }
