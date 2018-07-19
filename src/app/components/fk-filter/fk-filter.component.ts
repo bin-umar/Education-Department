@@ -3,8 +3,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ExtractionService } from '../../services/extraction.service';
 import { MainService } from '../../services/main.service';
 
-import { Faculty } from '../../models/common';
-import { Kafedra } from '../../models/curriculum';
+import { Kafedra, Faculty } from '../../models/faculty';
 
 @Component({
   selector: 'app-fk-filter',

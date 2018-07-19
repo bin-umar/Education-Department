@@ -62,17 +62,6 @@ export interface ResponseExtractionSubject {
   data: [ExtractionSubject];
 }
 
-export interface Kafedra {
-  id: number;
-  shortName: string;
-  fullName: string;
-}
-
-export interface KafedraRes {
-  error: boolean;
-  data: [Kafedra];
-}
-
 export interface PrintInfo {
   fFac_NameTaj: string;
   fFac_NameTajShort: string;

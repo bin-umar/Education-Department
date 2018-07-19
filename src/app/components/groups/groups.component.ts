@@ -22,8 +22,8 @@ import { GroupsService } from '../../services/groups.service';
 import { AuthService } from '../../services/auth.service';
 import { MainService } from '../../services/main.service';
 
-import {Faculty, IGroup, Spec} from '../../models/common';
-import {Kafedra} from "../../models/curriculum";
+import { Faculty, IGroup, Kafedra } from '../../models/faculty';
+import { Spec } from '../../models/common';
 
 @Component({
   selector: 'app-groups',

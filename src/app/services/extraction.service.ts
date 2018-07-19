@@ -3,12 +3,8 @@ import { HttpHeaders, HttpParams } from '@angular/common/http';
 
 import { AuthService } from './auth.service';
 import { UpdateResponse } from '../models/common';
-import {
-  KafedraRes,
-  PrintInfoResp,
-  ExtractionSubject,
-  ResponseExtractionSubject
-} from '../models/curriculum';
+import { PrintInfoResp, ExtractionSubject, ResponseExtractionSubject } from '../models/curriculum';
+import { KafedraRes } from '../models/faculty';
 
 @Injectable()
 export class ExtractionService {

@@ -3,14 +3,9 @@ import { HttpHeaders, HttpParams } from '@angular/common/http';
 
 import { AuthService } from './auth.service';
 
-import {
-  ISubType,
-  ResSubType,
-  ISubjectList,
-  StSubjectResp,
-  ISubjectResponse
-} from '../models/standards';
-import {IFaculty, ISpec} from '../models/common';
+import { ISubType, ResSubType, ISubjectList, StSubjectResp, ISubjectResponse } from '../models/standards';
+import { ISpec } from '../models/common';
+import { IFaculty } from '../models/faculty';
 
 @Injectable()
 export class MainService {

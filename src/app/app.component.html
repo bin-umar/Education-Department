@@ -61,6 +61,10 @@
     <div class="header-content application">
       <input name="componentName" hidden [(ngModel)]="component" #cmp>
       <h2 class="headertitle"> «Шуъбаи таълим» - <span style="color: #ff5a60;">{{cmp.value}}</span></h2>
+      <mat-icon matTooltip="Настройки"
+                style="color: #167F92;"
+                class="md-36"
+                (click)="createComponentDynamically(settingsCmp);">settings</mat-icon>
     </div>
   </header>
 

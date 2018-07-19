@@ -80,7 +80,7 @@ export class ExtractionComponent implements OnInit {
             exam = (exams === undefined ? item.exam : exams[i] );
             kmd = (kmds === undefined ? item.kmd : kmds[i]);
 
-            if (exam !== kmd) { kmd = ''; }
+            if (exam !== kmd && exam !== '') { kmd = ''; }
 
             this.subjects.push({
               id: +item.id,

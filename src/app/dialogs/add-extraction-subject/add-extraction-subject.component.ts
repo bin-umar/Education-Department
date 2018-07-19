@@ -1,8 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
-import { ExtractionSubject, Kafedra } from '../../models/curriculum';
+import { ExtractionSubject } from '../../models/curriculum';
+import { Kafedra } from '../../models/faculty';
 import { ExtractionService } from '../../services/extraction.service';
+
 import { AuthService } from '../../services/auth.service';
 
 @Component({

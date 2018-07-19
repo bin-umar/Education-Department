@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+
 import { AuthService } from './auth.service';
-import { GroupResponse, IGroup, ResponseAdd, UpdateResponse } from '../models/common';
+import { ResponseAdd, UpdateResponse } from '../models/common';
+import { GroupResponse, IGroup } from '../models/faculty';
 
 @Injectable()
 export class GroupsService {

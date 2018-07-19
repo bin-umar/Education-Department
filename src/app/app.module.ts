@@ -47,6 +47,7 @@ import { FkFilterComponent } from './components/fk-filter/fk-filter.component';
 import { EducationYearPipe } from './pipes/education-year.pipe';
 import { TeacherNamePipe } from './pipes/teacher-name.pipe';
 import { GetNamePipe } from './pipes/get-name.pipe';
+import { SettingsComponent } from './components/settings/settings.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { GetNamePipe } from './pipes/get-name.pipe';
     SubjectsComponent,
     LoadComponent,
     FkFilterComponent,
-    TeacherNamePipe
+    TeacherNamePipe,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,

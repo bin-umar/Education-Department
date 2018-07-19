@@ -92,7 +92,7 @@ export class SubjectsComponent implements OnInit {
     row.isArch = (row.isArch === 1) ? 0 : 1;
 
     this.subjectsService.makeArchSubject(row).subscribe(resp => {
-      if (resp.error) { console.log("Error happening while making arch Subject");}
+      if (resp.error) { console.log("Error happening while making arch Subject"); }
     });
   }
 

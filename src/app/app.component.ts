@@ -16,6 +16,7 @@ import { AuthService } from './services/auth.service';
 import { UserInfo } from './models/common';
 import { SubjectsComponent } from './components/subjects/subjects.component';
 import { LoadComponent } from './components/load/load.component';
+import { SettingsComponent } from './components/settings/settings.component';
 
 @Component({
   selector: 'app-root',
@@ -26,15 +27,19 @@ import { LoadComponent } from './components/load/load.component';
     GroupsComponent,
     CurriculumListComponent,
     SubjectsComponent,
-    LoadComponent
+    LoadComponent,
+    SettingsComponent
   ]
 })
+
 export class AppComponent implements OnDestroy {
 
   standardsListCmp = StandardsListComponent;
   subjectsComponent = SubjectsComponent;
   groupsComponent = GroupsComponent;
   curriculumListComponent = CurriculumListComponent;
+  settingsCmp = SettingsComponent;
+
   loadComponent = LoadComponent;
   component = '';
   welcome = true;
