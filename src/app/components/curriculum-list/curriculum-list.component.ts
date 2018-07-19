@@ -133,6 +133,8 @@ export class CurriculumListComponent implements OnInit {
         resp.data.forEach(item => {
           this.standards.push({
             ids: item.ids,
+            kfId: item.kfId,
+            fcId: item.fcId,
             fSpec_Shifr: '',
             timeOfStudying: item.timeOfStudying,
             typeOfStudying: this.auth.TYPES[item.typeOfStudying],
@@ -249,6 +251,8 @@ export class CurriculumListComponent implements OnInit {
           resp.data.forEach(item => {
             this._standards.push({
               ids: item.ids,
+              kfId: item.kfId,
+              fcId: item.fcId,
               fSpec_Shifr: '',
               timeOfStudying: item.timeOfStudying,
               typeOfStudying: this.auth.TYPES[item.typeOfStudying],

@@ -162,7 +162,7 @@
       </thead>
       <ng-template ngFor let-semester [ngForOf]="[1,2]">
         <tr class="bg-eee">
-          <td colspan="25">НИМСОЛАИ {{(Curriculum.course - 1) * 2 + semester}}</td>
+          <td colspan="25">НИМСОЛАИ {{ semester }} (СЕМЕСТРИ {{(Curriculum.course - 1) * 2 + semester}})</td>
         </tr>
         <ng-template ngFor let-i="index" let-subject [ngForOf]="getSubjectsByTerm(semester)">
           <tr>
@@ -193,10 +193,10 @@
             </ng-template>
 
             <td>
-              <span *ngIf="subject.exam !== 0 ">{{ subject.exam }}</span>
+              <span *ngIf="+subject.exam !== 0 ">{{ subject.exam }}</span>
             </td>
             <td *ngIf="Curriculum.type === types[0]" >
-              <span *ngIf="subject.kmd !== 0 ">{{ subject.kmd }}</span>
+              <span *ngIf="+subject.kmd !== 0 ">{{ subject.kmd }}</span>
             </td>
             <td>
               <span *ngIf="subject.courseProject !== 0 ">{{ subject.courseProject }}</span>

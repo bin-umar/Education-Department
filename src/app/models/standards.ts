@@ -47,6 +47,8 @@ export interface ResSubType {
 
 export interface Standard {
   ids: number;
+  kfId: number;
+  fcId: number;
   fSpec_Shifr: string;
   timeOfStudying: number;
   typeOfStudying: string;
