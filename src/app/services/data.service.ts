@@ -43,6 +43,8 @@ export class DataService {
           standards.push({
             id: item.ids,
             number: i + 1,
+            kfId: +item.kfId,
+            fcId: +item.fcId,
             specialty: item.fSpec_Shifr,
             degreeOfStudying: this.auth.DEGREES[Number(item.degreeOfStudying)],
             profession: '',

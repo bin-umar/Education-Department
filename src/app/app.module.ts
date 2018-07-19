@@ -23,27 +23,30 @@ import {
 } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+// Services
 import { AuthService } from './services/auth.service';
 import { MainService } from './services/main.service';
 import { DataService } from './services/data.service';
 import { StSubjectsService } from './services/st-subjects.service';
 
+// Components
 import { AppComponent } from './app.component';
 import { StandardsListComponent } from './components/standards-list/standards-list.component';
 import { StandardComponent } from './components/standard/standard.component';
 import { GroupsComponent } from './components/groups/groups.component';
 import { CurriculumListComponent } from './components/curriculum-list/curriculum-list.component';
 import { ExtractionComponent } from './components/extraction/extraction.component';
-
 import { AddExtractionSubjectComponent } from './dialogs/add-extraction-subject/add-extraction-subject.component';
 import { DeleteDialogComponent } from './dialogs/delete/delete.dialog.component';
 import { AddStandardComponent } from './dialogs/add-standard/add-standard.component';
-import { GetNamePipe } from './pipes/get-name.pipe';
-import { EducationYearPipe } from './pipes/education-year.pipe';
 import { SubjectsComponent } from './components/subjects/subjects.component';
 import { LoadComponent } from './components/load/load.component';
 import { FkFilterComponent } from './components/fk-filter/fk-filter.component';
+
+// Pipes
+import { EducationYearPipe } from './pipes/education-year.pipe';
 import { TeacherNamePipe } from './pipes/teacher-name.pipe';
+import { GetNamePipe } from './pipes/get-name.pipe';
 
 @NgModule({
   declarations: [

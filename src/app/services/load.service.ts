@@ -9,9 +9,9 @@ export class LoadService {
 
   constructor(private auth: AuthService) { }
 
-  getLoadSubjectsByKf (kfId: number) {
+  getLoadSubjectsByKf (id: number) {
     const body = new HttpParams()
-      .set('kf_id', kfId.toString())
+      .set('id', id.toString())
       .set('section_id', '4')
       .set('route', 'ldSubjects')
       .set('operation', 'list')

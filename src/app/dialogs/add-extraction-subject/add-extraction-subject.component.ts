@@ -3,7 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 import { ExtractionSubject, Kafedra } from '../../models/curriculum';
 import { ExtractionService } from '../../services/extraction.service';
-import {AuthService} from "../../services/auth.service";
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-add-extraction-subject',

@@ -1,3 +1,5 @@
+<app-fk-filter (OnChooseKafedra)="getContentByKfId($event);"></app-fk-filter>
+
 <mat-accordion>
   <mat-expansion-panel [expanded]="panelOpenState"
                        (opened)="panelOpenState = true"
@@ -85,7 +87,7 @@
 
 <div class="example-header">
   <mat-form-field class="full-width">
-    <input matInput #filter placeholder="Filter">
+    <input matInput #filter placeholder="Ҷустуҷӯ вобаста аз номи гурӯҳ">
   </mat-form-field>
 </div>
 <div class="example-container mat-elevation-z8">

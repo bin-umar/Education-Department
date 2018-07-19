@@ -30,6 +30,8 @@ export class GroupsService {
       response.data.forEach( (item, i) => {
         groups.push({
           id: +item.id,
+          kfId: +item.kfId,
+          fcId: +item.fcId,
           idSpec: item.idSpec,
           number: i + 1,
           name: item.name,

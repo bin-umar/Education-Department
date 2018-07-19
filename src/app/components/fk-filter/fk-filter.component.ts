@@ -1,8 +1,10 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import { Kafedra } from '../../models/curriculum';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+
 import { ExtractionService } from '../../services/extraction.service';
-import {MainService} from "../../services/main.service";
-import {Faculty} from "../../models/common";
+import { MainService } from '../../services/main.service';
+
+import { Faculty } from '../../models/common';
+import { Kafedra } from '../../models/curriculum';
 
 @Component({
   selector: 'app-fk-filter',
@@ -18,6 +20,8 @@ export class FkFilterComponent implements OnInit {
   selectedFc: number;
   kafedras: Kafedra[] = [];
 
+  emptyOption = {id: 0, shortName: '', fullName: ''};
+
   constructor(private extService: ExtractionService,
               private mainService: MainService) {
   }
@@ -26,23 +30,37 @@ export class FkFilterComponent implements OnInit {
     this.mainService.getFacultyList().subscribe(resp => {
       if (!resp.error) {
         this.faculties = resp.data.slice();
+        this.faculties.unshift(this.emptyOption);
       }
     });
   }
 
   findKafedra() {
-    this.extService.getKafedraByFacultyId(this.selectedFc).subscribe(resp => {
-      if (!resp.error) {
-        this.kafedras = resp.data.slice();
-      }
-    });
+    if (this.selectedFc === 0) {
+      this.getContentByKfId();
+
+      this.selectedFc = -1;
+      this.selectedKf = -1;
+      this.kafedras = [];
+
+    } else {
+      this.extService.getKafedraByFacultyId(this.selectedFc).subscribe(resp => {
+        if (!resp.error) {
+          this.kafedras = resp.data.slice();
+          this.kafedras.unshift(this.emptyOption);
+
+          this.selectedKf = 0;
+          this.getContentByKfId();
+        }
+      });
+    }
   }
 
   getContentByKfId() {
-    const fc = this.faculties.find(x => x.id === this.selectedFc);
-    const kf = this.kafedras.find(x => x.id === this.selectedKf);
+    const fc = this.faculties.find(x => +x.id === +this.selectedFc);
+    const kf = this.kafedras.find(x => +x.id === +this.selectedKf);
 
     this.OnChooseKafedra.emit({kf: kf, fc: fc});
-  };
+  }
 
 }

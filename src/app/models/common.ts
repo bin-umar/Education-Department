@@ -48,6 +48,8 @@ export interface ISpec {
 
 export interface ISpec {
   fID: number;
+  fcId: number;
+  kfId: number;
   fSpec_NameRus: string;
   fSpec_NameTaj: string;
   fSpec_Shifr: string;
@@ -58,6 +60,8 @@ export class Spec {
     public fID: number,
     public fSpec_NameRus: string,
     public fSpec_NameTaj: string,
+    public fcId: number,
+    public kfId: number,
     public fSpec_Shifr: string
   ) { }
 }
@@ -68,6 +72,8 @@ export class Spec {
 
 export interface IGroup {
   id: number;
+  kfId: number;
+  fcId: number;
   idSpec: number;
   number: number;
   name: string;

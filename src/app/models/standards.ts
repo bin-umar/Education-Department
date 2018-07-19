@@ -63,6 +63,8 @@ export interface IStandard {
 export interface StandardList {
   id: number;
   number: number;
+  kfId: number;
+  fcId: number;
   specialty: string;
   degreeOfStudying: string;
   profession: string;

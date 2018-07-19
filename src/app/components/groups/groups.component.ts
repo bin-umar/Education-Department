@@ -22,7 +22,8 @@ import { GroupsService } from '../../services/groups.service';
 import { AuthService } from '../../services/auth.service';
 import { MainService } from '../../services/main.service';
 
-import { IGroup, Spec } from '../../models/common';
+import {Faculty, IGroup, Spec} from '../../models/common';
+import {Kafedra} from "../../models/curriculum";
 
 @Component({
   selector: 'app-groups',
@@ -64,16 +65,18 @@ export class GroupsComponent implements OnInit {
     this.setStToDefault();
 
     this.mainService.getSpecialityList().subscribe((response) => {
-      response.data.forEach(item => {
-        this.options.push(item);
-      });
+      if (!response.error) {
+        this.options = response.data.slice();
 
-      this.filteredOptions = this.myControl.valueChanges
-        .pipe(
-          startWith<string | Spec>(''),
-          map(value => typeof value === 'string' ? value : value.fSpec_Shifr),
-          map(val => val ? this.filter(val) : this.options.slice())
-        );
+        this.filteredOptions = this.myControl.valueChanges
+          .pipe(
+            startWith<string | Spec>(''),
+            map(value => typeof value === 'string' ? value : value.fSpec_Shifr),
+            map(val => val ? this.filter(val) : this.options.slice())
+          );
+      } else {
+        console.log('Something happened while getting specialities');
+      }
     });
 
     this.loadData();
@@ -91,11 +94,15 @@ export class GroupsComponent implements OnInit {
       fID: null,
       fSpec_NameRus: '',
       fSpec_NameTaj: '',
+      kfId: null,
+      fcId: null,
       fSpec_Shifr: ''
     };
 
     this.group = {
       id: null,
+      kfId: null,
+      fcId: null,
       idSpec: null,
       number: null,
       name: '',
@@ -111,12 +118,34 @@ export class GroupsComponent implements OnInit {
     };
   }
 
+  getContentByKfId(data: {kf: Kafedra, fc: Faculty}) {
+
+    if (+data.fc.id === 0) {
+      this.filteredOptions = Observable.of(this.options);
+    } else {
+
+      if (+data.kf.id === 0) {
+        this.filteredOptions = Observable.of(this.options.filter(option => +option.fcId === +data.fc.id));
+      } else {
+
+        this.filteredOptions = Observable.of(this.options.filter(option => +option.kfId === +data.kf.id));
+      }
+    }
+
+    this.dataSource.filterByKf = +data.kf.id;
+    this.dataSource.filterByFc = +data.fc.id;
+
+    this.refreshTable();
+  }
+
   addGroup() {
     this.group.idSpec = this.selectedSpec.fID;
     this.groupsService.addGroup(this.group).subscribe((res) => {
       if (!res.error) {
         this.groupDatabase.dataChange.value.push({
           id: res.data.id,
+          kfId: this.group.kfId,
+          fcId: this.group.fcId,
           idSpec: this.group.idSpec,
           number: this.dataSource.filteredData.length + 1,
           name: this.group.name,
@@ -147,6 +176,8 @@ export class GroupsComponent implements OnInit {
       if (!res.error) {
         this.groupDatabase.dataChange.value.splice(sIndex, 1, {
           id: this.group.id,
+          kfId: this.group.kfId,
+          fcId: this.group.fcId,
           idSpec: this.group.idSpec,
           number: this.group.number,
           name: this.group.name,
@@ -186,6 +217,8 @@ export class GroupsComponent implements OnInit {
       this.selectedSpec = this.options[sIndex];
       this.group = {
         id: row.id,
+        kfId: row.kfId,
+        fcId: row.fcId,
         idSpec: row.idSpec,
         number: row.number,
         name: row.name,
@@ -293,14 +326,17 @@ export class GroupsComponent implements OnInit {
 
 export class GroupsDataSource extends DataSource<IGroup> {
   _filterChange = new BehaviorSubject('');
+  _kfChange = new BehaviorSubject(0);
+  _fcChange = new BehaviorSubject(0);
 
-  get filter(): string {
-    return this._filterChange.value;
-  }
+  get filter(): string { return this._filterChange.value; }
+  set filter(filter: string) { this._filterChange.next(filter); }
 
-  set filter(filter: string) {
-    this._filterChange.next(filter);
-  }
+  get filterByKf(): number { return this._kfChange.value; }
+  set filterByKf(kfId: number) { this._kfChange.next(kfId); }
+
+  get filterByFc(): number { return this._fcChange.value; }
+  set filterByFc(fcId: number) { this._fcChange.next(fcId); }
 
   filteredData: IGroup[] = [];
   renderedData: IGroup[] = [];
@@ -329,7 +365,18 @@ export class GroupsDataSource extends DataSource<IGroup> {
       // Filter data
       this.filteredData = this._exampleDatabase.data.slice().filter((issue: IGroup) => {
         const searchStr = (issue.id + issue.number + issue.degree + issue.name + issue.educationYear).toLowerCase();
-        return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
+
+        if (this.filterByFc === 0) {
+          return (searchStr.indexOf(this.filter.toLowerCase()) !== -1);
+        } else {
+
+          if (this.filterByKf === 0) {
+            return (searchStr.indexOf(this.filter.toLowerCase()) !== -1) && +issue.fcId === +this.filterByFc;
+          } else {
+            return (searchStr.indexOf(this.filter.toLowerCase()) !== -1) && +issue.kfId === +this.filterByKf;
+          }
+        }
+
       });
 
       // Sort filtered data

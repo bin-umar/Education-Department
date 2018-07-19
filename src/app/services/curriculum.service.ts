@@ -53,6 +53,8 @@ export class CurriculumService {
           curriculums.push({
             id: item.id,
             number: i + 1,
+            kfId: +item.kfId,
+            fcId: +item.fcId,
             speciality: item.speciality,
             course: item.course,
             degree: this.auth.DEGREES[+item.degree],
@@ -126,7 +128,6 @@ export class CurriculumService {
       return response;
     });
   }
-
 
   lockCurriculum(id: number, status: number) {
     const body = new HttpParams()

@@ -22,11 +22,13 @@ export class LoadComponent implements OnInit {
     shortName: '',
     fullName: ''
   };
+
   faculty: Faculty = {
     id: null,
     shortName: '',
     fullName: ''
   };
+
   subjects: Load[] = [];
 
   constructor(private loadService: LoadService,
@@ -68,23 +70,26 @@ export class LoadComponent implements OnInit {
   }
 
   getKafedrasLoadById(filter: { kf: Kafedra, fc: Faculty }) {
-    this.faculty = filter.fc;
-    this.kafedra = filter.kf;
 
-    this.loadService.getLoadSubjectsByKf(this.kafedra.id).subscribe((response) => {
-      if (!response.error) {
+    if (filter.kf.id !== -1) {
+      this.faculty = filter.fc;
+      this.kafedra = filter.kf;
 
-        this.subjects = response.data.slice();
-        this.subjects.forEach(subject => {
+      this.loadService.getLoadSubjectsByKf(this.kafedra.id).subscribe((response) => {
+        if (!response.error) {
 
-          subject.degree = this.authService.DEGREES[+subject.degree];
-          subject.type = this.authService.TYPES[+subject.type];
-          subject.idGroup = +subject.idGroup;
-          subject.isFlowSaved = !(subject.idGroup === 0);
+          this.subjects = response.data.slice();
+          this.subjects.forEach(subject => {
 
-        });
-      }
-    });
+            subject.degree = this.authService.DEGREES[+subject.degree];
+            subject.type = this.authService.TYPES[+subject.type];
+            subject.idGroup = +subject.idGroup;
+            subject.isFlowSaved = !(subject.idGroup === 0);
+
+          });
+        }
+      });
+    }
   }
 
   disConnectFlowedGroups(mId: number, fId: number) {

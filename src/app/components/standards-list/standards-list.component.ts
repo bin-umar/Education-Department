@@ -31,7 +31,8 @@ import { MainService } from '../../services/main.service';
 import { AuthService } from '../../services/auth.service';
 
 import { StandardList } from '../../models/standards';
-import { Spec } from '../../models/common';
+import {Faculty, Spec} from '../../models/common';
+import {Kafedra} from "../../models/curriculum";
 
 @Component({
   selector: 'app-standards-list',
@@ -79,16 +80,18 @@ export class StandardsListComponent implements OnInit {
     this.setStToDefault();
 
     this.mainService.getSpecialityList().subscribe((response) => {
-      response.data.forEach(item => {
-        this.options.push(item);
-      });
+      if (!response.error) {
+        this.options = response.data.slice();
 
-      this.filteredOptions = this.myControl.valueChanges
-        .pipe(
-          startWith<string | Spec>(''),
-          map(value => typeof value === 'string' ? value : value.fSpec_Shifr),
-          map(val => val ? this.filter(val) : this.options.slice())
-        );
+        this.filteredOptions = this.myControl.valueChanges
+          .pipe(
+            startWith<string | Spec>(''),
+            map(value => typeof value === 'string' ? value : value.fSpec_Shifr),
+            map(val => val ? this.filter(val) : this.options.slice())
+          );
+      } else {
+        console.log('Something happened while getting specialities');
+      }
     });
 
     this.mainService.getSubjectTypesList().subscribe(data => {
@@ -114,12 +117,16 @@ export class StandardsListComponent implements OnInit {
       fID: null,
       fSpec_NameRus: '',
       fSpec_NameTaj: '',
+      kfId: null,
+      fcId: null,
       fSpec_Shifr: ''
     };
 
     this.standardList = {
       id: null,
       number: null,
+      kfId: null,
+      fcId: null,
       specialty: null,
       degreeOfStudying: null,
       profession: null,
@@ -130,6 +137,26 @@ export class StandardsListComponent implements OnInit {
     };
   }
 
+  getContentByKfId(data: {kf: Kafedra, fc: Faculty}) {
+
+    if (+data.fc.id === 0) {
+      this.filteredOptions = Observable.of(this.options);
+    } else {
+
+      if (+data.kf.id === 0) {
+        this.filteredOptions = Observable.of(this.options.filter(option => +option.fcId === +data.fc.id));
+      } else {
+
+        this.filteredOptions = Observable.of(this.options.filter(option => +option.kfId === +data.kf.id));
+      }
+    }
+
+    this.dataSource.filterByKf = +data.kf.id;
+    this.dataSource.filterByFc = +data.fc.id;
+
+    this.refreshTable();
+  }
+
   addStandard() {
     this.standardList.specialty = this.selectedSpec.fID.toString();
     this.dataService.addStandard(this.standardList).subscribe((res) => {
@@ -137,6 +164,8 @@ export class StandardsListComponent implements OnInit {
         this.exampleDatabase.dataChange.value.push({
           id: res.data.id,
           number: this.dataSource.filteredData.length + 1,
+          kfId: this.standardList.kfId,
+          fcId: this.standardList.fcId,
           specialty: this.selectedSpec.fSpec_Shifr,
           degreeOfStudying: this.auth.DEGREES[this.standardList.degreeOfStudying],
           profession: this.standardList.profession,
@@ -167,6 +196,8 @@ export class StandardsListComponent implements OnInit {
       this.standardList = {
         id: row.id,
         number: row.number,
+        kfId: row.kfId,
+        fcId: row.fcId,
         specialty: row.specialty,
         degreeOfStudying: dIndex.toString(),
         profession: row.profession,
@@ -219,6 +250,8 @@ export class StandardsListComponent implements OnInit {
       CmpRef.instance.Standard = {
         id: row.id,
         number: row.number,
+        kfId: row.kfId,
+        fcId: row.fcId,
         specialty: speciality.fSpec_Shifr + " " + speciality.fSpec_NameTaj,
         degreeOfStudying: row.degreeOfStudying,
         profession: row.profession,
@@ -244,6 +277,8 @@ export class StandardsListComponent implements OnInit {
         this.exampleDatabase.dataChange.value.splice(sIndex, 1, {
             id: this.standardList.id,
             number: this.standardList.number,
+            kfId: this.standardList.kfId,
+            fcId: this.standardList.fcId,
             specialty: this.selectedSpec.fSpec_Shifr,
             degreeOfStudying: this.auth.DEGREES[this.standardList.degreeOfStudying],
             profession: this.standardList.profession,
@@ -307,14 +342,17 @@ export class StandardsListComponent implements OnInit {
 
 export class ExampleDataSource extends DataSource<StandardList> {
   _filterChange = new BehaviorSubject('');
+  _kfChange = new BehaviorSubject(0);
+  _fcChange = new BehaviorSubject(0);
 
-  get filter(): string {
-    return this._filterChange.value;
-  }
+  get filter(): string { return this._filterChange.value; }
+  set filter(filter: string) { this._filterChange.next(filter); }
 
-  set filter(filter: string) {
-    this._filterChange.next(filter);
-  }
+  get filterByKf(): number { return this._kfChange.value; }
+  set filterByKf(kfId: number) { this._kfChange.next(kfId); }
+
+  get filterByFc(): number { return this._fcChange.value; }
+  set filterByFc(fcId: number) { this._fcChange.next(fcId); }
 
   filteredData: StandardList[] = [];
   renderedData: StandardList[] = [];
@@ -343,7 +381,18 @@ export class ExampleDataSource extends DataSource<StandardList> {
       // Filter data
       this.filteredData = this._exampleDatabase.data.slice().filter((issue: StandardList) => {
         const searchStr = (issue.id + issue.number + issue.specialty + issue.degreeOfStudying).toLowerCase();
-        return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
+
+        if (this.filterByFc === 0) {
+          return (searchStr.indexOf(this.filter.toLowerCase()) !== -1);
+        } else {
+
+          if (this.filterByKf === 0) {
+            return (searchStr.indexOf(this.filter.toLowerCase()) !== -1) && +issue.fcId === +this.filterByFc;
+          } else {
+            return (searchStr.indexOf(this.filter.toLowerCase()) !== -1) && +issue.kfId === +this.filterByKf;
+          }
+        }
+
       });
 
       // Sort filtered data

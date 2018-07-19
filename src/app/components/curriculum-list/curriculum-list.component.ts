@@ -19,16 +19,16 @@ import { map } from 'rxjs/operators/map';
 import { startWith } from 'rxjs/operators/startWith';
 
 import { ExtractionComponent } from '../extraction/extraction.component';
+import { DeleteDialogComponent } from '../../dialogs/delete/delete.dialog.component';
 
 import { CurriculumService } from '../../services/curriculum.service';
 import { MainService } from '../../services/main.service';
 import { AuthService } from '../../services/auth.service';
 
-import { Spec } from '../../models/common';
-import { CurriculumList } from '../../models/curriculum';
+import { Faculty, Spec } from '../../models/common';
+import { CurriculumList, Kafedra } from '../../models/curriculum';
 import { Standard } from '../../models/standards';
-
-import { DeleteDialogComponent } from '../../dialogs/delete/delete.dialog.component';
+import "rxjs/add/observable/of";
 
 @Component({
   selector: 'app-curriculum-list',
@@ -62,7 +62,6 @@ export class CurriculumListComponent implements OnInit {
   standards: Standard[] = [];
   _standards: Standard[] = [];
   add = true;
-  isDataLoaded = false;
   error = false;
   errorText = '';
 
@@ -75,19 +74,21 @@ export class CurriculumListComponent implements OnInit {
   }
 
   ngOnInit() {
+
     this.setStToDefault();
 
     this.mainService.getSpecialityList().subscribe((response) => {
-      response.data.forEach(item => {
-        this.options.push(item);
-      });
-
-      this.filteredOptions = this.myControl.valueChanges
-        .pipe(
-          startWith<string | Spec>(''),
-          map(value => typeof value === 'string' ? value : value.fSpec_Shifr),
-          map(val => val ? this.filter(val) : this.options.slice())
-        );
+      if (!response.error) {
+        this.options = response.data.slice();
+        this.filteredOptions = this.myControl.valueChanges
+          .pipe(
+            startWith<string | Spec>(''),
+            map(value => typeof value === 'string' ? value : value.fSpec_Shifr),
+            map(val => val ? this.filter(val) : this.options.slice())
+          );
+      } else {
+        console.log('Something happened while getting specialities');
+      }
     });
 
     this.loadData();
@@ -102,9 +103,24 @@ export class CurriculumListComponent implements OnInit {
     return spec ? spec.fSpec_Shifr + " " + spec.fSpec_NameTaj : undefined;
   }
 
-  getContentByKfId(data: {kfId: number, fcId: number}) {
+  getContentByKfId(data: {kf: Kafedra, fc: Faculty}) {
 
-    this.isDataLoaded = true;
+    if (+data.fc.id === 0) {
+      this.filteredOptions = Observable.of(this.options);
+    } else {
+
+      if (+data.kf.id === 0) {
+        this.filteredOptions = Observable.of(this.options.filter(option => +option.fcId === +data.fc.id));
+      } else {
+
+        this.filteredOptions = Observable.of(this.options.filter(option => +option.kfId === +data.kf.id));
+      }
+    }
+
+    this.dataSource.filterByKf = +data.kf.id;
+    this.dataSource.filterByFc = +data.fc.id;
+
+    this.refreshTable();
   }
 
   specChange() {
@@ -156,12 +172,16 @@ export class CurriculumListComponent implements OnInit {
       fID: null,
       fSpec_NameRus: '',
       fSpec_NameTaj: '',
+      kfId: null,
+      fcId: null,
       fSpec_Shifr: ''
     };
 
     this.curriculumList = {
       id: null,
       number: null,
+      kfId: null,
+      fcId: null,
       speciality: null,
       degree: null,
       type: null,
@@ -191,6 +211,8 @@ export class CurriculumListComponent implements OnInit {
             this.curriculumDatabase.dataChange.value.push({
               id: res.data.id,
               number: this.dataSource.filteredData.length + 1,
+              kfId: this.curriculumList.kfId,
+              fcId: this.curriculumList.fcId,
               speciality: this.selectedSpec.fSpec_Shifr,
               course: this.curriculumList.course,
               degree: this.auth.DEGREES[+this.curriculumList.degree],
@@ -247,6 +269,8 @@ export class CurriculumListComponent implements OnInit {
           this.curriculumList = {
             id: row.id,
             number: row.number,
+            kfId: row.kfId,
+            fcId: row.fcId,
             speciality: row.speciality,
             degree: dIndex.toString(),
             type: tIndex.toString(),
@@ -314,6 +338,8 @@ export class CurriculumListComponent implements OnInit {
     CmpRef.instance.Curriculum = {
       id: row.id,
       number: row.number,
+      kfId: row.kfId,
+      fcId: row.fcId,
       speciality: speciality.fSpec_Shifr + " - \"" + speciality.fSpec_NameTaj + "\"",
       degree: row.degree,
       type: row.type,
@@ -338,6 +364,8 @@ export class CurriculumListComponent implements OnInit {
         this.curriculumDatabase.dataChange.value.splice(sIndex, 1, {
           id: this.curriculumList.id,
           number: this.curriculumList.number,
+          kfId: this.curriculumList.kfId,
+          fcId: this.curriculumList.fcId,
           speciality: this.selectedSpec.fSpec_Shifr,
           course: this.curriculumList.course,
           degree: this.auth.DEGREES[+this.curriculumList.degree],
@@ -398,18 +426,22 @@ export class CurriculumListComponent implements OnInit {
         this.dataSource.filter = this.filterInput.nativeElement.value;
       });
   }
+
 }
 
 export class CurriculumDataSource extends DataSource<CurriculumList> {
   _filterChange = new BehaviorSubject('');
+  _kfChange = new BehaviorSubject(0);
+  _fcChange = new BehaviorSubject(0);
 
-  get filter(): string {
-    return this._filterChange.value;
-  }
+  get filter(): string { return this._filterChange.value; }
+  set filter(filter: string) { this._filterChange.next(filter); }
 
-  set filter(filter: string) {
-    this._filterChange.next(filter);
-  }
+  get filterByKf(): number { return this._kfChange.value; }
+  set filterByKf(kfId: number) { this._kfChange.next(kfId); }
+
+  get filterByFc(): number { return this._fcChange.value; }
+  set filterByFc(fcId: number) { this._fcChange.next(fcId); }
 
   filteredData: CurriculumList[] = [];
   renderedData: CurriculumList[] = [];
@@ -429,6 +461,8 @@ export class CurriculumDataSource extends DataSource<CurriculumList> {
       this._exampleDatabase.dataChange,
       this._sort.sortChange,
       this._filterChange,
+      this._kfChange,
+      this._fcChange,
       this._paginator.page
     ];
 
@@ -438,8 +472,20 @@ export class CurriculumDataSource extends DataSource<CurriculumList> {
       // Filter data
       this.filteredData = this._exampleDatabase.data.slice().filter((issue: CurriculumList) => {
         const searchStr = (issue.id + issue.number + issue.speciality + issue.course + issue.educationYear).toLowerCase();
-        return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
+
+        if (this.filterByFc === 0) {
+          return (searchStr.indexOf(this.filter.toLowerCase()) !== -1);
+        } else {
+
+          if (this.filterByKf === 0) {
+            return (searchStr.indexOf(this.filter.toLowerCase()) !== -1) && +issue.fcId === +this.filterByFc;
+          } else {
+            return (searchStr.indexOf(this.filter.toLowerCase()) !== -1) && +issue.kfId === +this.filterByKf;
+          }
+        }
+
       });
+
 
       // Sort filtered data
       const sortedData = this.sortData(this.filteredData.slice());

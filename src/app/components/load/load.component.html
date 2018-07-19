@@ -4,7 +4,9 @@
   <div class="text-center">
     <h3>Сарборӣ</h3>
     <h6>
-      барои кафедраи "{{ kafedra.fullName | getName:'tj' }}" - и "{{ faculty.fullName }}"
+      <ng-template [ngIf]="+kafedra.id !== -1">барои кафедраи "{{ kafedra.fullName | getName:'tj' }}" - и</ng-template>
+      <ng-template [ngIf]="+kafedra.id === -1">барои ҳамаи кафедраҳои </ng-template>
+        "{{ faculty.fullName }}"
     </h6>
   </div>
 </mat-card>
@@ -12,37 +14,18 @@
   <table id="table">
     <tr class="header-load-table">
       <th>№</th>
-      <th>
-        Номгӯи фанн
-      </th>
-      <th>
-        Курс
-      </th>
-      <th>
-        Семестр
-        <!--<mat-icon matTooltip="Семестр">pie_chart</mat-icon>-->
-      </th>
-      <th>
-        Гурӯҳ
-      </th>
-      <th>
-        Дараҷаи таҳсил
-      </th>
-      <th>
-        Шакли таҳсил
-      </th>
+      <th>Номгӯи фанн</th>
+      <th>Курс</th>
+      <th>Семестр</th>
+      <th>Гурӯҳ</th>
+      <th>Дараҷаи таҳсил</th>
+      <th>Шакли таҳсил</th>
       <th>
         <mat-icon matTooltip="Шумораи донишҷӯён">group</mat-icon>
       </th>
-      <th>
-        Намуд
-      </th>
-      <th>
-        Соат
-      </th>
-      <th>
-        Селанамоӣ
-      </th>
+      <th>Намуд</th>
+      <th>Соат</th>
+      <th>Селанамоӣ</th>
     </tr>
     <ng-template ngFor let-i="index" let-subject [ngForOf]="filteredSubjects()">
         <tr [class.bg_eee]="i % 2 === 1">

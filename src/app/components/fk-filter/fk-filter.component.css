@@ -5,3 +5,7 @@
 .nine-width{
   width: 9%;
 }
+
+mat-card {
+  margin: 10px 0;
+}
