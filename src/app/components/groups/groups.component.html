@@ -33,18 +33,14 @@
       <mat-form-field class="sixteen-width">
         <mat-select [(value)]="group.degree"
                     placeholder="Дараҷаи таҳсилот" required>
-          <mat-option value="0">бакалавр</mat-option>
-          <mat-option value="1">магистр</mat-option>
-          <mat-option value="2">PhD</mat-option>
+          <mat-option *ngFor="let d of degrees; let i = index" [value]="i">{{ d }}</mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field class="sixteen-width">
         <mat-select [(value)]="group.type"
                     placeholder="Шакли таҳсил" required>
-          <mat-option value="0">рӯзона</mat-option>
-          <mat-option value="1">ғоибона</mat-option>
-          <mat-option value="2">фосилавӣ</mat-option>
+          <mat-option *ngFor="let t of types;" [value]="t.id">{{ t.name }}</mat-option>
         </mat-select>
       </mat-form-field>
 

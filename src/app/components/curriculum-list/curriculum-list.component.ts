@@ -25,10 +25,11 @@ import { CurriculumService } from '../../services/curriculum.service';
 import { MainService } from '../../services/main.service';
 import { AuthService } from '../../services/auth.service';
 
-import { Faculty, Spec } from '../../models/common';
-import { CurriculumList, Kafedra } from '../../models/curriculum';
+import { Spec, TypesOfStudying } from '../../models/common';
+import { Faculty, Kafedra } from '../../models/faculty';
+import { CurriculumList } from '../../models/curriculum';
 import { Standard } from '../../models/standards';
-import "rxjs/add/observable/of";
+import 'rxjs/add/observable/of';
 
 @Component({
   selector: 'app-curriculum-list',
@@ -65,12 +66,17 @@ export class CurriculumListComponent implements OnInit {
   error = false;
   errorText = '';
 
+  types: TypesOfStudying[] = [];
+  degrees: string[] = [];
+
   constructor(private componentFactoryResolver: ComponentFactoryResolver,
               private mainService: MainService,
               private auth: AuthService,
               private curriculumService: CurriculumService,
               public  dialog: MatDialog,
               public  httpClient: HttpClient) {
+    this.types = this.auth.TYPES.slice();
+    this.degrees = this.auth.DEGREES.slice();
   }
 
   ngOnInit() {
@@ -137,8 +143,8 @@ export class CurriculumListComponent implements OnInit {
             fcId: item.fcId,
             fSpec_Shifr: '',
             timeOfStudying: item.timeOfStudying,
-            typeOfStudying: this.auth.TYPES[item.typeOfStudying],
-            degreeOfStudying: this.auth.DEGREES[item.degreeOfStudying],
+            typeOfStudying: this.types.find(o => o.id === +item.typeOfStudying).name,
+            degreeOfStudying: this.degrees[item.degreeOfStudying],
             dateOfAcceptance: new Date(item.dateOfAcceptance),
             locked: item.locked
           });
@@ -156,8 +162,8 @@ export class CurriculumListComponent implements OnInit {
 
     if (degree !== null && type !== null) {
 
-      degree = this.auth.DEGREES[degree];
-      type = this.auth.TYPES[type];
+      degree = this.degrees[degree];
+      type = this.types.find(o => o.id === +type).name;
 
       this.standards = this._standards.filter(item => (
         item.degreeOfStudying === degree && item.typeOfStudying === type
@@ -198,8 +204,8 @@ export class CurriculumListComponent implements OnInit {
   addExtraction() {
     const cc = this.curriculumList;
     const i = this.curriculumDatabase.dataChange.value.findIndex(x =>
-      (+x.course === +cc.course) && (x.type === this.auth.TYPES[cc.type])
-      && (x.degree === this.auth.DEGREES[cc.degree]) && (+x.educationYear === (+cc.educationYear - 2000))
+      (+x.course === +cc.course) && (x.type === this.types.find(o => o.id === +cc.type).name)
+      && (x.degree === this.degrees[cc.degree]) && (+x.educationYear === (+cc.educationYear - 2000))
       && (x.speciality === this.selectedSpec.fSpec_Shifr));
 
     if (i === -1) {
@@ -217,8 +223,8 @@ export class CurriculumListComponent implements OnInit {
               fcId: this.curriculumList.fcId,
               speciality: this.selectedSpec.fSpec_Shifr,
               course: this.curriculumList.course,
-              degree: this.auth.DEGREES[+this.curriculumList.degree],
-              type: this.auth.TYPES[+this.curriculumList.type],
+              degree: this.degrees[+this.curriculumList.degree],
+              type: this.types.find(o => o.id === +this.curriculumList.type).name,
               educationYear: (+this.curriculumList.educationYear - 2000).toString(),
               idStandard: this.curriculumList.idStandard,
               dateOfStandard: this.curriculumList.dateOfStandard,
@@ -255,8 +261,8 @@ export class CurriculumListComponent implements OnInit {
               fcId: item.fcId,
               fSpec_Shifr: '',
               timeOfStudying: item.timeOfStudying,
-              typeOfStudying: this.auth.TYPES[item.typeOfStudying],
-              degreeOfStudying: this.auth.DEGREES[item.degreeOfStudying],
+              typeOfStudying: this.types.find(o => o.id === +item.typeOfStudying).name,
+              degreeOfStudying: this.degrees[item.degreeOfStudying],
               dateOfAcceptance: new Date(item.dateOfAcceptance),
               locked: item.locked
             });
@@ -267,8 +273,8 @@ export class CurriculumListComponent implements OnInit {
             item.typeOfStudying === row.type
           ));
 
-          const tIndex = this.auth.TYPES.findIndex(x => x === row.type);
-          const dIndex = this.auth.DEGREES.findIndex(x => x === row.degree);
+          const tIndex = this.types.findIndex(x => x.name === row.type);
+          const dIndex = this.degrees.findIndex(x => x === row.degree);
 
           this.curriculumList = {
             id: row.id,
@@ -372,8 +378,8 @@ export class CurriculumListComponent implements OnInit {
           fcId: this.curriculumList.fcId,
           speciality: this.selectedSpec.fSpec_Shifr,
           course: this.curriculumList.course,
-          degree: this.auth.DEGREES[+this.curriculumList.degree],
-          type: this.auth.TYPES[+this.curriculumList.type],
+          degree: this.degrees[+this.curriculumList.degree],
+          type: this.types.find(o => o.id === +this.curriculumList.type).name,
           educationYear: (+this.curriculumList.educationYear - 2000).toString(),
           idStandard: this.curriculumList.idStandard,
           dateOfStandard: this.curriculumList.dateOfStandard,

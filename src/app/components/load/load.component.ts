@@ -1,7 +1,8 @@
 import { Component, OnInit, Output, ViewEncapsulation } from '@angular/core';
-import { Kafedra } from '../../models/curriculum';
-import { Faculty } from '../../models/common';
+
+import { Kafedra, Faculty } from '../../models/faculty';
 import { Load } from '../../models/load';
+
 import { LoadService } from '../../services/load.service';
 import { AuthService } from '../../services/auth.service';
 
@@ -82,7 +83,7 @@ export class LoadComponent implements OnInit {
           this.subjects.forEach(subject => {
 
             subject.degree = this.authService.DEGREES[+subject.degree];
-            subject.type = this.authService.TYPES[+subject.type];
+            subject.type = this.authService.TYPES.find(o => o.id === +subject.type).name;
             subject.idGroup = +subject.idGroup;
             subject.isFlowSaved = !(subject.idGroup === 0);
 

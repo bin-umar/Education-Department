@@ -49,7 +49,7 @@ export class DataService {
             degreeOfStudying: this.auth.DEGREES[Number(item.degreeOfStudying)],
             profession: '',
             timeOfStudying: item.timeOfStudying,
-            typeOfStudying: this.auth.TYPES[Number(item.typeOfStudying)],
+            typeOfStudying: this.auth.TYPES.find(o => o.id === +item.typeOfStudying).name,
             dateOfAcceptance: item.dateOfAcceptance,
             locked: +item.locked
           });

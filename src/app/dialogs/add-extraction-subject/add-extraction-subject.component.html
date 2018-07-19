@@ -74,7 +74,7 @@
                    placeholder="Соатҳои дарсӣ">
           </mat-form-field>
         </td>
-        <td *ngIf="type === types[2]">
+        <td *ngIf="type === types[2].name">
           <mat-form-field>
             <input type="number"
                    matInput
@@ -86,7 +86,7 @@
         </td>
       </tr>
       <tr>
-        <td *ngIf="type === types[2]">
+        <td *ngIf="type === types[2].name">
           <mat-form-field>
             <input type="number"
                    matInput
@@ -105,7 +105,7 @@
                    placeholder="Имтиҳон">
           </mat-form-field>
         </td>
-        <td  *ngIf="type === types[0]">
+        <td  *ngIf="type === types[0].name">
           <mat-form-field>
             <input type="number"
                    matInput
@@ -133,7 +133,7 @@
                    placeholder="Кори курсӣ">
           </mat-form-field>
         </td>
-        <td *ngIf="type === types[1]">
+        <td *ngIf="type === types[1].name">
           <mat-form-field>
             <input type="number"
                    matInput
@@ -249,7 +249,7 @@
 
         <table>
           <tr>
-            <td colspan="2" *ngIf="type === types[2]">
+            <td colspan="2" *ngIf="type === types[2].name">
               <mat-form-field class="full-width">
                 <input type="number"
                        matInput
@@ -258,7 +258,7 @@
                        placeholder="Маслиҳат">
               </mat-form-field>
             </td>
-            <td colspan="2" *ngIf="type === types[0]">
+            <td colspan="2" *ngIf="type === types[0].name">
               <mat-form-field class="full-width">
                 <input type="number"
                        matInput
@@ -267,7 +267,7 @@
                        placeholder="Таҷ.таълимӣ">
               </mat-form-field>
             </td>
-            <td colspan="2" *ngIf="type === types[0]">
+            <td colspan="2" *ngIf="type === types[0].name">
               <mat-form-field class="full-width">
                 <input type="number"
                        matInput

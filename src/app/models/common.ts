@@ -85,3 +85,8 @@ export interface SubjectResponse {
   error: boolean;
   data: [ISubject];
 }
+
+export interface TypesOfStudying {
+  id: number;
+  name: string;
+}

@@ -38,7 +38,7 @@ export class GroupsService {
           number: i + 1,
           name: item.name,
           degree: this.auth.DEGREES[+item.degree],
-          type: this.auth.TYPES[+item.type],
+          type: this.auth.TYPES.find(o => o.id === +item.type).name,
           course: +item.course,
           subgroup: +item.subgroup,
           subgroup2: +item.subgroup2,

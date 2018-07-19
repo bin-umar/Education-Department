@@ -31,8 +31,8 @@ import { MainService } from '../../services/main.service';
 import { AuthService } from '../../services/auth.service';
 
 import { StandardList } from '../../models/standards';
-import {Faculty, Spec} from '../../models/common';
-import {Kafedra} from "../../models/curriculum";
+import {Spec, TypesOfStudying} from '../../models/common';
+import { Kafedra, Faculty } from '../../models/faculty';
 
 @Component({
   selector: 'app-standards-list',
@@ -66,12 +66,17 @@ export class StandardsListComponent implements OnInit {
   add = true;
   isSubjectTypesLoaded = false;
 
+  types: TypesOfStudying[] = [];
+  degrees: string[] = [];
+
   constructor(private componentFactoryResolver: ComponentFactoryResolver,
               private mainService: MainService,
               private auth: AuthService,
               private dataService: DataService,
               public  dialog: MatDialog,
               public  httpClient: HttpClient) {
+    this.types = this.auth.TYPES.slice();
+    this.degrees = this.auth.DEGREES.slice();
   }
 
   formControl = new FormControl('', [ Validators.required ]);
@@ -189,7 +194,7 @@ export class StandardsListComponent implements OnInit {
       this.panelOpenState = true;
 
       const sIndex = this.options.findIndex(x => x.fSpec_Shifr === row.specialty);
-      const tIndex = this.auth.TYPES.findIndex(x => x === row.typeOfStudying);
+      const tIndex = this.auth.TYPES.findIndex(x => x.name === row.typeOfStudying);
       const dIndex = this.auth.DEGREES.findIndex(x => x === row.degreeOfStudying);
 
       this.selectedSpec = this.options[sIndex];
@@ -283,7 +288,7 @@ export class StandardsListComponent implements OnInit {
             degreeOfStudying: this.auth.DEGREES[this.standardList.degreeOfStudying],
             profession: this.standardList.profession,
             timeOfStudying: this.standardList.timeOfStudying,
-            typeOfStudying: this.auth.TYPES[this.standardList.typeOfStudying],
+            typeOfStudying: this.auth.TYPES.find(o => o.id === +this.standardList.typeOfStudying).name,
             dateOfAcceptance: this.standardList.dateOfAcceptance,
             locked: this.standardList.locked
         });

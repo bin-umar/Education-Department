@@ -23,7 +23,7 @@ import { AuthService } from '../../services/auth.service';
 import { MainService } from '../../services/main.service';
 
 import { Faculty, IGroup, Kafedra } from '../../models/faculty';
-import { Spec } from '../../models/common';
+import { Spec, TypesOfStudying } from '../../models/common';
 
 @Component({
   selector: 'app-groups',
@@ -53,13 +53,18 @@ export class GroupsComponent implements OnInit {
   add = true;
 
   group: IGroup;
+  types: TypesOfStudying[] = [];
+  degrees: string[] = [];
 
   constructor(private componentFactoryResolver: ComponentFactoryResolver,
               public httpClient: HttpClient,
               private mainService: MainService,
               private groupsService: GroupsService,
               private auth: AuthService,
-              public dialog: MatDialog) { }
+              public dialog: MatDialog) {
+    this.types = this.auth.TYPES.slice();
+    this.degrees = this.auth.DEGREES.slice();
+  }
 
   ngOnInit() {
     this.setStToDefault();
@@ -150,7 +155,7 @@ export class GroupsComponent implements OnInit {
           number: this.dataSource.filteredData.length + 1,
           name: this.group.name,
           degree: this.auth.DEGREES[this.group.degree],
-          type: this.auth.TYPES[this.group.type],
+          type: this.auth.TYPES.find(o => o.id === +this.group.type).name,
           course: this.group.course,
           subgroup: this.group.subgroup,
           subgroup2: this.group.subgroup2,
@@ -182,7 +187,7 @@ export class GroupsComponent implements OnInit {
           number: this.group.number,
           name: this.group.name,
           degree: this.auth.DEGREES[this.group.degree],
-          type: this.auth.TYPES[this.group.type],
+          type: this.auth.TYPES.find(o => o.id === +this.group.type).name,
           course: this.group.course,
           subgroup: this.group.subgroup,
           subgroup2: this.group.subgroup2,
@@ -211,7 +216,7 @@ export class GroupsComponent implements OnInit {
       this.panelOpenState = true;
 
       const sIndex = this.options.findIndex(x => x.fID === row.idSpec);
-      const tIndex = this.auth.TYPES.findIndex(x => x === row.type);
+      const tIndex = this.auth.TYPES.findIndex(x => x.name === row.type);
       const dIndex = this.auth.DEGREES.findIndex(x => x === row.degree);
 
       this.selectedSpec = this.options[sIndex];
