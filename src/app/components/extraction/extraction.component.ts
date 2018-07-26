@@ -156,11 +156,11 @@ export class ExtractionComponent implements OnInit {
     }
   }
 
-  sum(prop, term) {
+  sum(prop, term?) {
     let sum = 0;
     let subjects;
 
-    if (term !== 3) {
+    if (term) {
       subjects = this.getSubjectsByTerm(term);
     } else {
       subjects = this.subjects;
@@ -184,9 +184,6 @@ export class ExtractionComponent implements OnInit {
         case 'advice': sum += item.advice; break;
         case 'trainingPrac': sum += item.trainingPrac; break;
         case 'manuPrac': sum += item.manuPrac; break;
-        case 'diplomPrac': sum += item.diplomPrac; break;
-        case 'bachelorWork': sum += item.bachelorWork; break;
-        case 'gosExam': sum += item.gosExam; break;
         case 'total': sum += item.total; break;
       }
     });
@@ -198,8 +195,7 @@ export class ExtractionComponent implements OnInit {
     const result = +subject.lkTotal + +subject.lkPlan + +subject.smTotal +
       +subject.smPlan + +subject.lbPlan + +subject.lbTotal +
       +subject.prPlan + +subject.prTotal + +subject.trainingPrac +
-      +subject.manuPrac + +subject.diplomPrac + +subject.bachelorWork +
-      +subject.gosExam + +subject.kmroHour + +subject.advice;
+      +subject.manuPrac + +subject.kmroHour + +subject.advice;
 
     subject.total = result;
     return result;

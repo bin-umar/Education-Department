@@ -76,8 +76,7 @@ export class AddExtractionSubjectComponent implements OnInit {
     subject.total = +subject.lkTotal + +subject.lkPlan + +subject.smTotal +
       +subject.smPlan + +subject.lbPlan + +subject.lbTotal +
       +subject.prPlan + +subject.prTotal + +subject.trainingPrac +
-      +subject.manuPrac + +subject.diplomPrac + +subject.bachelorWork +
-      +subject.gosExam + +subject.kmroHour + +subject.advice;
+      +subject.manuPrac + +subject.kmroHour + +subject.advice;
   }
 
   showError(text: string) {

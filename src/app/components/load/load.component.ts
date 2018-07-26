@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, ViewEncapsulation } from '@angular/core';
+import { Component, Output, ViewEncapsulation } from '@angular/core';
 
 import { Kafedra, Faculty } from '../../models/faculty';
 import { Load } from '../../models/load';
@@ -14,7 +14,7 @@ import { AuthService } from '../../services/auth.service';
   encapsulation: ViewEncapsulation.None,
 })
 
-export class LoadComponent implements OnInit {
+export class LoadComponent {
 
   @Output() cmpName: any = 'Селанамоии гурӯҳҳо';
 
@@ -31,16 +31,10 @@ export class LoadComponent implements OnInit {
   };
 
   subjects: Load[] = [];
+  filteredSubjects: Load[];
 
   constructor(private loadService: LoadService,
               private authService: AuthService) {
-  }
-
-  ngOnInit() {
-  }
-
-  filteredSubjects() {
-    return this.subjects.filter( x => +x.idGroup === 0);
   }
 
   findFlowGroup(id: number) {
@@ -48,12 +42,13 @@ export class LoadComponent implements OnInit {
   }
 
   findSimilarSubjects(subject: Load) {
-    return this.filteredSubjects().filter(x => (
+    return this.filteredSubjects.filter(x => (
         x.degree === subject.degree &&
         x.type === subject.type &&
         +x.course === +subject.course &&
         +x.hour === +subject.hour &&
         +x.term === +subject.term &&
+        +x.fcId === +subject.fcId &&
         x.subjectName === subject.subjectName &&
         +x.id !== +subject.id
     ));
@@ -88,6 +83,8 @@ export class LoadComponent implements OnInit {
             subject.isFlowSaved = !(subject.idGroup === 0);
 
           });
+
+          this.filteredSubjects = this.subjects.filter( x => +x.idGroup === 0);
         }
       });
     }

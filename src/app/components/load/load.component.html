@@ -18,6 +18,7 @@
       <th>Курс</th>
       <th>Семестр</th>
       <th>Гурӯҳ</th>
+      <th>Факулта</th>
       <th>Дараҷаи таҳсил</th>
       <th>Шакли таҳсил</th>
       <th>
@@ -27,7 +28,7 @@
       <th>Соат</th>
       <th>Селанамоӣ</th>
     </tr>
-    <ng-template ngFor let-i="index" let-subject [ngForOf]="filteredSubjects()">
+    <ng-template ngFor let-i="index" let-subject [ngForOf]="filteredSubjects">
         <tr [class.bg_eee]="i % 2 === 1">
           <td>{{ i + 1 }}</td>
           <td class="text-left" style="padding-left: 10px;">
@@ -36,6 +37,7 @@
           <td>{{ subject.course }}</td>
           <td>{{ subject.term }}</td>
           <td>{{ subject.group }}</td>
+          <td>{{ subject.fcName }}</td>
           <td>{{ subject.degree }}</td>
           <td>{{ subject.type }}</td>
           <td>{{ sumStudentsAmount(+subject.id) }}</td>
@@ -65,27 +67,8 @@
                 {{ sb.group }}
               </mat-option>
             </mat-select>
-            <!--<ng-template [ngIf]="subject.idTeacher !== ''">-->
-              <!--<div class="toogle" matTooltip="{{subject.idTeacher}}">{{ subject.idTeacher | teacherName }}</div>-->
-              <!--<div style="float: right;">-->
-                <!--<mat-icon class="md-18"-->
-                          <!--*ngIf="subject.isTeacherSaved === true"-->
-                          <!--(click)="deleteTeacherId(+subject.id);">delete-->
-                <!--</mat-icon>-->
-
-                <!--<mat-icon class="md-18"-->
-                          <!--*ngIf="subject.isTeacherSaved === false"-->
-                          <!--(click)="connectTeacherWithSubject(subject.idTeacher, +subject.id)">save-->
-                <!--</mat-icon>-->
-              <!--</div>-->
-            <!--</ng-template>-->
           </td>
         </tr>
     </ng-template>
-    <!--<tr>-->
-      <!--<th *ngFor="let i of [1,2,3,4,5,6,7,8,9,10,11,12,13-->
-              <!--,14,15,16,17,18,19,20,21,22,23,24,25]">{{i}}</th>-->
-      <!--<th *ngIf="Curriculum.locked === 0">26</th>-->
-    <!--</tr>-->
   </table>
 </div>

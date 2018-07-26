@@ -2,6 +2,8 @@ export interface Load {
   id: number;
   subjectName: string;
   idExSubject: number;
+  fcId: number;
+  fcName: string;
   term: number;
   course: number;
   group: string;

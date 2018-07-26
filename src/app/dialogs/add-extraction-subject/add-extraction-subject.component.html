@@ -277,33 +277,30 @@
               </mat-form-field>
             </td>
             <td colspan="2">
-              <mat-form-field class="full-width">
-                <input type="number"
-                       matInput
-                       name="diplomPrac"
-                       [(ngModel)]="data.diplomPrac"
-                       placeholder="Т.пешаздипломӣ">
-              </mat-form-field>
+              <mat-slide-toggle
+                (change)="data.diplomPrac = (+data.diplomPrac === 1) ? 0 : 1"
+                [color]="'primary'"
+                [checked]="+data.diplomPrac === 1">
+                Т.пешаздипломӣ
+              </mat-slide-toggle>
             </td>
           </tr>
           <tr>
-            <td colspan="3">
-              <mat-form-field class="full-width">
-                <input type="number"
-                       matInput
-                       name="bachelorWork"
-                       [(ngModel)]="data.bachelorWork"
-                       placeholder="Кори бакалаврӣ">
-              </mat-form-field>
+            <td colspan="2">
+              <mat-slide-toggle
+                (change)="data.bachelorWork = (+data.bachelorWork === 1) ? 0 : 1"
+                [color]="'primary'"
+                [checked]="+data.bachelorWork === 1">
+                Кори бакалаврӣ
+              </mat-slide-toggle>
             </td>
-            <td colspan="3">
-              <mat-form-field class="full-width">
-                <input type="number"
-                       matInput
-                       name="gosExam"
-                       [(ngModel)]="data.gosExam"
-                       placeholder="Ком.имт.давлатӣ">
-              </mat-form-field>
+            <td colspan="4">
+                <mat-slide-toggle
+                  (change)="data.gosExam = (+data.gosExam === 1) ? 0 : 1"
+                  [color]="'primary'"
+                  [checked]="+data.gosExam === 1">
+                  Комиссияи имтиҳони давлатӣ
+                </mat-slide-toggle>
             </td>
           </tr>
         </table>

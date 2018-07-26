@@ -11,7 +11,7 @@ export class LoadService {
 
   getLoadSubjectsByKf (id: number) {
     const body = new HttpParams()
-      .set('id', id.toString())
+      .set('kf_id', id.toString())
       .set('section_id', '4')
       .set('route', 'ldSubjects')
       .set('operation', 'list')
