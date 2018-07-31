@@ -14,6 +14,7 @@ export interface Load {
   hour: number;
   idGroup: number;
   isFlowSaved: boolean;
+  hasError: boolean;
 }
 
 export interface ILoad {

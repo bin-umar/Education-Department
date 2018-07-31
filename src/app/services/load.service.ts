@@ -43,8 +43,7 @@ export class LoadService {
     });
   }
 
-
-  disConnectFlowedGroups (mainSubjectId: number, flowedId: number) {
+  disConnectFlowedGroups(mainSubjectId: number, flowedId: number) {
     const body = new HttpParams()
       .set('mainSubjectId', mainSubjectId.toString())
       .set('flowedId', flowedId.toString())
@@ -61,5 +60,4 @@ export class LoadService {
       return response;
     });
   }
-
 }

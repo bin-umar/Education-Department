@@ -2,7 +2,7 @@
 
 <mat-card class="mat-elevation-z8">
   <div class="text-center">
-    <h3>Сарборӣ</h3>
+    <h3>Селанамоӣ</h3>
     <h6>
       <ng-template [ngIf]="+kafedra.id !== -1">барои кафедраи "{{ kafedra.fullName | getName:'tj' }}" - и</ng-template>
       <ng-template [ngIf]="+kafedra.id === -1">барои ҳамаи кафедраҳои </ng-template>
@@ -10,6 +10,17 @@
     </h6>
   </div>
 </mat-card>
+
+<ng-template ngFor let-erSubject [ngForOf]="getErrorSubjects()">
+  <div class="alert alert-danger mat-elevation-z8 d-print-none" *ngIf="error">
+    Фанни <strong>{{ erSubject.subjectName }}</strong> дар гурӯҳи <strong>{{ erSubject.group }}</strong>,
+    курси {{ erSubject.course }}, {{ erSubject.degree }}, {{ erSubject.type }} аллакай селанамоӣ шудааст,
+    вале дар ҷадвали сарборӣ пайдо нашуд.
+    <button class="btn btn-success toogle"
+            (click)="correctErroneousSubject(erSubject);">Ислоҳ кардан</button>
+  </div>
+</ng-template>
+
 <div>
   <table id="table">
     <tr class="header-load-table">
@@ -28,7 +39,7 @@
       <th>Соат</th>
       <th>Селанамоӣ</th>
     </tr>
-    <ng-template ngFor let-i="index" let-subject [ngForOf]="filteredSubjects">
+    <ng-template ngFor let-i="index" let-subject [ngForOf]="filteredSubjects()">
         <tr [class.bg_eee]="i % 2 === 1">
           <td>{{ i + 1 }}</td>
           <td class="text-left" style="padding-left: 10px;">
@@ -36,7 +47,9 @@
           </td>
           <td>{{ subject.course }}</td>
           <td>{{ subject.term }}</td>
-          <td>{{ subject.group }}</td>
+          <td>
+            <div class="group-column">{{ subject.group }}</div>
+          </td>
           <td>{{ subject.fcName }}</td>
           <td>{{ subject.degree }}</td>
           <td>{{ subject.type }}</td>
@@ -59,8 +72,9 @@
                 </div>
               </div>
             </ng-template>
-            <mat-select *ngIf="findSimilarSubjects(subject).length !== 0
-                        && findFlowGroup(+subject.id).length === 0"
+            <mat-select *ngIf="findSimilarSubjects(subject).length !== 0 &&
+                        findFlowGroup(+subject.id).length === 0 &&
+                        subject.idGroup === 0"
                         [(value)]="subject.idGroup"
                         placeholder="Интихоб намоед">
               <mat-option *ngFor="let sb of findSimilarSubjects(subject)" value="{{sb.id}}">

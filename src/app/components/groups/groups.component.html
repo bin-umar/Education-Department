@@ -33,14 +33,14 @@
       <mat-form-field class="sixteen-width">
         <mat-select [(value)]="group.degree"
                     placeholder="Дараҷаи таҳсилот" required>
-          <mat-option *ngFor="let d of degrees; let i = index" [value]="i">{{ d }}</mat-option>
+          <mat-option *ngFor="let d of degrees; let i = index" value="{{ i }}">{{ d }}</mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field class="sixteen-width">
         <mat-select [(value)]="group.type"
                     placeholder="Шакли таҳсил" required>
-          <mat-option *ngFor="let t of types;" [value]="t.id">{{ t.name }}</mat-option>
+          <mat-option *ngFor="let t of types;" value="{{ t.id }}">{{ t.name }}</mat-option>
         </mat-select>
       </mat-form-field>
 
@@ -160,7 +160,8 @@
 
         <mat-icon class="md-24 hovered-color"
                   *ngIf="row.load > 0"
-                  matTooltip="Ин гурӯҳ сарборӣ дорад">done</mat-icon>
+                  (click)="updateLoad(row);"
+                  matTooltip="Сабти тағйиротҳои сарбории гурӯҳ аз иқтибос">update</mat-icon>
 
         <mat-icon class="md-24 hovered-color"
                   *ngIf="row.load > 0"

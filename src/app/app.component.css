@@ -303,6 +303,12 @@ figure:hover{
   font-size: 13px;
 }
 
+/deep/ .group-column {
+  overflow: hidden;
+  width: 100%;
+  white-space: nowrap;
+}
+
 @media print {
   .gb__main-wrapper {
     margin-left: 0;

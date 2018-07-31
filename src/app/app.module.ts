@@ -19,7 +19,8 @@ import {
   MatDialogModule,
   MatCheckboxModule,
   MatTooltipModule,
-  MatSlideToggleModule
+  MatSlideToggleModule,
+  MatSnackBarModule
 } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -42,12 +43,12 @@ import { AddStandardComponent } from './dialogs/add-standard/add-standard.compon
 import { SubjectsComponent } from './components/subjects/subjects.component';
 import { LoadComponent } from './components/load/load.component';
 import { FkFilterComponent } from './components/fk-filter/fk-filter.component';
+import { SettingsComponent } from './components/settings/settings.component';
 
 // Pipes
 import { EducationYearPipe } from './pipes/education-year.pipe';
 import { TeacherNamePipe } from './pipes/teacher-name.pipe';
 import { GetNamePipe } from './pipes/get-name.pipe';
-import { SettingsComponent } from './components/settings/settings.component';
 
 @NgModule({
   declarations: [
@@ -90,7 +91,8 @@ import { SettingsComponent } from './components/settings/settings.component';
     MatDialogModule,
     MatCheckboxModule,
     MatTooltipModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatSnackBarModule
   ],
   entryComponents: [
     AddStandardComponent,
@@ -105,4 +107,5 @@ import { SettingsComponent } from './components/settings/settings.component';
   ],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }

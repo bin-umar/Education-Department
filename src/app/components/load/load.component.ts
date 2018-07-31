@@ -31,10 +31,21 @@ export class LoadComponent {
   };
 
   subjects: Load[] = [];
-  filteredSubjects: Load[];
+  error = false;
 
   constructor(private loadService: LoadService,
               private authService: AuthService) {
+  }
+
+  filteredSubjects() {
+    return this.subjects.filter( x => +x.idGroup === 0);
+  }
+
+  getErrorSubjects() {
+    const erSubjects = this.subjects.filter(o => o.hasError === true);
+    this.error = erSubjects.length > 0;
+
+    return erSubjects;
   }
 
   findFlowGroup(id: number) {
@@ -42,7 +53,7 @@ export class LoadComponent {
   }
 
   findSimilarSubjects(subject: Load) {
-    return this.filteredSubjects.filter(x => (
+    return this.filteredSubjects().filter(x => (
         x.degree === subject.degree &&
         x.type === subject.type &&
         +x.course === +subject.course &&
@@ -50,8 +61,8 @@ export class LoadComponent {
         +x.term === +subject.term &&
         +x.fcId === +subject.fcId &&
         x.subjectName === subject.subjectName &&
-        +x.id !== +subject.id
-    ));
+        +x.id !== +subject.id &&
+        +x.idGroup === 0));
   }
 
   sumStudentsAmount(id: number) {
@@ -75,16 +86,19 @@ export class LoadComponent {
         if (!response.error) {
 
           this.subjects = response.data.slice();
-          this.subjects.forEach(subject => {
+          this.subjects.forEach((subject, id, array) => {
 
             subject.degree = this.authService.DEGREES[+subject.degree];
             subject.type = this.authService.TYPES.find(o => o.id === +subject.type).name;
             subject.idGroup = +subject.idGroup;
             subject.isFlowSaved = !(subject.idGroup === 0);
 
-          });
+            if (subject.idGroup > 0) {
+              const i = array.findIndex(o => +o.id === subject.idGroup);
+              if (i === -1) { subject.hasError = true; }
+            }
 
-          this.filteredSubjects = this.subjects.filter( x => +x.idGroup === 0);
+          });
         }
       });
     }
@@ -105,6 +119,17 @@ export class LoadComponent {
     this.loadService.saveFlowedSubject(mId, fId).subscribe(resp => {
       if (!resp.error) {
         this.subjects.find(x => +x.id === fId).isFlowSaved = true;
+      }
+    });
+  }
+
+  correctErroneousSubject(subject: Load) {
+    this.loadService.disConnectFlowedGroups(subject.idGroup, subject.id).subscribe(resp => {
+      if (!resp.error) {
+        const sb = this.subjects.find(x => +x.id === +subject.id);
+        sb.isFlowSaved = false;
+        sb.idGroup = 0;
+        sb.hasError = false;
       }
     });
   }

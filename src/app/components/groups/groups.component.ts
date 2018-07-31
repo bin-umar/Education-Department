@@ -6,7 +6,7 @@ import {
   Output,
   ViewChild
 } from '@angular/core';
-import { MatDialog, MatPaginator, MatSort } from '@angular/material';
+import { MatDialog, MatPaginator, MatSnackBar, MatSort } from '@angular/material';
 import { DataSource } from '@angular/cdk/collections';
 import { HttpClient } from '@angular/common/http';
 import { FormControl } from '@angular/forms';
@@ -61,7 +61,8 @@ export class GroupsComponent implements OnInit {
               private mainService: MainService,
               private groupsService: GroupsService,
               private auth: AuthService,
-              public dialog: MatDialog) {
+              public dialog: MatDialog,
+              public snackBar: MatSnackBar) {
     this.types = this.auth.TYPES.slice();
     this.degrees = this.auth.DEGREES.slice();
   }
@@ -216,7 +217,7 @@ export class GroupsComponent implements OnInit {
       this.panelOpenState = true;
 
       const sIndex = this.options.findIndex(x => x.fID === row.idSpec);
-      const tIndex = this.auth.TYPES.findIndex(x => x.name === row.type);
+      const tIndex = this.auth.TYPES.find(x => x.name === row.type).id;
       const dIndex = this.auth.DEGREES.findIndex(x => x === row.degree);
 
       this.selectedSpec = this.options[sIndex];
@@ -265,6 +266,18 @@ export class GroupsComponent implements OnInit {
           if (!resp.error) {
             group.load = 0;
           }
+        });
+      }
+    });
+  }
+
+  updateLoad(row: IGroup) {
+    this.groupsService.updateLoad(row.load).subscribe(resp => {
+      if (!resp.error) {
+        this.snackBar.open('Тағйиротҳо дар сарбории гурӯҳи ' + row.name +
+          ' бо муваффақият илова шуданд',  '',  {
+          duration: 2000,
+          politeness: "polite"
         });
       }
     });
