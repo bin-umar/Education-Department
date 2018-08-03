@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { BehaviorSubject } from 'rxjs';
 
 import { AuthService } from './auth.service';
+import { map } from 'rxjs/operators';
 import { ResponseAdd, UpdateResponse } from '../models/common';
 import { GroupResponse, IGroup } from '../models/faculty';
 
@@ -76,9 +77,9 @@ export class GroupsService {
       {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/x-www-form-urlencoded')
-      }).map((response: ResponseAdd) => {
+      }).pipe(map((response: ResponseAdd) => {
       return response;
-    });
+    }));
   }
 
   updateGroup(group: IGroup) {
@@ -101,9 +102,9 @@ export class GroupsService {
       {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/x-www-form-urlencoded')
-      }).map((response: UpdateResponse) => {
+      }).pipe(map((response: UpdateResponse) => {
       return response;
-    });
+    }));
   }
 
   deleteGroup (id: number) {
@@ -117,9 +118,9 @@ export class GroupsService {
       {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/x-www-form-urlencoded')
-      }).map((response: UpdateResponse) => {
+      }).pipe(map((response: UpdateResponse) => {
       return response;
-    });
+    }));
   }
 
   generateLoad (idGroup: number, idExtraction: number) {
@@ -134,9 +135,9 @@ export class GroupsService {
       {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/x-www-form-urlencoded')
-      }).map((response: ResponseAdd) => {
+      }).pipe(map((response: ResponseAdd) => {
       return response;
-    });
+    }));
   }
 
   deleteLoad(id: number) {
@@ -150,9 +151,9 @@ export class GroupsService {
       {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/x-www-form-urlencoded')
-      }).map((response: UpdateResponse) => {
+      }).pipe(map((response: UpdateResponse) => {
       return response;
-    });
+    }));
   }
 
   updateLoad(idLoad: number) {
@@ -166,8 +167,8 @@ export class GroupsService {
       {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/x-www-form-urlencoded')
-      }).map((response: UpdateResponse) => {
+      }).pipe(map((response: UpdateResponse) => {
       return response;
-    });
+    }));
   }
 }

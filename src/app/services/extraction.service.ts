@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpParams } from '@angular/common/http';
 
 import { AuthService } from './auth.service';
+import { map } from 'rxjs/operators';
 import { UpdateResponse } from '../models/common';
 import { PrintInfoResp, ExtractionSubject, ResponseExtractionSubject } from '../models/curriculum';
 import { KafedraRes } from '../models/faculty';
@@ -22,9 +23,9 @@ export class ExtractionService {
       {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/x-www-form-urlencoded')
-      }).map((response: ResponseExtractionSubject) => {
+      }).pipe(map((response: ResponseExtractionSubject) => {
       return response;
-    });
+    }));
   }
 
   getKafedras() {
@@ -37,9 +38,9 @@ export class ExtractionService {
       {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/x-www-form-urlencoded')
-      }).map((response: KafedraRes) => {
+      }).pipe(map((response: KafedraRes) => {
       return response;
-    });
+    }));
   }
 
   getKafedraByFacultyId(fcId: number) {
@@ -53,9 +54,9 @@ export class ExtractionService {
       {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/x-www-form-urlencoded')
-      }).map((response: KafedraRes) => {
+      }).pipe(map((response: KafedraRes) => {
       return response;
-    });
+    }));
   }
 
   getKafedraBySubjectId(id: number) {
@@ -69,9 +70,9 @@ export class ExtractionService {
       {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/x-www-form-urlencoded')
-      }).map((response: KafedraRes) => {
+      }).pipe(map((response: KafedraRes) => {
       return response;
-    });
+    }));
   }
 
   updateSubject(subject: ExtractionSubject) {
@@ -108,9 +109,9 @@ export class ExtractionService {
       {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/x-www-form-urlencoded')
-      }).map((response: UpdateResponse) => {
+      }).pipe(map((response: UpdateResponse) => {
       return response;
-    });
+    }));
   }
 
   deleteSubject (id: number) {
@@ -124,9 +125,9 @@ export class ExtractionService {
       {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/x-www-form-urlencoded')
-      }).map((response: UpdateResponse) => {
+      }).pipe(map((response: UpdateResponse) => {
       return response;
-    });
+    }));
   }
 
   getPrintInfo (id: number) {
@@ -141,8 +142,8 @@ export class ExtractionService {
       {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/x-www-form-urlencoded')
-      }).map((response: PrintInfoResp) => {
+      }).pipe(map((response: PrintInfoResp) => {
       return response;
-    });
+    }));
   }
 }

@@ -3,8 +3,8 @@ import { MatDialog, MatPaginator, MatSort } from '@angular/material';
 import { DataSource } from '@angular/cdk/collections';
 import { HttpClient } from '@angular/common/http';
 
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject, Observable, fromEvent, of, merge } from 'rxjs';
+import { map, startWith, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 import { DeleteDialogComponent } from '../../dialogs/delete/delete.dialog.component';
 
@@ -182,9 +182,10 @@ export class SubjectsComponent implements OnInit {
   public loadData() {
     this.subjectDatabase = new SubjectService(this.httpClient, this.auth);
     this.dataSource = new SubjectsDataSource(this.subjectDatabase, this.paginator, this.sort);
-    Observable.fromEvent(this.filterInput.nativeElement, 'keyup')
-      .debounceTime(150)
-      .distinctUntilChanged()
+    fromEvent(this.filterInput.nativeElement, 'keyup')
+      .pipe(
+        debounceTime(150),
+        distinctUntilChanged())
       .subscribe(() => {
         if (!this.dataSource) {
           return;
@@ -228,7 +229,7 @@ export class SubjectsDataSource extends DataSource<ISubject> {
 
     this._exampleDatabase.getAllSubjects();
 
-    return Observable.merge(...displayDataChanges).map(() => {
+    return merge(...displayDataChanges).pipe(map(() => {
       // Filter data
       this.filteredData = this._exampleDatabase.data.slice().filter((issue: ISubject) => {
         const searchStr = (issue.id + issue.name_tj + issue.name_ru + issue.shortname_ru + issue.shortname_tj).toLowerCase();
@@ -242,7 +243,7 @@ export class SubjectsDataSource extends DataSource<ISubject> {
       const startIndex = this._paginator.pageIndex * this._paginator.pageSize;
       this.renderedData = sortedData.splice(startIndex, this._paginator.pageSize);
       return this.renderedData;
-    });
+    }));
   }
 
   disconnect() {}

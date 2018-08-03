@@ -2,9 +2,8 @@ import { OnInit, Inject, ViewChild, Component, ElementRef } from '@angular/core'
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormControl } from '@angular/forms';
 
-import { Observable } from 'rxjs/Observable';
-import { startWith } from 'rxjs/operators/startWith';
-import { map } from 'rxjs/operators/map';
+import { Observable } from 'rxjs';
+import { startWith ,  map } from 'rxjs/operators';
 
 import { MainService } from '../../services/main.service';
 import { StSubjectsService } from '../../services/st-subjects.service';

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-
+import { BehaviorSubject } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 import { ISubject, ResponseAdd, SubjectResponse, UpdateResponse } from '../models/common';
 
@@ -29,9 +29,9 @@ export class SubjectService {
       {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/x-www-form-urlencoded')
-      }).map((response: UpdateResponse) => {
+      }).pipe(map((response: UpdateResponse) => {
       return response;
-    });
+    }));
   }
 
   getAllSubjects(): void {
@@ -83,9 +83,9 @@ export class SubjectService {
       {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/x-www-form-urlencoded')
-      }).map((response: ResponseAdd) => {
+      }).pipe(map((response: ResponseAdd) => {
       return response;
-    });
+    }));
   }
 
   updateSubject(subject: ISubject) {
@@ -103,9 +103,9 @@ export class SubjectService {
       {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/x-www-form-urlencoded')
-      }).map((response: UpdateResponse) => {
+      }).pipe(map((response: UpdateResponse) => {
       return response;
-    });
+    }));
   }
 
   deleteSubject (id: number) {
@@ -119,9 +119,9 @@ export class SubjectService {
       {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/x-www-form-urlencoded')
-      }).map((response: UpdateResponse) => {
+      }).pipe(map((response: UpdateResponse) => {
       return response;
-    });
+    }));
   }
 
 }

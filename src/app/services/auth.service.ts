@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
-import 'rxjs/add/operator/toPromise';
-import 'rxjs/add/operator/map';
-import { Observable } from 'rxjs/Observable';
-
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { IAuth, UserInfo } from '../models/common';
 
 @Injectable()
@@ -52,7 +50,7 @@ export class AuthService {
       {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/x-www-form-urlencoded')
-      }).map((response: IAuth) => {
+      }).pipe(map((response: IAuth) => {
         const token = response.data.token;
         if (token) {
           // set token property
@@ -68,13 +66,13 @@ export class AuthService {
           // return false to indicate failed login
           return false;
         }
-      });
+      }));
   }
 
   getToken(username: string, password: string): Observable<boolean> {
     return this.http.get(
       this.host + 'self.php?route=auth&operation=login&username=' + username + '&password=' + password
-    ).map((response: IAuth) => {
+    ).pipe(map((response: IAuth) => {
       const token = response.data.hash;
       if (token) {
         // set token property
@@ -90,7 +88,7 @@ export class AuthService {
         // return false to indicate failed login
         return false;
       }
-    });
+    }));
   }
 
   logout(): void {

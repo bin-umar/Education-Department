@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpParams } from '@angular/common/http';
 
 import { AuthService } from './auth.service';
-
+import { map } from 'rxjs/operators';
 import { ISubType, ResSubType, ISubjectList, StSubjectResp, ISubjectResponse } from '../models/standards';
 import { ISpec } from '../models/common';
 import { IFaculty } from '../models/faculty';
@@ -37,9 +37,9 @@ export class MainService {
       {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/x-www-form-urlencoded')
-      }).map((response: ISpec) => {
+      }).pipe(map((response: ISpec) => {
       return response;
-    });
+    }));
   }
 
   getFacultyList() {
@@ -52,9 +52,9 @@ export class MainService {
       {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/x-www-form-urlencoded')
-      }).map((response: IFaculty) => {
+      }).pipe(map((response: IFaculty) => {
       return response;
-    });
+    }));
   }
 
   getSubjectsList() {
@@ -67,7 +67,7 @@ export class MainService {
       {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/x-www-form-urlencoded')
-      }).map((response: ISubjectResponse) => {
+      }).pipe(map((response: ISubjectResponse) => {
       if (!response.error) {
         this.subjects = [];
         response.data.forEach(item => {
@@ -81,7 +81,7 @@ export class MainService {
       } else {
         return false;
       }
-    });
+    }));
   }
 
   getSubjectsByStandardId(id: number) {
@@ -95,9 +95,9 @@ export class MainService {
       {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/x-www-form-urlencoded')
-      }).map((response: StSubjectResp) => {
+      }).pipe(map((response: StSubjectResp) => {
       return response;
-    });
+    }));
   }
 
   getSubjectTypesList() {
@@ -110,7 +110,7 @@ export class MainService {
       {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/x-www-form-urlencoded')
-      }).map((response: ResSubType) => {
+      }).pipe(map((response: ResSubType) => {
       if (!response.error) {
         this.subjectTypes = [];
         response.data.forEach(item => {
@@ -125,6 +125,6 @@ export class MainService {
       } else {
         return false;
       }
-    });
+    }));
   }
 }

@@ -50,6 +50,32 @@ import { EducationYearPipe } from './pipes/education-year.pipe';
 import { TeacherNamePipe } from './pipes/teacher-name.pipe';
 import { GetNamePipe } from './pipes/get-name.pipe';
 
+const modules = [
+  BrowserModule,
+  FormsModule,
+  HttpClientModule,
+  NoopAnimationsModule,
+  MatTableModule,
+  ReactiveFormsModule,
+  MatPaginatorModule,
+  MatSortModule,
+  MatFormFieldModule,
+  MatInputModule,
+  MatIconModule,
+  MatSelectModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
+  MatAutocompleteModule,
+  MatCardModule,
+  MatExpansionModule,
+  MatButtonModule,
+  MatDialogModule,
+  MatCheckboxModule,
+  MatTooltipModule,
+  MatSlideToggleModule,
+  MatSnackBarModule
+];
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -69,31 +95,8 @@ import { GetNamePipe } from './pipes/get-name.pipe';
     TeacherNamePipe,
     SettingsComponent
   ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    HttpClientModule,
-    NoopAnimationsModule,
-    MatTableModule,
-    ReactiveFormsModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatIconModule,
-    MatSelectModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatAutocompleteModule,
-    MatCardModule,
-    MatExpansionModule,
-    MatButtonModule,
-    MatDialogModule,
-    MatCheckboxModule,
-    MatTooltipModule,
-    MatSlideToggleModule,
-    MatSnackBarModule
-  ],
+  imports: [...modules],
+  exports: [...modules],
   entryComponents: [
     AddStandardComponent,
     DeleteDialogComponent,

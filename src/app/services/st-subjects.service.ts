@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpParams } from '@angular/common/http';
+import { map } from 'rxjs/operators';
 
 import { ISubject } from '../models/standards';
 import { ResponseAdd, UpdateResponse } from '../models/common';
@@ -34,9 +35,9 @@ export class StSubjectsService {
       {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/x-www-form-urlencoded')
-      }).map((response: ResponseAdd) => {
+      }).pipe(map((response: ResponseAdd) => {
       return response;
-    });
+    }));
   }
 
   updateSubject(subject: ISubject) {
@@ -62,9 +63,9 @@ export class StSubjectsService {
       {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/x-www-form-urlencoded')
-      }).map((response: UpdateResponse) => {
+      }).pipe(map((response: UpdateResponse) => {
       return response;
-    });
+    }));
   }
 
   deleteSubject (id: number) {
@@ -78,8 +79,8 @@ export class StSubjectsService {
       {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/x-www-form-urlencoded')
-      }).map((response: UpdateResponse) => {
+      }).pipe(map((response: UpdateResponse) => {
       return response;
-    });
+    }));
   }
 }

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { BehaviorSubject } from 'rxjs';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 
 import { AuthService } from './auth.service';
-
+import { map } from 'rxjs/operators';
 import { ResponseAdd, UpdateResponse } from '../models/common';
 import { IStandard } from '../models/standards';
 import { CurriculumList, ICurriculumList } from '../models/curriculum';
@@ -32,9 +32,9 @@ export class CurriculumService {
       {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/x-www-form-urlencoded')
-      }).map((response: IStandard) => {
+      }).pipe(map((response: IStandard) => {
       return response;
-    });
+    }));
   }
 
   getAllCurriculums(): void {
@@ -90,9 +90,9 @@ export class CurriculumService {
       {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/x-www-form-urlencoded')
-      }).map((response: ResponseAdd) => {
+      }).pipe(map((response: ResponseAdd) => {
       return response;
-    });
+    }));
   }
 
   updateCurriculum(curriculum: CurriculumList) {
@@ -108,9 +108,9 @@ export class CurriculumService {
       {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/x-www-form-urlencoded')
-      }).map((response: ResponseAdd) => {
+      }).pipe(map((response: ResponseAdd) => {
       return response;
-    });
+    }));
   }
 
   deleteCurriculum(id: number) {
@@ -124,9 +124,9 @@ export class CurriculumService {
       {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/x-www-form-urlencoded')
-      }).map((response: UpdateResponse) => {
+      }).pipe(map((response: UpdateResponse) => {
       return response;
-    });
+    }));
   }
 
   lockCurriculum(id: number, status: number) {
@@ -142,8 +142,8 @@ export class CurriculumService {
       {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/x-www-form-urlencoded')
-      }).map((response: UpdateResponse) => {
+      }).pipe(map((response: UpdateResponse) => {
       return response;
-    });
+    }));
   }
 }

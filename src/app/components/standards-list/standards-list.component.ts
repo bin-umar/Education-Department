@@ -12,16 +12,8 @@ import { FormControl, Validators } from '@angular/forms';
 
 import { MatDialog, MatPaginator, MatSort } from '@angular/material';
 import { DataSource } from '@angular/cdk/collections';
-
-import 'rxjs/add/observable/merge';
-import 'rxjs/add/observable/fromEvent';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/distinctUntilChanged';
-import { startWith } from 'rxjs/operators/startWith';
-import { map } from 'rxjs/operators/map';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject, Observable, fromEvent, of, merge } from 'rxjs';
+import { map, startWith, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 import { StandardComponent } from '../standard/standard.component';
 import { DeleteDialogComponent } from '../../dialogs/delete/delete.dialog.component';
@@ -31,7 +23,7 @@ import { MainService } from '../../services/main.service';
 import { AuthService } from '../../services/auth.service';
 
 import { StandardList } from '../../models/standards';
-import {Spec, TypesOfStudying} from '../../models/common';
+import { Spec, TypesOfStudying } from '../../models/common';
 import { Kafedra, Faculty } from '../../models/faculty';
 
 @Component({
@@ -145,14 +137,14 @@ export class StandardsListComponent implements OnInit {
   getContentByKfId(data: {kf: Kafedra, fc: Faculty}) {
 
     if (+data.fc.id === 0) {
-      this.filteredOptions = Observable.of(this.options);
+      this.filteredOptions = of(this.options);
     } else {
 
       if (+data.kf.id === 0) {
-        this.filteredOptions = Observable.of(this.options.filter(option => +option.fcId === +data.fc.id));
+        this.filteredOptions = of(this.options.filter(option => +option.fcId === +data.fc.id));
       } else {
 
-        this.filteredOptions = Observable.of(this.options.filter(option => +option.kfId === +data.kf.id));
+        this.filteredOptions = of(this.options.filter(option => +option.kfId === +data.kf.id));
       }
     }
 
@@ -333,9 +325,10 @@ export class StandardsListComponent implements OnInit {
   public loadData() {
     this.exampleDatabase = new DataService(this.httpClient, this.auth);
     this.dataSource = new ExampleDataSource(this.exampleDatabase, this.paginator, this.sort);
-    Observable.fromEvent(this.filterInput.nativeElement, 'keyup')
-      .debounceTime(150)
-      .distinctUntilChanged()
+    fromEvent(this.filterInput.nativeElement, 'keyup')
+      .pipe(
+        debounceTime(150),
+        distinctUntilChanged())
       .subscribe(() => {
         if (!this.dataSource) {
           return;
@@ -382,7 +375,7 @@ export class ExampleDataSource extends DataSource<StandardList> {
 
     this._exampleDatabase.getAllStandards();
 
-    return Observable.merge(...displayDataChanges).map(() => {
+    return merge(...displayDataChanges).pipe(map(() => {
       // Filter data
       this.filteredData = this._exampleDatabase.data.slice().filter((issue: StandardList) => {
         const searchStr = (issue.id + issue.number + issue.specialty + issue.degreeOfStudying).toLowerCase();
@@ -407,7 +400,7 @@ export class ExampleDataSource extends DataSource<StandardList> {
       const startIndex = this._paginator.pageIndex * this._paginator.pageSize;
       this.renderedData = sortedData.splice(startIndex, this._paginator.pageSize);
       return this.renderedData;
-    });
+    }));
   }
   disconnect() {
   }

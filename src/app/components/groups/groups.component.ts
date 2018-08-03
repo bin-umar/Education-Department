@@ -11,10 +11,8 @@ import { DataSource } from '@angular/cdk/collections';
 import { HttpClient } from '@angular/common/http';
 import { FormControl } from '@angular/forms';
 
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
-import { startWith } from 'rxjs/operators/startWith';
-import { map } from 'rxjs/operators/map';
+import { BehaviorSubject, Observable, fromEvent, of, merge } from 'rxjs';
+import { map, startWith, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 import { DeleteDialogComponent } from '../../dialogs/delete/delete.dialog.component';
 
@@ -127,14 +125,14 @@ export class GroupsComponent implements OnInit {
   getContentByKfId(data: {kf: Kafedra, fc: Faculty}) {
 
     if (+data.fc.id === 0) {
-      this.filteredOptions = Observable.of(this.options);
+      this.filteredOptions = of(this.options);
     } else {
 
       if (+data.kf.id === 0) {
-        this.filteredOptions = Observable.of(this.options.filter(option => +option.fcId === +data.fc.id));
+        this.filteredOptions = of(this.options.filter(option => +option.fcId === +data.fc.id));
       } else {
 
-        this.filteredOptions = Observable.of(this.options.filter(option => +option.kfId === +data.kf.id));
+        this.filteredOptions = of(this.options.filter(option => +option.kfId === +data.kf.id));
       }
     }
 
@@ -329,9 +327,10 @@ export class GroupsComponent implements OnInit {
   public loadData() {
     this.groupDatabase = new GroupsService(this.httpClient, this.auth);
     this.dataSource = new GroupsDataSource(this.groupDatabase, this.paginator, this.sort);
-    Observable.fromEvent(this.filterInput.nativeElement, 'keyup')
-      .debounceTime(150)
-      .distinctUntilChanged()
+    fromEvent(this.filterInput.nativeElement, 'keyup')
+      .pipe(
+        debounceTime(150),
+        distinctUntilChanged())
       .subscribe(() => {
         if (!this.dataSource) {
           return;
@@ -379,7 +378,7 @@ export class GroupsDataSource extends DataSource<IGroup> {
 
     this._exampleDatabase.getAllGroups();
 
-    return Observable.merge(...displayDataChanges).map(() => {
+    return merge(...displayDataChanges).pipe(map(() => {
       // Filter data
       this.filteredData = this._exampleDatabase.data.slice().filter((issue: IGroup) => {
         const searchStr = (issue.id + issue.number + issue.degree + issue.name + issue.educationYear).toLowerCase();
@@ -404,7 +403,7 @@ export class GroupsDataSource extends DataSource<IGroup> {
       const startIndex = this._paginator.pageIndex * this._paginator.pageSize;
       this.renderedData = sortedData.splice(startIndex, this._paginator.pageSize);
       return this.renderedData;
-    });
+    }));
   }
   disconnect() {
   }

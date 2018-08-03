@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpParams } from '@angular/common/http';
 import { AuthService } from './auth.service';
+import { map } from 'rxjs/operators';
 import { ILoad } from '../models/load';
 import { UpdateResponse } from '../models/common';
 
@@ -21,9 +22,9 @@ export class LoadService {
       {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/x-www-form-urlencoded')
-      }).map((response: ILoad) => {
+      }).pipe(map((response: ILoad) => {
       return response;
-    });
+    }));
   }
 
   saveFlowedSubject (mainSubjectId: number, flowedId: number) {
@@ -38,9 +39,9 @@ export class LoadService {
       {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/x-www-form-urlencoded')
-      }).map((response: UpdateResponse) => {
+      }).pipe(map((response: UpdateResponse) => {
       return response;
-    });
+    }));
   }
 
   disConnectFlowedGroups(mainSubjectId: number, flowedId: number) {
@@ -56,8 +57,8 @@ export class LoadService {
       {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/x-www-form-urlencoded')
-      }).map((response: UpdateResponse) => {
+      }).pipe(map((response: UpdateResponse) => {
       return response;
-    });
+    }));
   }
 }

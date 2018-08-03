@@ -6,7 +6,8 @@ import {
   HttpParams
 } from '@angular/common/http';
 
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { BehaviorSubject } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { AuthService } from './auth.service';
 import { MainService } from './main.service';
@@ -78,9 +79,9 @@ export class DataService {
       {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/x-www-form-urlencoded')
-      }).map((response: ResponseAdd) => {
+      }).pipe(map((response: ResponseAdd) => {
       return response;
-    });
+    }));
   }
 
   updateSt(standard: StandardList) {
@@ -99,9 +100,9 @@ export class DataService {
       {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/x-www-form-urlencoded')
-      }).map((response: UpdateResponse) => {
+      }).pipe(map((response: UpdateResponse) => {
       return response;
-    });
+    }));
   }
 
   deleteSt(id: number) {
@@ -115,9 +116,9 @@ export class DataService {
       {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/x-www-form-urlencoded')
-      }).map((response: UpdateResponse) => {
+      }).pipe(map((response: UpdateResponse) => {
       return response;
-    });
+    }));
   }
 
   lockStandard(id: number, status: number) {
@@ -133,8 +134,8 @@ export class DataService {
       {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/x-www-form-urlencoded')
-      }).map((response: UpdateResponse) => {
+      }).pipe(map((response: UpdateResponse) => {
       return response;
-    });
+    }));
   }
 }

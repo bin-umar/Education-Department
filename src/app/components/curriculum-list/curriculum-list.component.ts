@@ -13,10 +13,8 @@ import { DataSource } from '@angular/cdk/collections';
 import { MatDialog, MatPaginator, MatSort } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
 
-import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { map } from 'rxjs/operators/map';
-import { startWith } from 'rxjs/operators/startWith';
+import { BehaviorSubject, Observable, fromEvent, of, merge } from 'rxjs';
+import { map, startWith, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 import { ExtractionComponent } from '../extraction/extraction.component';
 import { DeleteDialogComponent } from '../../dialogs/delete/delete.dialog.component';
@@ -29,7 +27,7 @@ import { Spec, TypesOfStudying } from '../../models/common';
 import { Faculty, Kafedra } from '../../models/faculty';
 import { CurriculumList } from '../../models/curriculum';
 import { Standard } from '../../models/standards';
-import 'rxjs/add/observable/of';
+
 
 @Component({
   selector: 'app-curriculum-list',
@@ -112,14 +110,14 @@ export class CurriculumListComponent implements OnInit {
   getContentByKfId(data: {kf: Kafedra, fc: Faculty}) {
 
     if (+data.fc.id === 0) {
-      this.filteredOptions = Observable.of(this.options);
+      this.filteredOptions = of(this.options);
     } else {
 
       if (+data.kf.id === 0) {
-        this.filteredOptions = Observable.of(this.options.filter(option => +option.fcId === +data.fc.id));
+        this.filteredOptions = of(this.options.filter(option => +option.fcId === +data.fc.id));
       } else {
 
-        this.filteredOptions = Observable.of(this.options.filter(option => +option.kfId === +data.kf.id));
+        this.filteredOptions = of(this.options.filter(option => +option.kfId === +data.kf.id));
       }
     }
 
@@ -426,9 +424,10 @@ export class CurriculumListComponent implements OnInit {
   public loadData() {
     this.curriculumDatabase = new CurriculumService(this.httpClient, this.auth);
     this.dataSource = new CurriculumDataSource(this.curriculumDatabase, this.paginator, this.sort);
-    Observable.fromEvent(this.filterInput.nativeElement, 'keyup')
-      .debounceTime(150)
-      .distinctUntilChanged()
+    fromEvent(this.filterInput.nativeElement, 'keyup')
+      .pipe(
+        debounceTime(150),
+        distinctUntilChanged())
       .subscribe(() => {
         if (!this.dataSource) {
           return;
@@ -478,7 +477,7 @@ export class CurriculumDataSource extends DataSource<CurriculumList> {
 
     this._exampleDatabase.getAllCurriculums();
 
-    return Observable.merge(...displayDataChanges).map(() => {
+    return merge(...displayDataChanges).pipe(map(() => {
       // Filter data
       this.filteredData = this._exampleDatabase.data.slice().filter((issue: CurriculumList) => {
         const searchStr = (issue.id + issue.number + issue.speciality + issue.course + issue.educationYear).toLowerCase();
@@ -504,7 +503,7 @@ export class CurriculumDataSource extends DataSource<CurriculumList> {
       const startIndex = this._paginator.pageIndex * this._paginator.pageSize;
       this.renderedData = sortedData.splice(startIndex, this._paginator.pageSize);
       return this.renderedData;
-    });
+    }));
   }
   disconnect() {
   }
