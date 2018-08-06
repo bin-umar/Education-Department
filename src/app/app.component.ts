@@ -17,6 +17,7 @@ import { UserInfo } from './models/common';
 import { SubjectsComponent } from './components/subjects/subjects.component';
 import { LoadComponent } from './components/load/load.component';
 import { SettingsComponent } from './components/settings/settings.component';
+import {SettingsService} from "./services/settings.service";
 
 @Component({
   selector: 'app-root',
@@ -50,6 +51,7 @@ export class AppComponent implements OnDestroy {
   cmpRef: ComponentRef<StandardsListComponent>;
 
   constructor (private componentFactoryResolver: ComponentFactoryResolver,
+               private stService: SettingsService,
                private auth: AuthService) {
 
     const href = window.location.href;
@@ -68,6 +70,8 @@ export class AppComponent implements OnDestroy {
       this.auth.checkUserSession(user).subscribe(response => {
         if (!response) {
           window.location.replace('./error.html');
+        } else {
+          this.stService.getLoadCoefficients();
         }
       });
     } else {

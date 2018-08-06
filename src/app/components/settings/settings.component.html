@@ -1,3 +1,27 @@
-<p>
-  settings works!
-</p>
+<mat-card>
+  <mat-card-header>
+    <h4>Меъёрҳо барои ҳисоби сарборӣ</h4>
+  </mat-card-header>
+  <form>
+    <table>
+      <tr *ngFor="let item of items">
+        <td style="width: 70%">
+          <span class="definition">{{ item.definition }}</span>
+        </td>
+        <td style="width: 20%">
+          <mat-form-field>
+            <input matInput [attr.name]="item.key"
+                   type="number"
+                   (change)="changingCaught(item);"
+                   [ngModelOptions]="{ standalone: true }"
+                   [(ngModel)]="item.value" title="">
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-icon class="md-18 hovered-color" *ngIf="item.isChanged === true"
+                    (click)="saveValue(item)">save</mat-icon>
+        </td>
+      </tr>
+    </table>
+  </form>
+</mat-card>

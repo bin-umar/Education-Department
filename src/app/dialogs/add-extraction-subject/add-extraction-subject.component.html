@@ -276,12 +276,22 @@
                        placeholder="Таҷ.истеҳсолӣ">
               </mat-form-field>
             </td>
+            <td colspan="2" *ngIf="degree === degrees[1]">
+              <mat-form-field class="full-width">
+                <input type="number"
+                       matInput
+                       name="manuPrac"
+                       [(ngModel)]="data.manuPrac"
+                       placeholder="Таҷ.илмӣ-педагогӣ">
+              </mat-form-field>
+            </td>
             <td colspan="2">
               <mat-slide-toggle
                 (change)="data.diplomPrac = (+data.diplomPrac === 1) ? 0 : 1"
                 [color]="'primary'"
                 [checked]="+data.diplomPrac === 1">
-                Т.пешаздипломӣ
+                <span *ngIf="degree === degrees[0]">Т.пешаздипломӣ</span>
+                <span *ngIf="degree === degrees[1]">Т.илмӣ-таҳқиқотӣ</span>
               </mat-slide-toggle>
             </td>
           </tr>
@@ -291,7 +301,8 @@
                 (change)="data.bachelorWork = (+data.bachelorWork === 1) ? 0 : 1"
                 [color]="'primary'"
                 [checked]="+data.bachelorWork === 1">
-                Кори бакалаврӣ
+                <span *ngIf="degree === degrees[0]">Кори бакалаврӣ</span>
+                <span *ngIf="degree === degrees[1]">Таҳияи рисолаи магистрӣ</span>
               </mat-slide-toggle>
             </td>
             <td colspan="4">

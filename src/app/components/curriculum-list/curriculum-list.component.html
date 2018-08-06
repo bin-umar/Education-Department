@@ -29,13 +29,13 @@
         </mat-form-field>
 
         <mat-form-field class="fifteen-width">
-          <mat-select (onClose)="findStandard();" [(value)]="curriculumList.degree" placeholder="Дараҷаи таҳсилот" required>
+          <mat-select (selectionChange)="findStandard();" [(value)]="curriculumList.degree" placeholder="Дараҷаи таҳсилот" required>
             <mat-option *ngFor="let d of degrees; let i = index" [value]="i">{{ d }}</mat-option>
           </mat-select>
         </mat-form-field>
 
         <mat-form-field class="fifteen-width">
-          <mat-select (onClose)="findStandard();" [(value)]="curriculumList.type" placeholder="Шакли таҳсил" required>
+          <mat-select (selectionChange)="findStandard();" [(value)]="curriculumList.type" placeholder="Шакли таҳсил" required>
             <mat-option *ngFor="let t of types;" [value]="t.id">{{ t.name }}</mat-option>
           </mat-select>
         </mat-form-field>

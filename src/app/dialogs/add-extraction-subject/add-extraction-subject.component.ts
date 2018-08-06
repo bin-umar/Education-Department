@@ -19,8 +19,8 @@ export class AddExtractionSubjectComponent implements OnInit {
   panelOpenState = false;
   add = true;
 
-  type;
-  types = [];
+  type; degree;
+  types = []; degrees = [];
   standardsYear: number;
 
   error = false;
@@ -35,6 +35,7 @@ export class AddExtractionSubjectComponent implements OnInit {
               private extractionService: ExtractionService,
               private authService: AuthService) {
     this.types = this.authService.TYPES;
+    this.degrees = this.authService.DEGREES;
   }
 
   ngOnInit() {
@@ -42,6 +43,7 @@ export class AddExtractionSubjectComponent implements OnInit {
     this.data = this.input.data;
     this.add = this.input.add;
     this.type = this.input.data.type;
+    this.degree = this.input.data.degree;
     this.standardsYear = this.input.data.standardsYear;
 
     this.extractionService.getKafedras().subscribe(res => {

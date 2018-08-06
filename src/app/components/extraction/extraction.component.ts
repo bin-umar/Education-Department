@@ -127,6 +127,10 @@ export class ExtractionComponent implements OnInit {
     return this.subjects.filter(item => +item.term - (item.course - 1) * 2 === semester);
   }
 
+  rowAmount(amount: number): number[] {
+    return Array.from(Array(amount).keys());
+  }
+
   deleteSubject(subject: ExtractionSubject) {
     if (subject.selective === 1 || this.isStupidSpec) {
       const i = this.subjects.indexOf(subject);
@@ -240,6 +244,7 @@ export class ExtractionComponent implements OnInit {
             kfName: subject.kfName,
             selective: subject.selective,
             type: this.Curriculum.type,
+            degree: this.Curriculum.degree,
             standardsYear: new Date(this.Curriculum.dateOfStandard).getFullYear()
           },
           add: false
