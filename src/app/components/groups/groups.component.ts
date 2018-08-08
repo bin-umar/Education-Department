@@ -56,11 +56,11 @@ export class GroupsComponent implements OnInit {
 
   constructor(private componentFactoryResolver: ComponentFactoryResolver,
               public httpClient: HttpClient,
+              public dialog: MatDialog,
+              public snackBar: MatSnackBar,
               private mainService: MainService,
               private groupsService: GroupsService,
-              private auth: AuthService,
-              public dialog: MatDialog,
-              public snackBar: MatSnackBar) {
+              private auth: AuthService) {
     this.types = this.auth.TYPES.slice();
     this.degrees = this.auth.DEGREES.slice();
   }
@@ -146,22 +146,27 @@ export class GroupsComponent implements OnInit {
     this.group.idSpec = this.selectedSpec.fID;
     this.groupsService.addGroup(this.group).subscribe((res) => {
       if (!res.error) {
-        this.groupDatabase.dataChange.value.push({
-          id: res.data.id,
-          kfId: this.group.kfId,
-          fcId: this.group.fcId,
-          idSpec: this.group.idSpec,
-          number: this.dataSource.filteredData.length + 1,
-          name: this.group.name,
-          degree: this.auth.DEGREES[this.group.degree],
-          type: this.auth.TYPES.find(o => o.id === +this.group.type).name,
-          course: this.group.course,
-          subgroup: this.group.subgroup,
-          subgroup2: this.group.subgroup2,
-          studentsAmount: this.group.studentsAmount,
-          educationYear: (+this.group.educationYear - 2000).toString(),
-          extraction: this.group.extraction,
-          load: this.group.load
+
+        this.groupsService.getExtractionId(this.group.id).subscribe(resp => {
+          if (!resp.error) {
+            this.groupDatabase.dataChange.value.push({
+              id: res.data.id,
+              kfId: this.group.kfId,
+              fcId: this.group.fcId,
+              idSpec: this.group.idSpec,
+              number: this.dataSource.filteredData.length + 1,
+              name: this.group.name,
+              degree: this.auth.DEGREES[this.group.degree],
+              type: this.auth.TYPES.find(o => o.id === +this.group.type).name,
+              course: this.group.course,
+              subgroup: this.group.subgroup,
+              subgroup2: this.group.subgroup2,
+              studentsAmount: this.group.studentsAmount,
+              educationYear: (+this.group.educationYear - 2000).toString(),
+              extraction: +resp.data.id,
+              load: this.group.load
+            });
+          }
         });
 
         this.refreshTable();
@@ -178,22 +183,28 @@ export class GroupsComponent implements OnInit {
 
     this.groupsService.updateGroup(this.group).subscribe((res) => {
       if (!res.error) {
-        this.groupDatabase.dataChange.value.splice(sIndex, 1, {
-          id: this.group.id,
-          kfId: this.group.kfId,
-          fcId: this.group.fcId,
-          idSpec: this.group.idSpec,
-          number: this.group.number,
-          name: this.group.name,
-          degree: this.auth.DEGREES[this.group.degree],
-          type: this.auth.TYPES.find(o => o.id === +this.group.type).name,
-          course: this.group.course,
-          subgroup: this.group.subgroup,
-          subgroup2: this.group.subgroup2,
-          studentsAmount: this.group.studentsAmount,
-          educationYear: (+this.group.educationYear - 2000).toString(),
-          extraction: this.group.extraction,
-          load: this.group.load
+
+        this.groupsService.getExtractionId(this.group.id).subscribe(resp => {
+          if (!resp.error) {
+            this.groupDatabase.dataChange.value.splice(sIndex, 1, {
+              id: this.group.id,
+              kfId: this.group.kfId,
+              fcId: this.group.fcId,
+              idSpec: this.group.idSpec,
+              number: this.group.number,
+              name: this.group.name,
+              degree: this.auth.DEGREES[this.group.degree],
+              type: this.auth.TYPES.find(o => o.id === +this.group.type).name,
+              course: this.group.course,
+              subgroup: this.group.subgroup,
+              subgroup2: this.group.subgroup2,
+              studentsAmount: this.group.studentsAmount,
+              educationYear: (+this.group.educationYear - 2000).toString(),
+              extraction: +resp.data.id,
+              load: this.group.load
+            });
+          }
+
         });
 
         this.refreshTable();
@@ -209,34 +220,33 @@ export class GroupsComponent implements OnInit {
   }
 
   editGroup(row: IGroup) {
+    this.add = false;
+    this.panelOpenState = true;
 
-    if (row.load === 0) {
-      this.add = false;
-      this.panelOpenState = true;
+    const sIndex = this.options.findIndex(x => x.fID === row.idSpec);
+    const tIndex = this.auth.TYPES.find(x => x.name === row.type).id;
+    const dIndex = this.auth.DEGREES.findIndex(x => x === row.degree);
 
-      const sIndex = this.options.findIndex(x => x.fID === row.idSpec);
-      const tIndex = this.auth.TYPES.find(x => x.name === row.type).id;
-      const dIndex = this.auth.DEGREES.findIndex(x => x === row.degree);
+    row.extraction = 0;
 
-      this.selectedSpec = this.options[sIndex];
-      this.group = {
-        id: row.id,
-        kfId: row.kfId,
-        fcId: row.fcId,
-        idSpec: row.idSpec,
-        number: row.number,
-        name: row.name,
-        degree: dIndex.toString(),
-        type: tIndex.toString(),
-        course: row.course,
-        subgroup: row.subgroup,
-        subgroup2: row.subgroup2,
-        studentsAmount: row.studentsAmount,
-        educationYear: 20 + row.educationYear,
-        extraction: +row.extraction,
-        load: +row.load
-      };
-    }
+    this.selectedSpec = this.options[sIndex];
+    this.group = {
+      id: row.id,
+      kfId: row.kfId,
+      fcId: row.fcId,
+      idSpec: row.idSpec,
+      number: row.number,
+      name: row.name,
+      degree: dIndex.toString(),
+      type: tIndex.toString(),
+      course: row.course,
+      subgroup: row.subgroup,
+      subgroup2: row.subgroup2,
+      studentsAmount: row.studentsAmount,
+      educationYear: 20 + row.educationYear,
+      extraction: 0,
+      load: +row.load
+    };
   }
 
   connectGroupExt(group: IGroup) {
@@ -270,7 +280,7 @@ export class GroupsComponent implements OnInit {
   }
 
   updateLoad(row: IGroup) {
-    this.groupsService.updateLoad(row.load).subscribe(resp => {
+    this.groupsService.updateLoad(row.load, row.extraction, row.id).subscribe(resp => {
       if (!resp.error) {
         this.snackBar.open('Тағйиротҳо дар сарбории гурӯҳи ' + row.name +
           ' бо муваффақият илова шуданд',  '',  {

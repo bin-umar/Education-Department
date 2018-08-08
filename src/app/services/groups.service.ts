@@ -57,6 +57,22 @@ export class GroupsService {
     });
   }
 
+  getExtractionId(id: number) {
+    const body = new HttpParams()
+      .set('id', id.toString())
+      .set('route', 'groups')
+      .set('operation', 'one')
+      .set('token', this.auth.token);
+
+    return this.auth.http.post(this.auth.host, body.toString(),
+      {
+        headers: new HttpHeaders()
+          .set('Content-Type', 'application/x-www-form-urlencoded')
+      }).pipe(map((response: ResponseAdd) => {
+      return response;
+    }));
+  }
+
   addGroup(group: IGroup) {
     const body = new HttpParams()
       .set('id', '')
@@ -156,9 +172,11 @@ export class GroupsService {
     }));
   }
 
-  updateLoad(idLoad: number) {
+  updateLoad(idLoad: number, idExtraction: number, idGroup: number) {
     const body = new HttpParams()
       .set('load_id', idLoad.toString())
+      .set('extraction_id', idExtraction.toString())
+      .set('group_id', idGroup.toString())
       .set('route', 'loads')
       .set('operation', 'update')
       .set('token', this.auth.token);

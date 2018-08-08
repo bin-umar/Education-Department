@@ -15,7 +15,7 @@
 
     <form class="example-form">
       <mat-form-field class="eighty-width">
-        <input matInput name="special" [(ngModel)]="selectedSpec"
+        <input matInput name="special" [readonly]="group.load > 0" [(ngModel)]="selectedSpec"
                placeholder="Ихтисос" aria-label="Number" [formControl]="myControl"
                [matAutocomplete]="auto" value="" required>
         <mat-autocomplete  #auto="matAutocomplete" [displayWith]="displayFn">
@@ -31,14 +31,14 @@
       </mat-form-field>
 
       <mat-form-field class="sixteen-width">
-        <mat-select [(value)]="group.degree"
+        <mat-select [(value)]="group.degree" [disabled]="group.load > 0"
                     placeholder="Дараҷаи таҳсилот" required>
           <mat-option *ngFor="let d of degrees; let i = index" value="{{ i }}">{{ d }}</mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field class="sixteen-width">
-        <mat-select [(value)]="group.type"
+        <mat-select [(value)]="group.type" [disabled]="group.load > 0"
                     placeholder="Шакли таҳсил" required>
           <mat-option *ngFor="let t of types;" value="{{ t.id }}">{{ t.name }}</mat-option>
         </mat-select>
@@ -46,7 +46,7 @@
 
       <mat-form-field class="ten-width">
         <input type="number" name="course" [(ngModel)]="group.course" matInput
-               placeholder="Курс" required>
+               placeholder="Курс" required [readonly]="group.load > 0">
       </mat-form-field>
 
       <mat-form-field class="ten-width">
@@ -56,17 +56,17 @@
 
       <mat-form-field class="ten-width">
         <input type="number" name="subgroup" [(ngModel)]="group.subgroup" matInput
-               placeholder="Зергурӯҳҳо" required>
+               placeholder="Зергурӯҳҳо" required [readonly]="group.load > 0">
       </mat-form-field>
 
       <mat-form-field class="ten-width">
         <input type="number" name="subgroup2" [(ngModel)]="group.subgroup2" matInput
-               placeholder="Зергурӯҳҳо*" required>
+               placeholder="Зергурӯҳҳо*" required [readonly]="group.load > 0">
       </mat-form-field>
 
       <mat-form-field class="ten-width">
         <input type="number" name="educationYear" [(ngModel)]="group.educationYear" matInput
-               placeholder="Соли таҳсил" required>
+               placeholder="Соли таҳсил" required [readonly]="group.load > 0">
       </mat-form-field>
 
       <span class="text-right">
@@ -140,9 +140,8 @@
       <mat-cell *matCellDef="let row;">
 
         <mat-icon class="md-24"
-                  [class.locked]="row.load > 0"
                   [class.hovered-color]="row.load === 0"
-                  matTooltip="{{ (row.load > 0) ? 'Ин гурӯҳ аллакай сарборӣ дорад' : 'Тағйир додани гурӯҳ'}}"
+                  matTooltip="Тағйир додани гурӯҳ"
                   (click)="editGroup(row)">edit</mat-icon>
 
         <mat-icon class="md-24"

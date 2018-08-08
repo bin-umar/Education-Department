@@ -38,8 +38,8 @@ export class MainService {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/x-www-form-urlencoded')
       }).pipe(map((response: ISpec) => {
-      return response;
-    }));
+        return response;
+      }));
   }
 
   getFacultyList() {
@@ -112,6 +112,7 @@ export class MainService {
           .set('Content-Type', 'application/x-www-form-urlencoded')
       }).pipe(map((response: ResSubType) => {
       if (!response.error) {
+
         this.subjectTypes = [];
         response.data.forEach(item => {
           this.subjectTypes.push({
