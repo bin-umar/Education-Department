@@ -89,7 +89,7 @@
             <div>Таҷрибаомӯзии илмӣ-таҳқиқотӣ</div>
           </th>
           <th rowspan="2">
-            <div>Таҳияи рисолаи магистрӣ</div>
+            <div>Кори магистрӣ</div>
           </th>
         </ng-template>
 
@@ -167,9 +167,9 @@
 
       <ng-template [ngIf]="Curriculum.type === types[2].name">
         <tr>
-          <th *ngFor="let i of rowAmount(23)">{{ i + 1 }}</th>
-          <th class="d-print-none" *ngIf="Curriculum.locked === 0">24</th>
-          <th class="d-none">24</th>
+          <th *ngFor="let i of rowAmount(24)">{{ i + 1 }}</th>
+          <th class="d-print-none" *ngIf="Curriculum.locked === 0">25</th>
+          <th class="d-none">25</th>
         </tr>
       </ng-template>
       </thead>

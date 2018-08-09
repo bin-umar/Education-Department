@@ -251,11 +251,12 @@
           <tr>
             <td colspan="2" *ngIf="type === types[2].name">
               <mat-form-field class="full-width">
-                <input type="number"
-                       matInput
-                       name="advice"
-                       [(ngModel)]="data.advice"
-                       placeholder="Маслиҳат">
+                <mat-slide-toggle
+                  (change)="data.advice = (+data.advice === 1) ? 0 : 1"
+                  [color]="'primary'"
+                  [checked]="+data.advice === 1">
+                  <span>Маслиҳат</span>
+                </mat-slide-toggle>
               </mat-form-field>
             </td>
             <td colspan="2" *ngIf="type === types[0].name">
@@ -302,7 +303,7 @@
                 [color]="'primary'"
                 [checked]="+data.bachelorWork === 1">
                 <span *ngIf="degree === degrees[0]">Кори бакалаврӣ</span>
-                <span *ngIf="degree === degrees[1]">Таҳияи рисолаи магистрӣ</span>
+                <span *ngIf="degree === degrees[1]">Кори магистрӣ</span>
               </mat-slide-toggle>
             </td>
             <td colspan="4">

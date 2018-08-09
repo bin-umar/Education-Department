@@ -52,11 +52,12 @@ export class AddExtractionSubjectComponent implements OnInit {
       }
     });
 
-    this.extractionService.getKafedraBySubjectId(this.data.idStSubject).subscribe(res => {
-      if (!res.error) {
-        this.recommendKaf = res.data.slice();
-      }
-    });
+    this.extractionService.getKafedraBySubjectId(this.data.idStSubject)
+      .subscribe(res => {
+        if (!res.error) {
+          this.recommendKaf = res.data.slice();
+        }
+      });
   }
 
   setHourOfCredit(credit: number, destination: string) {
@@ -78,7 +79,7 @@ export class AddExtractionSubjectComponent implements OnInit {
     subject.total = +subject.lkTotal + +subject.lkPlan + +subject.smTotal +
       +subject.smPlan + +subject.lbPlan + +subject.lbTotal +
       +subject.prPlan + +subject.prTotal + +subject.trainingPrac +
-      +subject.manuPrac + +subject.kmroHour + +subject.advice;
+      +subject.manuPrac + +subject.kmroHour;
   }
 
   showError(text: string) {

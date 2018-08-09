@@ -185,7 +185,6 @@ export class ExtractionComponent implements OnInit {
         case 'prTotal': sum += item.prTotal; break;
         case 'smPlan': sum += item.smPlan; break;
         case 'smTotal': sum += item.smTotal; break;
-        case 'advice': sum += item.advice; break;
         case 'trainingPrac': sum += item.trainingPrac; break;
         case 'manuPrac': sum += item.manuPrac; break;
         case 'total': sum += item.total; break;
@@ -199,7 +198,7 @@ export class ExtractionComponent implements OnInit {
     const result = +subject.lkTotal + +subject.lkPlan + +subject.smTotal +
       +subject.smPlan + +subject.lbPlan + +subject.lbTotal +
       +subject.prPlan + +subject.prTotal + +subject.trainingPrac +
-      +subject.manuPrac + +subject.kmroHour + +subject.advice;
+      +subject.manuPrac + +subject.kmroHour;
 
     subject.total = result;
     return result;
