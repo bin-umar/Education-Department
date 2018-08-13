@@ -36,7 +36,8 @@ export class ExtractionComponent implements OnInit {
     kf_full_name: '',
     kf_short_name: '',
     kf_chief: '',
-    itm_chief: ''
+    itm_chief: '',
+    kfChiefPosition: ''
   };
 
   constructor(private extractionService: ExtractionService,
