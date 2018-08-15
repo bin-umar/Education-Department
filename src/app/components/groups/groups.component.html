@@ -95,6 +95,11 @@
       <mat-cell *matCellDef="let row"> {{row.number}} </mat-cell>
     </ng-container>
 
+    <ng-container matColumnDef="speciality">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Ихтисос </mat-header-cell>
+      <mat-cell *matCellDef="let row;"> {{row.speciality}} </mat-cell>
+    </ng-container>
+
     <ng-container matColumnDef="name">
       <mat-header-cell *matHeaderCellDef mat-sort-header> Ном </mat-header-cell>
       <mat-cell *matCellDef="let row;"> {{row.name}} </mat-cell>

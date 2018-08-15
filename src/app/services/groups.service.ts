@@ -36,6 +36,7 @@ export class GroupsService {
           kfId: +item.kfId,
           fcId: +item.fcId,
           idSpec: item.idSpec,
+          speciality: item.speciality,
           number: i + 1,
           name: item.name,
           degree: this.auth.DEGREES[+item.degree],

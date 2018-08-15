@@ -41,7 +41,7 @@ export class GroupsComponent implements OnInit {
   dataSource: GroupsDataSource | null;
   panelOpenState = false;
 
-  displayedColumns = ['number', 'name', 'course', 'degree', 'type',
+  displayedColumns = ['number', 'speciality', 'name', 'course', 'degree', 'type',
     'studentsAmount', 'subgroup', 'subgroup2', 'educationYear', 'actions'];
 
   myControl: FormControl = new FormControl();
@@ -108,6 +108,7 @@ export class GroupsComponent implements OnInit {
       kfId: null,
       fcId: null,
       idSpec: null,
+      speciality: null,
       number: null,
       name: '',
       degree: null,
@@ -154,6 +155,7 @@ export class GroupsComponent implements OnInit {
               kfId: this.group.kfId,
               fcId: this.group.fcId,
               idSpec: this.group.idSpec,
+              speciality: this.group.speciality,
               number: this.dataSource.filteredData.length + 1,
               name: this.group.name,
               degree: this.auth.DEGREES[this.group.degree],
@@ -191,6 +193,7 @@ export class GroupsComponent implements OnInit {
               kfId: this.group.kfId,
               fcId: this.group.fcId,
               idSpec: this.group.idSpec,
+              speciality: this.group.speciality,
               number: this.group.number,
               name: this.group.name,
               degree: this.auth.DEGREES[this.group.degree],
@@ -235,6 +238,7 @@ export class GroupsComponent implements OnInit {
       kfId: row.kfId,
       fcId: row.fcId,
       idSpec: row.idSpec,
+      speciality: row.speciality,
       number: row.number,
       name: row.name,
       degree: dIndex.toString(),

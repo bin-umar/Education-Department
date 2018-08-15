@@ -64,7 +64,7 @@
         <th rowspan="2">
           <div>Кори курсӣ</div>
         </th>
-        <th *ngIf="Curriculum.type === types[1].name" rowspan="2">
+        <th rowspan="2">
           <div>Кори контролӣ</div>
         </th>
         <th colspan="2">ЛК</th>
@@ -94,7 +94,7 @@
         </ng-template>
 
         <th *ngIf="Curriculum.type === types[2].name" rowspan="2">
-          <div>Маслиҳат</div>
+          <div>Машварат</div>
         </th>
 
         <ng-template [ngIf]="Curriculum.degree === degrees[0]">
@@ -149,11 +149,11 @@
         </th>
       </tr>
 
-      <ng-template [ngIf]="Curriculum.type === types[0].name">
+      <ng-template [ngIf]="Curriculum.type === types[0].name || Curriculum.type === types[2].name">
         <tr>
-          <th *ngFor="let i of rowAmount(24)">{{ i + 1 }}</th>
-          <th class="d-print-none" *ngIf="Curriculum.locked === 0">25</th>
-          <th class="d-none">25</th>
+          <th *ngFor="let i of rowAmount(25)">{{ i + 1 }}</th>
+          <th class="d-print-none" *ngIf="Curriculum.locked === 0">26</th>
+          <th class="d-none">26</th>
         </tr>
       </ng-template>
 
@@ -165,13 +165,6 @@
         </tr>
       </ng-template>
 
-      <ng-template [ngIf]="Curriculum.type === types[2].name">
-        <tr>
-          <th *ngFor="let i of rowAmount(24)">{{ i + 1 }}</th>
-          <th class="d-print-none" *ngIf="Curriculum.locked === 0">25</th>
-          <th class="d-none">25</th>
-        </tr>
-      </ng-template>
       </thead>
       <ng-template ngFor let-semester [ngForOf]="[1,2]">
         <tr class="bg-eee">
@@ -217,7 +210,7 @@
             <td>
               <span *ngIf="subject.courseWork !== 0 ">{{ subject.courseWork }}</span>
             </td>
-            <td *ngIf="Curriculum.type === types[1].name">
+            <td>
               <span *ngIf="subject.workKont !== 0 ">{{ subject.workKont }}</span>
             </td>
             <td>
@@ -324,7 +317,7 @@
           <td *ngIf="Curriculum.type === types[0].name"></td>
           <td></td>
           <td></td>
-          <td *ngIf="Curriculum.type === types[1].name"></td>
+          <td></td>
           <td>
             <span *ngIf="sum('lkPlan', semester) !== 0">{{ sum('lkPlan', semester) }}</span>
           </td>
@@ -398,10 +391,10 @@
         </ng-template>
 
         <td></td>
-        <td *ngIf="Curriculum.type === types[0].name" ></td>
+        <td *ngIf="Curriculum.type === types[0].name"></td>
         <td></td>
         <td></td>
-        <td *ngIf="Curriculum.type === types[1].name"></td>
+        <td></td>
         <td>
           <span *ngIf="sum('lkPlan') !== 0">{{ sum('lkPlan') }}</span>
         </td>

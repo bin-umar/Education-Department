@@ -8,6 +8,7 @@ export interface IGroup {
   kfId: number;
   fcId: number;
   idSpec: number;
+  speciality: string
   number: number;
   name: string;
   degree: string;

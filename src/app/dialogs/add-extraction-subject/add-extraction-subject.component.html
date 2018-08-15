@@ -133,7 +133,7 @@
                    placeholder="Кори курсӣ">
           </mat-form-field>
         </td>
-        <td *ngIf="type === types[1].name">
+        <td>
           <mat-form-field>
             <input type="number"
                    matInput
@@ -254,7 +254,7 @@
                 (change)="data.advice = (+data.advice === 1) ? 0 : 1"
                 [color]="'primary'"
                 [checked]="+data.advice === 1">
-                <span>Маслиҳат</span>
+                <span>Машварат</span>
               </mat-slide-toggle>
             </td>
             <td colspan="2" *ngIf="type === types[0].name">
