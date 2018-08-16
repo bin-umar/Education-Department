@@ -1,6 +1,6 @@
 import { Component, Output, ViewEncapsulation } from '@angular/core';
 
-import { Kafedra, Faculty } from '../../models/faculty';
+import { Department} from '../../models/faculty';
 import { Load } from '../../models/load';
 
 import { LoadService } from '../../services/load.service';
@@ -18,18 +18,14 @@ export class LoadComponent {
 
   @Output() cmpName: any = 'Селанамоии гурӯҳҳо';
 
-  kafedra: Kafedra = {
+  kafedra: Department = {
     id: null,
     shortName: '',
-    fullName: ''
+    fullName: '',
+    chief: ''
   };
 
-  faculty: Faculty = {
-    id: null,
-    shortName: '',
-    fullName: ''
-  };
-
+  faculty = this.kafedra;
   subjects: Load[] = [];
   error = false;
 
@@ -76,7 +72,7 @@ export class LoadComponent {
     return sum;
   }
 
-  getKafedrasLoadById(filter: { kf: Kafedra, fc: Faculty }) {
+  getKafedrasLoadById(filter: { kf: Department, fc: Department }) {
 
     if (filter.kf.id !== -1) {
       this.faculty = filter.fc;

@@ -1,0 +1,10 @@
+<app-fk-filter (OnChooseKafedra)="getContentByKfId($event);"></app-fk-filter>
+
+<mat-tab-group dynamicHeight>
+  <mat-tab label="Сарбории кафедра">
+    <app-load-kaf [depInfo]="depInfo"></app-load-kaf>
+  </mat-tab>
+  <mat-tab label="Сарбории омӯзгор">
+    <app-teacher-load [depInfo]="depInfo"></app-teacher-load>
+  </mat-tab>
+</mat-tab-group>

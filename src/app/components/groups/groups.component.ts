@@ -20,7 +20,7 @@ import { GroupsService } from '../../services/groups.service';
 import { AuthService } from '../../services/auth.service';
 import { MainService } from '../../services/main.service';
 
-import { Faculty, IGroup, Kafedra } from '../../models/faculty';
+import { Department, IGroup } from '../../models/faculty';
 import { Spec, TypesOfStudying } from '../../models/common';
 
 @Component({
@@ -123,7 +123,7 @@ export class GroupsComponent implements OnInit {
     };
   }
 
-  getContentByKfId(data: {kf: Kafedra, fc: Faculty}) {
+  getContentByKfId(data: {kf: Department, fc: Department}) {
 
     if (+data.fc.id === 0) {
       this.filteredOptions = of(this.options);

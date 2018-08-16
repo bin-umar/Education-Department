@@ -5,7 +5,7 @@ import { AuthService } from './auth.service';
 import { map } from 'rxjs/operators';
 import { ISubType, ResSubType, ISubjectList, StSubjectResp, ISubjectResponse } from '../models/standards';
 import { ISpec } from '../models/common';
-import { IFaculty } from '../models/faculty';
+import { IDepartment } from '../models/faculty';
 
 @Injectable()
 export class MainService {
@@ -52,7 +52,7 @@ export class MainService {
       {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/x-www-form-urlencoded')
-      }).pipe(map((response: IFaculty) => {
+      }).pipe(map((response: IDepartment) => {
       return response;
     }));
   }

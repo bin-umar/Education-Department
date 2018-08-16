@@ -24,7 +24,7 @@ import { AuthService } from '../../services/auth.service';
 
 import { StandardList } from '../../models/standards';
 import { Spec, TypesOfStudying } from '../../models/common';
-import { Kafedra, Faculty } from '../../models/faculty';
+import { Department } from '../../models/faculty';
 
 @Component({
   selector: 'app-standards-list',
@@ -134,7 +134,7 @@ export class StandardsListComponent implements OnInit {
     };
   }
 
-  getContentByKfId(data: {kf: Kafedra, fc: Faculty}) {
+  getContentByKfId(data: {kf: Department, fc: Department}) {
 
     if (+data.fc.id === 0) {
       this.filteredOptions = of(this.options);
@@ -167,7 +167,7 @@ export class StandardsListComponent implements OnInit {
           degreeOfStudying: this.auth.DEGREES[this.standardList.degreeOfStudying],
           profession: this.standardList.profession,
           timeOfStudying: this.standardList.timeOfStudying,
-          typeOfStudying: this.auth.TYPES[this.standardList.typeOfStudying],
+          typeOfStudying: this.auth.TYPES.find(o => o.id === +this.standardList.typeOfStudying).name,
           dateOfAcceptance: this.standardList.dateOfAcceptance,
           locked: this.standardList.locked
         });
@@ -186,7 +186,7 @@ export class StandardsListComponent implements OnInit {
       this.panelOpenState = true;
 
       const sIndex = this.options.findIndex(x => x.fSpec_Shifr === row.specialty);
-      const tIndex = this.auth.TYPES.findIndex(x => x.name === row.typeOfStudying);
+      const tIndex = this.auth.TYPES.find(x => x.name === row.typeOfStudying).id;
       const dIndex = this.auth.DEGREES.findIndex(x => x === row.degreeOfStudying);
 
       this.selectedSpec = this.options[sIndex];

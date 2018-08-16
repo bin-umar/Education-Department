@@ -21,3 +21,18 @@ export interface ILoad {
   error: boolean;
   data: [Load];
 }
+
+export interface Teacher {
+  id: number;
+  fio: string;
+  position: string;
+  scienceDegree: string;
+  v1: number;
+  v2: number;
+  v3: number;
+}
+
+export interface ITeacher {
+  error: boolean;
+  data: [Teacher];
+}

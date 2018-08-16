@@ -8,7 +8,7 @@ export interface IGroup {
   kfId: number;
   fcId: number;
   idSpec: number;
-  speciality: string
+  speciality: string;
   number: number;
   name: string;
   degree: string;
@@ -27,32 +27,32 @@ export interface GroupResponse {
   data: [IGroup];
 }
 
-/**
- * Faculty interfaces
- */
-
-export interface Faculty {
+export interface Department {
   id: number;
   fullName: string;
   shortName: string;
+  chief: string;
+  chiefPosition?: string;
 }
 
-export interface IFaculty {
+export interface IDepartment {
   error: boolean;
-  data: [Faculty];
+  data: [Department];
 }
 
-/**
- * Kafedra interfaces
- */
-
-export interface Kafedra {
-  id: number;
-  shortName: string;
-  fullName: string;
+export interface DepartmentInfo {
+  fcId: number;
+  fcFullName: string;
+  fcShortName: string;
+  fcChief: string;
+  kfId: number;
+  kfFullName: string;
+  kfShortName: string;
+  kfChiefPosition: string;
+  kfChief: string;
 }
 
-export interface KafedraRes {
+export interface IDepartmentInfo {
   error: boolean;
-  data: [Kafedra];
+  data: DepartmentInfo;
 }

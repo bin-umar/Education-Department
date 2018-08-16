@@ -5,7 +5,7 @@ import { AuthService } from './auth.service';
 import { map } from 'rxjs/operators';
 import { UpdateResponse } from '../models/common';
 import { PrintInfoResp, ExtractionSubject, ResponseExtractionSubject } from '../models/curriculum';
-import { KafedraRes } from '../models/faculty';
+import { IDepartment } from '../models/faculty';
 
 @Injectable()
 export class ExtractionService {
@@ -38,7 +38,7 @@ export class ExtractionService {
       {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/x-www-form-urlencoded')
-      }).pipe(map((response: KafedraRes) => {
+      }).pipe(map((response: IDepartment) => {
       return response;
     }));
   }
@@ -54,7 +54,7 @@ export class ExtractionService {
       {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/x-www-form-urlencoded')
-      }).pipe(map((response: KafedraRes) => {
+      }).pipe(map((response: IDepartment) => {
       return response;
     }));
   }
@@ -70,7 +70,7 @@ export class ExtractionService {
       {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/x-www-form-urlencoded')
-      }).pipe(map((response: KafedraRes) => {
+      }).pipe(map((response: IDepartment) => {
       return response;
     }));
   }

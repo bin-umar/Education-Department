@@ -6,6 +6,7 @@ import { ICoefficient, Settings, SettingsResp } from '../models/settings';
 
 import { map } from 'rxjs/operators';
 import { ResponseAdd } from '../models/common';
+import { ITeacher } from '../models/load';
 
 @Injectable({
   providedIn: 'root'
@@ -53,6 +54,22 @@ export class SettingsService {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/x-www-form-urlencoded')
       }).pipe(map((response: ResponseAdd) => {
+      return response;
+    }));
+  }
+
+  getTeachersByKf (kfId: number) {
+    const body = new HttpParams()
+      .set('kf_id', kfId.toString())
+      .set('route', 'teachers')
+      .set('operation', 'list')
+      .set('token', this.auth.token);
+
+    return this.auth.http.post(this.auth.host, body.toString(),
+      {
+        headers: new HttpHeaders()
+          .set('Content-Type', 'application/x-www-form-urlencoded')
+      }).pipe(map((response: ITeacher) => {
       return response;
     }));
   }

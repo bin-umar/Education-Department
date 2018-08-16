@@ -20,7 +20,8 @@ import {
   MatCheckboxModule,
   MatTooltipModule,
   MatSlideToggleModule,
-  MatSnackBarModule
+  MatSnackBarModule,
+  MatTabsModule
 } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -44,11 +45,14 @@ import { SubjectsComponent } from './components/subjects/subjects.component';
 import { LoadComponent } from './components/load/load.component';
 import { FkFilterComponent } from './components/fk-filter/fk-filter.component';
 import { SettingsComponent } from './components/settings/settings.component';
+import { TeacherLoadComponent } from './components/teacher-load/teacher-load.component';
+import { LoadKafComponent } from './components/load-kaf/load-kaf.component';
 
 // Pipes
 import { EducationYearPipe } from './pipes/education-year.pipe';
 import { TeacherNamePipe } from './pipes/teacher-name.pipe';
 import { GetNamePipe } from './pipes/get-name.pipe';
+import { LoadReportComponent } from './components/load-report/load-report.component';
 
 const modules = [
   BrowserModule,
@@ -73,7 +77,8 @@ const modules = [
   MatCheckboxModule,
   MatTooltipModule,
   MatSlideToggleModule,
-  MatSnackBarModule
+  MatSnackBarModule,
+  MatTabsModule
 ];
 
 @NgModule({
@@ -93,7 +98,10 @@ const modules = [
     LoadComponent,
     FkFilterComponent,
     TeacherNamePipe,
-    SettingsComponent
+    SettingsComponent,
+    TeacherLoadComponent,
+    LoadKafComponent,
+    LoadReportComponent
   ],
   imports: [...modules],
   exports: [...modules],

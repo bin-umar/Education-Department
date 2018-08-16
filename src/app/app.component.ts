@@ -18,6 +18,7 @@ import { SubjectsComponent } from './components/subjects/subjects.component';
 import { LoadComponent } from './components/load/load.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import {SettingsService} from "./services/settings.service";
+import {LoadReportComponent} from "./components/load-report/load-report.component";
 
 @Component({
   selector: 'app-root',
@@ -29,7 +30,8 @@ import {SettingsService} from "./services/settings.service";
     CurriculumListComponent,
     SubjectsComponent,
     LoadComponent,
-    SettingsComponent
+    SettingsComponent,
+    LoadReportComponent
   ]
 })
 
@@ -39,6 +41,7 @@ export class AppComponent implements OnDestroy {
   subjectsComponent = SubjectsComponent;
   groupsComponent = GroupsComponent;
   curriculumListComponent = CurriculumListComponent;
+  loadReport = LoadReportComponent;
   settingsCmp = SettingsComponent;
 
   loadComponent = LoadComponent;

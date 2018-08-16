@@ -24,7 +24,7 @@ import { MainService } from '../../services/main.service';
 import { AuthService } from '../../services/auth.service';
 
 import { Spec, TypesOfStudying } from '../../models/common';
-import { Faculty, Kafedra } from '../../models/faculty';
+import { Department } from '../../models/faculty';
 import { CurriculumList } from '../../models/curriculum';
 import { Standard } from '../../models/standards';
 
@@ -107,7 +107,7 @@ export class CurriculumListComponent implements OnInit {
     return spec ? spec.fSpec_Shifr + " " + spec.fSpec_NameTaj : undefined;
   }
 
-  getContentByKfId(data: {kf: Kafedra, fc: Faculty}) {
+  getContentByKfId(data: {kf: Department, fc: Department}) {
 
     if (+data.fc.id === 0) {
       this.filteredOptions = of(this.options);

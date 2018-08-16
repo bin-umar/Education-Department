@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { IAuth, UserInfo } from '../models/common';
+import { IDepartmentInfo } from '../models/faculty';
 
 @Injectable()
 export class AuthService {
@@ -67,6 +68,22 @@ export class AuthService {
           return false;
         }
       }));
+  }
+
+  getDepartmentInfo(kfId: number) {
+    const body = new HttpParams()
+      .set('id', kfId.toString())
+      .set('route', 'authsess')
+      .set('operation', 'one')
+      .set('token', this.token);
+
+    return this.http.post(this.host, body.toString(),
+      {
+        headers: new HttpHeaders()
+          .set('Content-Type', 'application/x-www-form-urlencoded')
+      }).pipe(map((response: IDepartmentInfo) => {
+      return response;
+    }));
   }
 
   getToken(username: string, password: string): Observable<boolean> {

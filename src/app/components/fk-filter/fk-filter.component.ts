@@ -2,8 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 import { ExtractionService } from '../../services/extraction.service';
 import { MainService } from '../../services/main.service';
-
-import { Kafedra, Faculty } from '../../models/faculty';
+import { Department } from '../../models/faculty';
 
 @Component({
   selector: 'app-fk-filter',
@@ -13,13 +12,18 @@ import { Kafedra, Faculty } from '../../models/faculty';
 })
 export class FkFilterComponent implements OnInit {
 
-  @Output() OnChooseKafedra = new EventEmitter<{kf: Kafedra, fc: Faculty}>();
-  faculties: Faculty[] = [];
+  @Output() OnChooseKafedra = new EventEmitter<{kf: Department, fc: Department}>();
+  faculties: Department[] = [];
   selectedKf: number;
   selectedFc: number;
-  kafedras: Kafedra[] = [];
+  kafedras: Department[] = [];
 
-  emptyOption = {id: 0, shortName: '', fullName: ''};
+  emptyOption = {
+    id: 0,
+    shortName: '',
+    fullName: '',
+    chief: ''
+  };
 
   constructor(private extService: ExtractionService,
               private mainService: MainService) {

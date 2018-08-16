@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 import { ExtractionSubject } from '../../models/curriculum';
-import { Kafedra } from '../../models/faculty';
+import { Department } from '../../models/faculty';
 import { ExtractionService } from '../../services/extraction.service';
 
 import { AuthService } from '../../services/auth.service';
@@ -27,8 +27,8 @@ export class AddExtractionSubjectComponent implements OnInit {
   errorText = '';
 
   data: ExtractionSubject;
-  kafedras: Kafedra[] = [];
-  recommendKaf: Kafedra[] = [];
+  kafedras: Department[] = [];
+  recommendKaf: Department[] = [];
 
   constructor(public dialogRef: MatDialogRef<AddExtractionSubjectComponent>,
               @Inject(MAT_DIALOG_DATA) public input: any,
