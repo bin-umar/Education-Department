@@ -8,9 +8,6 @@
       <mat-panel-title>
         Иловакунии гурӯҳ
       </mat-panel-title>
-      <mat-panel-description>
-        * Зергурӯҳҳо танҳо барои як қатор гурӯҳҳои факултаи сохтмон лозиманд
-      </mat-panel-description>
     </mat-expansion-panel-header>
 
     <form class="example-form">
@@ -57,11 +54,6 @@
       <mat-form-field class="ten-width">
         <input type="number" name="subgroup" [(ngModel)]="group.subgroup" matInput
                placeholder="Зергурӯҳҳо" required>
-      </mat-form-field>
-
-      <mat-form-field class="ten-width">
-        <input type="number" name="subgroup2" [(ngModel)]="group.subgroup2" matInput
-               placeholder="Зергурӯҳҳо*" required>
       </mat-form-field>
 
       <mat-form-field class="ten-width">
@@ -126,13 +118,8 @@
     </ng-container>
 
     <ng-container matColumnDef="subgroup">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Зергурӯҳҳо (асосӣ) </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Зергурӯҳҳо </mat-header-cell>
       <mat-cell *matCellDef="let row"> {{row.subgroup}} </mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="subgroup2">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Зергурӯҳҳо<sup style="color: red;">*</sup> </mat-header-cell>
-      <mat-cell *matCellDef="let row"> {{row.subgroup2}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="educationYear">

@@ -88,14 +88,6 @@ export class SubjectsComponent implements OnInit {
     });
   }
 
-  makeArchSubject(row: ISubject) {
-    row.isArch = (row.isArch === 1) ? 0 : 1;
-
-    this.subjectsService.makeArchSubject(row).subscribe(resp => {
-      if (resp.error) { console.log("Error happening while making arch Subject"); }
-    });
-  }
-
   saveModifiedSubject() {
     const sIndex = this.subjectDatabase.dataChange.value.findIndex(x => x.id === this.subject.id);
 

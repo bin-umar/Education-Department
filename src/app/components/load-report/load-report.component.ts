@@ -13,11 +13,11 @@ export class LoadReportComponent implements OnInit {
 
   @Output() cmpName: any = 'Ҳисоботҳо';
   depInfo: DepartmentInfo = {
-    fcId: 0,
+    fcId: -1,
     fcFullName: '',
     fcShortName: '',
     fcChief: '',
-    kfId: 0,
+    kfId: -1,
     kfFullName: '',
     kfShortName: '',
     kfChiefPosition: '',

@@ -17,22 +17,6 @@ export class SubjectService {
     return this.dataChange.value;
   }
 
-  makeArchSubject(subject: ISubject) {
-    const body = new HttpParams()
-      .set('id', subject.id.toString())
-      .set('isArch', subject.isArch.toString())
-      .set('route', 'subjects')
-      .set('operation', 'update')
-      .set('token', this.auth.token);
-
-    return this.auth.http.post(this.auth.host, body.toString(),
-      {
-        headers: new HttpHeaders()
-          .set('Content-Type', 'application/x-www-form-urlencoded')
-      }).pipe(map((response: UpdateResponse) => {
-      return response;
-    }));
-  }
 
   getAllSubjects(): void {
     const body = new HttpParams()
@@ -95,6 +79,7 @@ export class SubjectService {
       .set('name_ru', subject.name_ru)
       .set('shortname_tj', subject.shortname_tj)
       .set('shortname_ru', subject.shortname_ru)
+      .set('isArch', subject.isArch.toString())
       .set('route', 'subjects')
       .set('operation', 'update')
       .set('token', this.auth.token);

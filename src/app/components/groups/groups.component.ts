@@ -42,7 +42,7 @@ export class GroupsComponent implements OnInit {
   panelOpenState = false;
 
   displayedColumns = ['number', 'speciality', 'name', 'course', 'degree', 'type',
-    'studentsAmount', 'subgroup', 'subgroup2', 'educationYear', 'actions'];
+    'studentsAmount', 'subgroup', 'educationYear', 'actions'];
 
   myControl: FormControl = new FormControl();
   filteredOptions: Observable<Spec[]>;
@@ -115,7 +115,6 @@ export class GroupsComponent implements OnInit {
       type: null,
       course: null,
       subgroup: null,
-      subgroup2: null,
       studentsAmount: null,
       educationYear: null,
       extraction: 0,
@@ -162,7 +161,6 @@ export class GroupsComponent implements OnInit {
               type: this.auth.TYPES.find(o => o.id === +this.group.type).name,
               course: this.group.course,
               subgroup: this.group.subgroup,
-              subgroup2: this.group.subgroup2,
               studentsAmount: this.group.studentsAmount,
               educationYear: (+this.group.educationYear - 2000).toString(),
               extraction: +resp.data.id,
@@ -200,7 +198,6 @@ export class GroupsComponent implements OnInit {
               type: this.auth.TYPES.find(o => o.id === +this.group.type).name,
               course: this.group.course,
               subgroup: this.group.subgroup,
-              subgroup2: this.group.subgroup2,
               studentsAmount: this.group.studentsAmount,
               educationYear: (+this.group.educationYear - 2000).toString(),
               extraction: +resp.data.id,
@@ -245,7 +242,6 @@ export class GroupsComponent implements OnInit {
       type: tIndex.toString(),
       course: row.course,
       subgroup: row.subgroup,
-      subgroup2: row.subgroup2,
       studentsAmount: row.studentsAmount,
       educationYear: 20 + row.educationYear,
       extraction: 0,

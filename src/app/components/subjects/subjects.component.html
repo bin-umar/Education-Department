@@ -6,6 +6,9 @@
       <mat-panel-title>
         Иловакунии фанн
       </mat-panel-title>
+      <mat-panel-description>
+        * Шумораи донишҷӯён танҳо барои фаннҳои архитектурӣ лозиманд!!!
+      </mat-panel-description>
     </mat-expansion-panel-header>
 
     <form class="example-form">
@@ -29,15 +32,12 @@
                placeholder="Номи русӣ (кӯтоҳ)">
       </mat-form-field>
 
-
       <div class="text-right">
         <div class="isArch">
-          <mat-slide-toggle
-            (change)="subject.isArch = (subject.isArch === 1) ? 0 : 1"
-            [color]="'primary'"
-            [checked]="subject.isArch === 1">
-            Фанни архитектурӣ
-        </mat-slide-toggle>
+          <mat-form-field>
+            <input type="number" name="isArch" [(ngModel)]="subject.isArch" matInput
+                   placeholder="Шумораи донишҷӯён">
+          </mat-form-field>
         </div>
         <button [hidden]="!add" (click)="addSubject();" mat-raised-button class="bg-dark text-colored">
           <mat-icon>add_circle_outline</mat-icon> Илова намудан
@@ -76,23 +76,19 @@
 
     <ng-container matColumnDef="shortname_tj">
       <mat-header-cell *matHeaderCellDef mat-sort-header> Номи тоҷикӣ (кӯтоҳ) </mat-header-cell>
-      <mat-cell *matCellDef="let row">{{row.shortname_tj}} </mat-cell>
+      <mat-cell *matCellDef="let row">{{ row.shortname_tj }} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="shortname_ru">
       <mat-header-cell *matHeaderCellDef mat-sort-header> Номи русӣ (кӯтоҳ) </mat-header-cell>
-      <mat-cell *matCellDef="let row"> {{row.shortname_ru}} </mat-cell>
+      <mat-cell *matCellDef="let row"> {{ row.shortname_ru }} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="isArch">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Фанни архитектурӣ </mat-header-cell>
-      <mat-cell *matCellDef="let row">
-        <mat-slide-toggle
-          (change)="makeArchSubject(row)"
-          [color]="'primary'"
-          [checked]="row.isArch === 1">
-        </mat-slide-toggle>
-      </mat-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        <mat-icon matTooltip="Шумораи донишҷӯён">group</mat-icon>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{ row.isArch }} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="subjects_actions">

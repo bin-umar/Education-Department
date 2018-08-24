@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, Output} from '@angular/core';
+import { Component, Input, OnChanges, Output } from '@angular/core';
 
 import { AuthService } from '../../services/auth.service';
 import { LoadKafService } from '../../services/load-kaf.service';
@@ -10,7 +10,7 @@ import { ILoadKafSubject, LoadKaf, LoadKafReport } from '../../models/load-kaf';
 @Component({
   selector: 'app-load-kaf',
   templateUrl: './load-kaf.component.html',
-  styleUrls: ['../standard/standard.component.css'],
+  styleUrls: ['./load-kaf.component.css'],
   providers: [ LoadKafService ]
 })
 

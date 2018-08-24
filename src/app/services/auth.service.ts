@@ -13,7 +13,7 @@ export class AuthService {
   public host = 'http://asu.techuni.tj/jxapi/';
   public token: string;
 
-  public DEGREES = ['бакалавр', 'магистр', 'PhD'];
+  public DEGREES = ['бакалавр', 'магистр'];
   public TYPES = [{
       name: 'рӯзона',
       id: 1
@@ -29,10 +29,6 @@ export class AuthService {
     {
       name: 'магистратура',
       id: 135
-    },
-    {
-      name: 'маълумоти дуюм',
-      id: 136
     }];
 
   constructor(public http: HttpClient) {}

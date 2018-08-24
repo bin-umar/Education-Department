@@ -15,7 +15,6 @@ export interface IGroup {
   type: string;
   course: number;
   subgroup: number;
-  subgroup2: number;
   studentsAmount: number;
   educationYear: string;
   extraction: number;

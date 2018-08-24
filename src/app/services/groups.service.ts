@@ -43,7 +43,6 @@ export class GroupsService {
           type: this.auth.TYPES.find(o => o.id === +item.type).name,
           course: +item.course,
           subgroup: +item.subgroup,
-          subgroup2: +item.subgroup2,
           studentsAmount: +item.studentsAmount,
           educationYear: item.educationYear,
           extraction: +item.extraction,
@@ -83,7 +82,6 @@ export class GroupsService {
       .set('type', group.type)
       .set('course', group.course.toString())
       .set('subgroup', group.subgroup.toString())
-      .set('subgroup2', group.subgroup2.toString())
       .set('studentsAmount', group.studentsAmount.toString())
       .set('educationYear', group.educationYear.toString())
       .set('route', 'groups')
@@ -108,7 +106,6 @@ export class GroupsService {
       .set('type', group.type)
       .set('course', group.course.toString())
       .set('subgroup', group.subgroup.toString())
-      .set('subgroup2', group.subgroup2.toString())
       .set('studentsAmount', group.studentsAmount.toString())
       .set('educationYear', group.educationYear.toString())
       .set('route', 'groups')
