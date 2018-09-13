@@ -4,21 +4,16 @@ import { map } from 'rxjs/operators';
 
 import { AuthService } from './auth.service';
 import { SettingsService } from './settings.service';
-
 import { ILoadKaf } from '../models/load-kaf';
-import { ICoefficient } from '../models/settings';
 
 @Injectable()
 export class LoadKafService {
 
-  coefs: ICoefficient;
-  constructor(private auth: AuthService,
-              private stService: SettingsService) {
-    this.coefs = this.stService.coefs;
-  }
+  constructor(private auth: AuthService) {}
 
-  public getLoadKafReport(kf_id: number) {
+  public getTeacherReport(teacher_id: number, kf_id?: number) {
     const body = new HttpParams()
+      .set('teacher_id', teacher_id.toString())
       .set('kf_id', kf_id.toString())
       .set('route', 'ldReports')
       .set('operation', 'list')
@@ -33,25 +28,10 @@ export class LoadKafService {
     }));
   }
 
-  public getTeacherReport(teacher_id: number) {
+  public getTeacherCourseWorks(teacher_id: number, kf_id?: number) {
     const body = new HttpParams()
       .set('teacher_id', teacher_id.toString())
-      .set('route', 'ldReports')
-      .set('operation', 'list')
-      .set('token', this.auth.token);
-
-    return this.auth.http.post(this.auth.host, body.toString(),
-      {
-        headers: new HttpHeaders()
-          .set('Content-Type', 'application/x-www-form-urlencoded')
-      }).pipe(map((response: ILoadKaf) => {
-      return response;
-    }));
-  }
-
-  public getTeacherCourseWorks(teacher_id: number) {
-    const body = new HttpParams()
-      .set('teacher_id', teacher_id.toString())
+      .set('kf_id', kf_id.toString())
       .set('route', 'ldCworks')
       .set('operation', 'list')
       .set('token', this.auth.token);
@@ -64,4 +44,5 @@ export class LoadKafService {
       return response;
     }));
   }
+
 }

@@ -55,14 +55,14 @@
           </mat-select>
         </mat-form-field>
 
-        <span class="text-right fifteen-width">
-        <button [hidden]="!add" (click)="addExtraction();" mat-raised-button class="bg-dark text-colored">
-          <mat-icon>add_circle_outline</mat-icon> Илова намудан
-        </button>
-        <button [hidden]="add" (click)="saveModifiedSt();" mat-raised-button class="bg-dark text-colored">
-          <mat-icon>save</mat-icon> Сабт кардан
-        </button>
-      </span>
+        <span class="text-right fifteen-width" style="margin-left: 10px">
+          <button [hidden]="!add" (click)="addExtraction();" mat-raised-button class="btn bg-dark text-colored">
+            <mat-icon>add_circle_outline</mat-icon> Илова намудан
+          </button>
+          <button [hidden]="add" (click)="saveModifiedSt();" mat-raised-button class="btn bg-dark text-colored">
+            <mat-icon>save</mat-icon> Сабт кардан
+          </button>
+        </span>
       </form>
       <div class="text-center alert-danger" *ngIf="error === true">
         {{ errorText }}

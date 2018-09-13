@@ -3,12 +3,18 @@ import { HttpHeaders, HttpParams } from '@angular/common/http';
 
 import { AuthService } from './auth.service';
 import { map } from 'rxjs/operators';
+
 import { UpdateResponse } from '../models/common';
 import { PrintInfoResp, ExtractionSubject, ResponseExtractionSubject } from '../models/curriculum';
-import { IDepartment } from '../models/faculty';
+import { Department, IDepartment } from '../models/faculty';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
+
 export class ExtractionService {
+
+  kafedras: Department[] = [];
 
   constructor(private auth: AuthService) { }
 
@@ -39,24 +45,17 @@ export class ExtractionService {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/x-www-form-urlencoded')
       }).pipe(map((response: IDepartment) => {
-      return response;
+
+        if (!response.error) {
+          this.kafedras = response.data.slice();
+          return this.kafedras;
+        }
+
     }));
   }
 
   getKafedraByFacultyId(fcId: number) {
-    const body = new HttpParams()
-      .set('id', fcId.toString())
-      .set('route', 'kafedra')
-      .set('operation', 'list')
-      .set('token', this.auth.token);
-
-    return this.auth.http.post(this.auth.host, body.toString(),
-      {
-        headers: new HttpHeaders()
-          .set('Content-Type', 'application/x-www-form-urlencoded')
-      }).pipe(map((response: IDepartment) => {
-      return response;
-    }));
+    return this.kafedras.filter(o => +o.fcId === fcId);
   }
 
   getKafedraBySubjectId(id: number) {

@@ -1,7 +1,9 @@
-import {Component, Input, OnChanges, OnInit, Output} from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
+
 import { LoadKafService } from '../../services/load-kaf.service';
 import { AuthService} from '../../services/auth.service';
 import { SettingsService } from '../../services/settings.service';
+import { LoadReportService } from '../../services/load-report.service';
 
 import { Teacher } from '../../models/load';
 import { ILoadKafSubject, LoadKaf, LoadKafReport } from '../../models/load-kaf';
@@ -17,8 +19,9 @@ import { Department, DepartmentInfo } from '../../models/faculty';
 
 export class TeacherLoadComponent implements OnChanges {
 
-  @Output() cmpName: any = 'Сарбории омӯзгорони кафедра';
   @Input() depInfo: DepartmentInfo;
+
+  allKafedra = false;
 
   kafedra: Department = {
     id: null,
@@ -48,25 +51,14 @@ export class TeacherLoadComponent implements OnChanges {
   subjects: ILoadKafSubject[] = [];
 
   constructor(private lkService: LoadKafService,
+              private ldReport: LoadReportService,
               private stService: SettingsService,
               private auth: AuthService) {
   }
 
   ngOnChanges() {
-    this.kafedra = {
-      id: +this.depInfo.kfId,
-      fullName: this.depInfo.kfFullName,
-      shortName: this.depInfo.kfShortName,
-      chief: this.depInfo.kfChief,
-      chiefPosition: this.depInfo.kfChiefPosition
-    };
-
-    this.faculty = {
-      id: +this.depInfo.fcId,
-      fullName: this.depInfo.fcFullName,
-      shortName: this.depInfo.fcShortName,
-      chief: this.depInfo.fcChief
-    };
+    this.kafedra = LoadReportService.getKafedraInfo(this.depInfo);
+    this.faculty = LoadReportService.getFacultyInfo(this.depInfo);
 
     if (this.kafedra.id !== undefined && this.kafedra.id !== 0) {
       this.stService.getTeachersByKf(this.kafedra.id).subscribe(resp => {
@@ -78,28 +70,36 @@ export class TeacherLoadComponent implements OnChanges {
   }
 
   selectTeacher() {
-    this.subjects = [];
 
-    this.lkService.getTeacherReport(this.selectedTeacher.id).subscribe(resp => {
-      if (!resp.error) {
+    if (this.selectedTeacher.id !== 0) {
 
-        this.lkService.getTeacherCourseWorks(this.selectedTeacher.id).subscribe(response => {
-          if (!response.error) {
+      this.subjects = [];
 
-            const subjects: LoadKaf[] = [...resp.data, ...response.data];
+      let kf_id = 0;
 
-            subjects.forEach(subject => {
-              subject.newId = subject.idExSubject + subject.group;
-              subject.degree = this.auth.DEGREES[+subject.degree];
-            });
+      if (!this.allKafedra) { kf_id = this.kafedra.id; }
 
-            const teacherLoad = new LoadKafReport(subjects, this.lkService.coefs);
-            this.subjects = teacherLoad.getSubjects();
-            this.countTeacherLoad();
-          }
-        });
-      }
-    });
+      this.lkService.getTeacherReport(this.selectedTeacher.id, kf_id).subscribe(resp => {
+        if (!resp.error) {
+
+          this.lkService.getTeacherCourseWorks(this.selectedTeacher.id, kf_id).subscribe(response => {
+            if (!response.error) {
+
+              const subjects: LoadKaf[] = [...resp.data, ...response.data];
+
+              subjects.forEach(subject => {
+                subject.newId = subject.idExSubject + subject.group;
+                subject.degree = this.auth.DEGREES[+subject.degree];
+              });
+
+              const teacherLoad = new LoadKafReport(subjects, this.stService.coefs);
+              this.subjects = teacherLoad.getSubjects();
+              this.countTeacherLoad();
+            }
+          });
+        }
+      });
+    }
   }
 
   rowAmount(amount: number): number[] {
@@ -107,80 +107,19 @@ export class TeacherLoadComponent implements OnChanges {
   }
 
   getSubjects(term: number, typeS: number, fcId: number): ILoadKafSubject[] {
-    return this.subjects.filter(o => (
-      o.term === term && +o.type === typeS && +o.fcId === fcId
-    ));
+    return this.ldReport.GetSubjects(this.subjects, term, typeS, fcId);
   }
 
   getTypesByTerm(term: number): TypesOfStudying[] {
-    const types: TypesOfStudying[] = [];
-
-    this.subjects.filter(o => o.term === term)
-      .forEach(o => {
-        const i = types.findIndex(t => t.id === +o.type);
-        if (i === -1) {
-          types.push(this.auth.TYPES.find(t => t.id === +o.type));
-        }
-      });
-
-    return types;
+    return this.ldReport.GetTypesByTerm(this.subjects, term);
   }
 
   getFacultiesByType(typeS: number, term: number): Department[] {
-    const faculties: Department[] = [];
-
-    this.subjects.filter(o => (+o.type === typeS) && (+o.term === term))
-      .forEach(o => {
-        const i = faculties.findIndex(fc => fc.id === +o.fcId);
-        if (i === -1) {
-          faculties.push({
-            id: +o.fcId,
-            shortName: o.fcName,
-            fullName: o.fcName,
-            chief: ''
-          });
-        }
-      });
-
-    return faculties;
+    return this.ldReport.GetFacultiesByType(this.subjects, typeS, term);
   }
 
   sum(prop: string, term?: number, typeS?: number) {
-    let sum = 0;
-    let subjects: ILoadKafSubject[];
-
-    if (term) {
-      if (typeS) {
-        subjects = this.subjects.filter(o => +o.type === typeS && +o.term === term);
-      } else {
-        subjects = this.subjects.filter(o => +o.term === term);
-      }
-    } else {
-      subjects = this.subjects;
-    }
-
-    subjects.forEach(item => {
-      switch (prop) {
-        case 'lkTotal': sum += +item.lecture.total; break;
-        case 'lbTotal': sum += +item.laboratory.total; break;
-        case 'prTotal': sum += +item.practical.total; break;
-        case 'smTotal': sum += +item.seminar.total; break;
-        case 'kmroTotal': sum += +item.kmro.total; break;
-        case 'advice': sum += +item.advice; break;
-        case 'prac': sum += +item.practices; break;
-        case 'diploma': sum += +item.diploma; break;
-        case 'gosExam': sum += +item.gosExam; break;
-        case 'total': sum += +item.total; break;
-        case 'cw': sum += +item.courseWork; break;
-        case 'cp': sum += +item.courseProject; break;
-        case 'wk': sum += +item.workKont; break;
-        case 'exam': sum += +item.exam; break;
-        case 'tAH': sum += +item.totalAuditHour; break;
-        case 'checkout': sum += +item.checkout; break;
-      }
-    });
-
-    return +sum.toFixed(2);
+    return this.ldReport.Sum(this.subjects, prop, term, typeS);
   }
 
   countTeacherLoad() {

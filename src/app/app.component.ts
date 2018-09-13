@@ -17,8 +17,9 @@ import { UserInfo } from './models/common';
 import { SubjectsComponent } from './components/subjects/subjects.component';
 import { LoadComponent } from './components/load/load.component';
 import { SettingsComponent } from './components/settings/settings.component';
-import {SettingsService} from "./services/settings.service";
-import {LoadReportComponent} from "./components/load-report/load-report.component";
+import { SettingsService } from './services/settings.service';
+import { LoadReportComponent } from './components/load-report/load-report.component';
+import { Spinkit } from 'ng-http-loader';
 
 @Component({
   selector: 'app-root',
@@ -36,6 +37,8 @@ import {LoadReportComponent} from "./components/load-report/load-report.componen
 })
 
 export class AppComponent implements OnDestroy {
+
+  public spinkit = Spinkit;
 
   standardsListCmp = StandardsListComponent;
   subjectsComponent = SubjectsComponent;

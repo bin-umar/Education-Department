@@ -21,9 +21,10 @@ import {
   MatTooltipModule,
   MatSlideToggleModule,
   MatSnackBarModule,
-  MatTabsModule
+  MatTabsModule, MatRadioModule
 } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgHttpLoaderModule } from 'ng-http-loader';
 
 // Services
 import { AuthService } from './services/auth.service';
@@ -53,6 +54,7 @@ import { EducationYearPipe } from './pipes/education-year.pipe';
 import { TeacherNamePipe } from './pipes/teacher-name.pipe';
 import { GetNamePipe } from './pipes/get-name.pipe';
 import { LoadReportComponent } from './components/load-report/load-report.component';
+import { ReportsComponent } from './components/reports/reports.component';
 
 const modules = [
   BrowserModule,
@@ -78,7 +80,9 @@ const modules = [
   MatTooltipModule,
   MatSlideToggleModule,
   MatSnackBarModule,
-  MatTabsModule
+  MatTabsModule,
+  NgHttpLoaderModule,
+  MatRadioModule
 ];
 
 @NgModule({
@@ -101,7 +105,8 @@ const modules = [
     SettingsComponent,
     TeacherLoadComponent,
     LoadKafComponent,
-    LoadReportComponent
+    LoadReportComponent,
+    ReportsComponent
   ],
   imports: [...modules],
   exports: [...modules],

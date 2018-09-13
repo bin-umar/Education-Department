@@ -1,8 +1,80 @@
+<div class="alert alert-info d-print-none">
+  <table>
+    <tr>
+      <td style="width: 95%;">
+        <h5 *ngIf="subjects.length === 0">
+          Барои дидани ҳисоботҳо тугмачаи фурудовариро пахш намоед &#8680;
+        </h5>
+        <h5 *ngIf="subjects.length > 0">Маълумотҳои лозима барои дидани ҳисоботҳо аллакай ҳастанд,
+          барои аз нав гирифтани онҳо тугмачаи фурудовариро пахш намоед &#8680;
+        </h5>
+      </td>
+      <td>
+        <button (click)="loadData();" mat-raised-button
+                class="btn-info">
+          <mat-icon class="md-24">get_app</mat-icon>
+          Фурудоварӣ
+        </button>
+      </td>
+    </tr>
+  </table>
+</div>
+
 <app-fk-filter (OnChooseKafedra)="getContentByKfId($event);"></app-fk-filter>
 
-<mat-tab-group dynamicHeight>
-  <mat-tab label="Сарбории кафедра">
-    <app-load-kaf [depInfo]="depInfo"></app-load-kaf>
+<mat-tab-group [selectedIndex]="activeTabIndex" dynamicHeight>
+  <mat-tab [disabled]="subjects.length === 0" label="Ҳисоботҳо">
+
+    <mat-card class="mat-elevation-z8 d-print-none">
+      <mat-form-field class="main-select">
+        <mat-select [(value)]="filterReport.mainFilter" placeholder="Намуди ҳисобот">
+          <mat-optgroup [label]="'Донишгоҳ'">
+            <mat-option value="un-fc">Донишгоҳ аз рӯи факултетҳо</mat-option>
+            <mat-option value="un-kf">Донишгоҳ аз рӯи кафедраҳо</mat-option>
+            <mat-option value="un-type">Донишгоҳ аз руйи шакли таҳсил</mat-option>
+            <mat-option value="un-full">Донишгоҳ (Ҳамагӣ)</mat-option>
+          </mat-optgroup>
+          <mat-optgroup [label]="'Факултет'">
+            <mat-option value="fc-kf">Факултет аз рӯи кафедраҳо</mat-option>
+            <mat-option value="fc-type">Факултет аз руйи шакли таҳсил</mat-option>
+            <mat-option value="fc-full">Факултет (Ҳамагӣ)</mat-option>
+          </mat-optgroup>
+          <mat-optgroup [label]="'Кафедра'">
+            <mat-option value="kf-type">Кафедра аз руйи шакли таҳсил</mat-option>
+            <mat-option value="kf-full">Кафедра (Ҳамагӣ)</mat-option>
+          </mat-optgroup>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="type-select">
+        <mat-select [(value)]="filterReport.type"
+                    [disabled]="filterReport.mainFilter.indexOf('type') === -1"
+                    placeholder="Шакли таҳсил">
+          <mat-option [value]="0">Ҳама</mat-option>
+          <mat-option *ngFor="let t of types;" [value]="t.id">{{ t.name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-radio-group [(ngModel)]="filterReport.duration"
+                       [disabled]="filterReport.mainFilter.indexOf('full') !== -1 ||
+                                   filterReport.mainFilter.indexOf('type') !== -1"
+                       class="time-select">
+        <mat-radio-button *ngFor="let d of durations" [color]="'primary'" [value]="d.id">{{ d.name }}</mat-radio-button>
+      </mat-radio-group>
+
+      <button mat-raised-button
+              (click)="doFilter();"
+              [disabled]="filterReport.mainFilter === ''"
+              class="btn-info ok-button"> >>> </button>
+    </mat-card>
+
+    <app-reports [depInfo]="depInfo"
+                 [items]="reportSubjects"
+                 [filterReport]="filterReport"></app-reports>
+  </mat-tab>
+
+  <mat-tab [disabled]="subjects.length === 0" label="Сарбории кафедра">
+    <app-load-kaf [subjects]="loadKafSubjects" [depInfo]="depInfo"></app-load-kaf>
   </mat-tab>
   <mat-tab label="Сарбории омӯзгор">
     <app-teacher-load [depInfo]="depInfo"></app-teacher-load>

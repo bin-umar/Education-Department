@@ -1,11 +1,12 @@
-import { Component, Input, OnChanges, Output } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 
 import { AuthService } from '../../services/auth.service';
 import { LoadKafService } from '../../services/load-kaf.service';
 
 import { TypesOfStudying } from '../../models/common';
 import { Department, DepartmentInfo } from '../../models/faculty';
-import { ILoadKafSubject, LoadKaf, LoadKafReport } from '../../models/load-kaf';
+import { ILoadKafSubject } from '../../models/load-kaf';
+import { LoadReportService } from '../../services/load-report.service';
 
 @Component({
   selector: 'app-load-kaf',
@@ -16,8 +17,8 @@ import { ILoadKafSubject, LoadKaf, LoadKafReport } from '../../models/load-kaf';
 
 export class LoadKafComponent implements OnChanges {
 
-  @Output() cmpName: any = 'Сарбории кафедра';
   @Input() depInfo: DepartmentInfo;
+  @Input() subjects: ILoadKafSubject[] = [];
 
   kafedra: Department = {
     id: null,
@@ -27,43 +28,32 @@ export class LoadKafComponent implements OnChanges {
   };
 
   faculty = this.kafedra;
-  subjects: ILoadKafSubject[] = [];
   isError = false;
 
   constructor(private auth: AuthService,
-              private lkService: LoadKafService) {
+              private lkService: LoadKafService,
+              private ldReport: LoadReportService) {
   }
 
   ngOnChanges() {
-    this.kafedra = {
-      id: this.depInfo.kfId,
-      fullName: this.depInfo.kfFullName,
-      shortName: this.depInfo.kfShortName,
-      chief: this.depInfo.kfChief
-    };
+    this.kafedra = LoadReportService.getKafedraInfo(this.depInfo);
+    this.faculty = LoadReportService.getFacultyInfo(this.depInfo);
 
-    this.faculty = {
-      id: this.depInfo.fcId,
-      fullName: this.depInfo.fcFullName,
-      shortName: this.depInfo.fcShortName,
-      chief: this.depInfo.fcChief
-    };
-
-    this.lkService.getLoadKafReport(this.kafedra.id).subscribe(resp => {
-      if (!resp.error) {
-
-        const subjects: LoadKaf[] = resp.data.slice();
-
-        subjects.forEach(subject => {
-          subject.newId = subject.idExSubject + subject.group;
-          subject.degree = this.auth.DEGREES[+subject.degree];
-        });
-
-        const loadKafReport = new LoadKafReport(subjects, this.lkService.coefs);
-        this.subjects = loadKafReport.getSubjects();
-        this.isError = loadKafReport.isErrorSubject();
-      }
-    });
+    // this.lkService.getLoadKafReport(this.kafedra.id).subscribe(resp => {
+    //   if (!resp.error) {
+    //
+    //     const subjects: LoadKaf[] = resp.data.slice();
+    //
+    //     subjects.forEach(subject => {
+    //       subject.newId = subject.idExSubject + subject.group;
+    //       subject.degree = this.auth.DEGREES[+subject.degree];
+    //     });
+    //
+    //     const loadKafReport = new LoadKafReport(subjects, this.lkService.stService.coefs);
+    //     this.subjects = loadKafReport.getSubjects();
+    //     this.isError = loadKafReport.isErrorSubject();
+    //   }
+    // });
 
   }
 
@@ -72,83 +62,20 @@ export class LoadKafComponent implements OnChanges {
   }
 
   getSubjects(term: number, typeS: number, fcId: number): ILoadKafSubject[] {
-    return this.subjects.filter(o => (
-      o.term === term && +o.type === typeS && +o.fcId === fcId
-    ));
+    return this.ldReport.GetSubjects(this.subjects, term, typeS, fcId);
   }
 
   getTypesByTerm(term: number): TypesOfStudying[] {
-    const types: TypesOfStudying[] = [];
-
-    this.subjects.filter(o => o.term === term)
-      .forEach(o => {
-      const i = types.findIndex(t => t.id === +o.type);
-      if (i === -1) {
-        types.push(this.auth.TYPES.find(t => t.id === +o.type));
-      }
-    });
-
-    return types;
+    return this.ldReport.GetTypesByTerm(this.subjects, term);
   }
 
   getFacultiesByType(typeS: number, term: number): Department[] {
-    const faculties: Department[] = [];
-
-    this.subjects.filter(o => (+o.type === typeS) && (+o.term === term))
-      .forEach(o => {
-        const i = faculties.findIndex(fc => fc.id === +o.fcId);
-        if (i === -1) {
-          faculties.push({
-            id: +o.fcId,
-            shortName: o.fcName,
-            fullName: o.fcName,
-            chief: ''
-          });
-        }
-      });
-
-    return faculties;
+    return this.ldReport.GetFacultiesByType(this.subjects, typeS, term);
   }
 
   sum(prop: string, term?: number, typeS?: number) {
-    let sum = 0;
-    let subjects: ILoadKafSubject[];
-
-    if (term) {
-      if (typeS) {
-        subjects = this.subjects.filter(o => +o.type === typeS && +o.term === term);
-      } else {
-        subjects = this.subjects.filter(o => +o.term === term);
-      }
-    } else {
-      subjects = this.subjects;
-    }
-
-    subjects.forEach(item => {
-      switch (prop) {
-        case 'lkTotal': sum += +item.lecture.total; break;
-        case 'lbTotal': sum += +item.laboratory.total; break;
-        case 'prTotal': sum += +item.practical.total; break;
-        case 'smTotal': sum += +item.seminar.total; break;
-        case 'kmroTotal': sum += +item.kmro.total; break;
-        case 'advice': sum += +item.advice; break;
-        case 'prac': sum += +item.practices; break;
-        case 'diploma': sum += +item.diploma; break;
-        case 'gosExam': sum += +item.gosExam; break;
-        case 'total': sum += +item.total; break;
-        case 'cw': sum += +item.courseWork; break;
-        case 'cp': sum += +item.courseProject; break;
-        case 'wk': sum += +item.workKont; break;
-        case 'exam': sum += +item.exam; break;
-        case 'tAH': sum += +item.totalAuditHour; break;
-        case 'checkout': sum += +item.checkout; break;
-      }
-    });
-
-    return +sum.toFixed(2);
+    return this.ldReport.Sum(this.subjects, prop, term, typeS);
   }
 
-  print() {
-    window.print();
-  }
+  print() { window.print(); }
 }

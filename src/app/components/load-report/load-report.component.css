@@ -1,0 +1,21 @@
+mat-radio-group mat-radio-button {
+  margin-right: 10px;
+}
+
+.main-select {
+  width: 40%;
+  margin-right: 10px;
+}
+
+.type-select {
+  width: 20%;
+  margin-right: 10px;
+}
+
+.time-select {
+  width: 30%;
+}
+
+.ok-button {
+  width: 10%;
+}

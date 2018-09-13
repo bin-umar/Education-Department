@@ -7,9 +7,9 @@ import { Department } from '../../models/faculty';
 @Component({
   selector: 'app-fk-filter',
   templateUrl: './fk-filter.component.html',
-  styleUrls: ['./fk-filter.component.css'],
-  providers: [ ExtractionService ]
+  styleUrls: ['./fk-filter.component.css']
 })
+
 export class FkFilterComponent implements OnInit {
 
   @Output() OnChooseKafedra = new EventEmitter<{kf: Department, fc: Department}>();
@@ -27,15 +27,23 @@ export class FkFilterComponent implements OnInit {
 
   constructor(private extService: ExtractionService,
               private mainService: MainService) {
+
+    if (this.extService.kafedras.length === 0) {
+      this.extService.getKafedras().subscribe();
+    }
+
+    this.faculties = this.mainService.faculties.slice();
+    this.faculties.unshift(this.emptyOption);
+
   }
 
   ngOnInit() {
-    this.mainService.getFacultyList().subscribe(resp => {
-      if (!resp.error) {
-        this.faculties = resp.data.slice();
-        this.faculties.unshift(this.emptyOption);
-      }
-    });
+    if (this.mainService.faculties.length === 0) {
+      this.mainService.getFacultyList().subscribe(resp => {
+          this.faculties = resp.slice();
+          this.faculties.unshift(this.emptyOption);
+      });
+    }
   }
 
   findKafedra() {
@@ -47,15 +55,11 @@ export class FkFilterComponent implements OnInit {
       this.kafedras = [];
 
     } else {
-      this.extService.getKafedraByFacultyId(this.selectedFc).subscribe(resp => {
-        if (!resp.error) {
-          this.kafedras = resp.data.slice();
-          this.kafedras.unshift(this.emptyOption);
 
-          this.selectedKf = 0;
-          this.getContentByKfId();
-        }
-      });
+      this.kafedras = this.extService.getKafedraByFacultyId(this.selectedFc);
+      this.kafedras.unshift(this.emptyOption);
+      this.getContentByKfId();
+
     }
   }
 

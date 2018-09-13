@@ -90,3 +90,13 @@ export interface TypesOfStudying {
   id: number;
   name: string;
 }
+
+/**
+ *  FILTER REPORTS
+ */
+
+export interface FilterReport {
+  mainFilter: string;
+  type: number;
+  duration: number;
+}

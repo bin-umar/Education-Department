@@ -3,15 +3,18 @@ import { HttpHeaders, HttpParams } from '@angular/common/http';
 
 import { AuthService } from './auth.service';
 import { map } from 'rxjs/operators';
-import { ISubType, ResSubType, ISubjectList, StSubjectResp, ISubjectResponse } from '../models/standards';
+import { ISubType, ResSubType, ISubjectList,
+         StSubjectResp, ISubjectResponse } from '../models/standards';
 import { ISpec } from '../models/common';
-import { IDepartment } from '../models/faculty';
+import { Department, IDepartment } from '../models/faculty';
 
 @Injectable()
 export class MainService {
 
   subjectTypes: ISubType[] = [];
   subjects: ISubjectList[] = [];
+
+  faculties: Department[] = [];
 
   constructor(private auth: AuthService) {}
 
@@ -53,7 +56,11 @@ export class MainService {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/x-www-form-urlencoded')
       }).pipe(map((response: IDepartment) => {
-      return response;
+        if (!response.error) {
+          this.faculties = response.data.slice();
+        }
+
+        return this.faculties;
     }));
   }
 

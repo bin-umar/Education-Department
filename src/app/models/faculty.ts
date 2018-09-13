@@ -32,6 +32,7 @@ export interface Department {
   shortName: string;
   chief: string;
   chiefPosition?: string;
+  fcId?: number;
 }
 
 export interface IDepartment {

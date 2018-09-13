@@ -11,6 +11,16 @@
     </mat-form-field>
   </div>
   <div>
+    <span class="allKafedras">
+      <mat-slide-toggle
+        matTooltip="Ҳамаи кафедраҳо"
+        (change)="allKafedra = (allKafedra !== true); selectTeacher();"
+        [color]="'primary'"
+        [checked]="allKafedra === true">
+      </mat-slide-toggle>
+    </span>
+  </div>
+  <div>
     <span class="print">
       <mat-icon matTooltip="Чоп намудан"
                 class="md-24"
@@ -237,7 +247,7 @@
           <span *ngIf="sum('exam', term) !== 0">{{ sum('exam', term) }}</span>
         </td>
         <td>
-          <span *ngIf="sum('checkout', term) !== 0">{{ sum('exam', term) }}</span>
+          <span *ngIf="sum('checkout', term) !== 0">{{ sum('checkout', term) }}</span>
         </td>
         <td>
           <span *ngIf="sum('advice', term) !== 0">{{ sum('advice', term) }}</span>
@@ -289,7 +299,7 @@
         <span *ngIf="sum('exam') !== 0">{{ sum('exam') }}</span>
       </td>
       <td>
-        <span *ngIf="sum('checkout') !== 0">{{ sum('exam') }}</span>
+        <span *ngIf="sum('checkout') !== 0">{{ sum('checkout') }}</span>
       </td>
       <td>
         <span *ngIf="sum('advice') !== 0">{{ sum('advice') }}</span>

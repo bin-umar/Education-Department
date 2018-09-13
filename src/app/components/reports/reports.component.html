@@ -1,0 +1,177 @@
+
+<mat-card class="mat-elevation-z8">
+  <div class="text-center">
+    <h3>Ҳисоботи {{ currentDuration | lowercase }} </h3>
+    <h6 >
+      <ng-template [ngIf]="filterReport.mainFilter.indexOf('kf-') !== -1">
+        барои кафедраи "{{ kafedra.fullName | getName:'tj' }}" - и "{{ faculty.fullName }}"
+      </ng-template>
+
+      <ng-template [ngIf]="filterReport.mainFilter.indexOf('fc-') !== -1">
+        барои факултаи "{{ faculty.fullName }}"
+      </ng-template>
+
+      <ng-template [ngIf]="filterReport.mainFilter.indexOf('un-') !== -1">
+        барои Донишгоҳи техникии Тоҷикистон ба номи академик М.С.Осимӣ
+      </ng-template>
+
+      <ng-template [ngIf]="filterReport.mainFilter.indexOf('-type') !== -1">
+        шакли таҳсили {{ currentType }}
+      </ng-template>
+    </h6>
+  </div>
+  <span class="print">
+      <mat-icon matTooltip="Чоп намудан"
+                class="md-36 d-print-none"
+                (click)="print();">print</mat-icon>
+  </span>
+</mat-card>
+
+<div class="report-table">
+  <table class="text-center">
+    <tr>
+      <th>№</th>
+      <th style="width: 30%;">
+        <h4>Номгӯ
+          <span *ngIf="filterReport.mainFilter.indexOf('-kf') !== -1">кафедраҳо</span>
+          <span *ngIf="filterReport.mainFilter.indexOf('-fс') !== -1">факултетҳо</span>
+        </h4>
+      </th>
+      <th>
+        <div>Лоиҳаи курсӣ</div>
+      </th>
+      <th>
+        <div>Кори курсӣ</div>
+      </th>
+      <th>
+        <div>Кори контролӣ</div>
+      </th>
+      <th>
+        <div>Лексия</div>
+      </th>
+      <th>
+        <div>Озмоишӣ</div>
+      </th>
+      <th>
+        <div>Амалӣ</div>
+      </th>
+      <th>
+        <div>Семинарӣ</div>
+      </th>
+      <th>
+        <div>КМРО</div>
+      </th>
+      <th>
+        <div>Ҳамагӣ соатҳои аудиторӣ</div>
+      </th>
+      <th>
+        <div>Имтиҳон</div>
+      </th>
+      <th>
+        <div>Санҷиш</div>
+      </th>
+      <th>
+        <div>Машварат</div>
+      </th>
+      <th>
+        <div>Таҷрибаомӯзиҳо</div>
+      </th>
+      <th>
+        <div>Имтиҳони давлатӣ</div>
+      </th>
+      <th>
+        <div>Лоиҳаи дипломӣ</div>
+      </th>
+      <th>
+        <div>Ҳамагӣ</div>
+      </th>
+    </tr>
+    <tr>
+      <th *ngFor="let i of rowAmount(18)">{{ i + 1 }}</th>
+    </tr>
+    <tr *ngFor="let item of items;">
+      <td>{{ item.number }}</td>
+      <td class="text-left" style="padding-left: 10px;">{{ item.itemName | getName:'tj' }}</td>
+      <td>
+        <ng-template [ngIf]="item.courseProject !== 0">
+          {{ item.courseProject.toFixed() }}
+        </ng-template>
+      </td>
+      <td>
+        <ng-template [ngIf]="item.courseWork !== 0">
+          {{ item.courseWork.toFixed() }}
+        </ng-template>
+      </td>
+      <td>
+        <ng-template [ngIf]="item.workKont !== 0">
+          {{ item.workKont.toFixed() }}
+        </ng-template>
+      </td>
+      <td>
+        <ng-template [ngIf]="item.lecture !== 0">
+          {{ item.lecture.toFixed() }}
+        </ng-template>
+      </td>
+      <td>
+        <ng-template [ngIf]="item.laboratory !== 0">
+          {{ item.laboratory.toFixed() }}
+        </ng-template>
+      </td>
+      <td>
+        <ng-template [ngIf]="item.practical !== 0">
+          {{ item.practical.toFixed() }}
+        </ng-template>
+      </td>
+      <td>
+        <ng-template [ngIf]="item.seminar !== 0">
+          {{ item.seminar.toFixed() }}
+        </ng-template>
+      </td>
+      <td>
+        <ng-template [ngIf]="item.kmro !== 0">
+          {{ item.kmro.toFixed() }}
+        </ng-template>
+      </td>
+      <td>
+        <ng-template [ngIf]="item.totalAuditHour !== 0">
+          {{ item.totalAuditHour.toFixed() }}
+        </ng-template>
+      </td>
+      <td>
+        <ng-template [ngIf]="item.exam !== 0">
+          {{ item.exam.toFixed() }}
+        </ng-template>
+      </td>
+      <td>
+        <ng-template [ngIf]="item.checkout !== 0">
+          {{ item.checkout.toFixed() }}
+        </ng-template>
+      </td>
+      <td>
+        <ng-template [ngIf]="item.advice !== 0">
+          {{ item.advice.toFixed() }}
+        </ng-template>
+      </td>
+      <td>
+        <ng-template [ngIf]="item.practices !== 0">
+          {{ item.practices.toFixed() }}
+        </ng-template>
+      </td>
+      <td>
+        <ng-template [ngIf]="item.gosExam !== 0">
+          {{ item.gosExam.toFixed() }}
+        </ng-template>
+      </td>
+      <td>
+        <ng-template [ngIf]="item.diploma !== 0">
+          {{ item.diploma.toFixed() }}
+        </ng-template>
+      </td>
+      <td>
+        <ng-template [ngIf]="item.total !== 0">
+          {{ item.total.toFixed() }}
+        </ng-template>
+      </td>
+    </tr>
+  </table>
+</div>

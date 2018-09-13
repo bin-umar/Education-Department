@@ -34,8 +34,12 @@ export class AddExtractionSubjectComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) public input: any,
               private extractionService: ExtractionService,
               private authService: AuthService) {
+
     this.types = this.authService.TYPES;
     this.degrees = this.authService.DEGREES;
+
+    this.kafedras = this.extractionService.kafedras;
+
   }
 
   ngOnInit() {
@@ -46,11 +50,11 @@ export class AddExtractionSubjectComponent implements OnInit {
     this.degree = this.input.data.degree;
     this.standardsYear = this.input.data.standardsYear;
 
-    this.extractionService.getKafedras().subscribe(res => {
-      if (!res.error) {
-        this.kafedras = res.data.slice();
-      }
-    });
+    if (this.kafedras.length === 0) {
+      this.extractionService.getKafedras().subscribe(response => {
+        this.kafedras = response;
+      });
+    }
 
     this.extractionService.getKafedraBySubjectId(this.data.idStSubject)
       .subscribe(res => {
