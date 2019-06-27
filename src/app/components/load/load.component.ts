@@ -73,8 +73,7 @@ export class LoadComponent {
   }
 
   getKafedrasLoadById(filter: { kf: Department, fc: Department }) {
-
-    if (filter.kf.id !== -1) {
+    if (filter.kf && filter.kf.id !== -1) {
       this.faculty = filter.fc;
       this.kafedra = filter.kf;
 

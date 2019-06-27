@@ -7,7 +7,7 @@ export class GetNamePipe implements PipeTransform {
 
   transform(name: string, lang: string): string {
 
-    if (name === '') {
+    if (!name) {
       return name;
     } else {
       const names = name.split("(");

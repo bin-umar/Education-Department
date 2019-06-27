@@ -74,9 +74,7 @@ export class TeacherLoadComponent implements OnChanges {
     if (this.selectedTeacher.id !== 0) {
 
       this.subjects = [];
-
       let kf_id = 0;
-
       if (!this.allKafedra) { kf_id = this.kafedra.id; }
 
       this.lkService.getTeacherReport(this.selectedTeacher.id, kf_id).subscribe(resp => {

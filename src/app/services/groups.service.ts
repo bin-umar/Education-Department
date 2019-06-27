@@ -29,25 +29,27 @@ export class GroupsService {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/x-www-form-urlencoded')
       }).subscribe(response => {
-      const groups: IGroup[] = [];
-      response.data.forEach( (item, i) => {
-        groups.push({
-          id: +item.id,
-          kfId: +item.kfId,
-          fcId: +item.fcId,
-          idSpec: item.idSpec,
-          speciality: item.speciality,
-          number: i + 1,
-          name: item.name,
-          degree: this.auth.DEGREES[+item.degree],
-          type: this.auth.TYPES.find(o => o.id === +item.type).name,
-          course: +item.course,
-          subgroup: +item.subgroup,
-          studentsAmount: +item.studentsAmount,
-          educationYear: item.educationYear,
-          extraction: +item.extraction,
-          load: +item.load
-        });
+        console.log(response);
+        const groups: IGroup[] = [];
+        response.data.forEach( (item, i) => {
+          const type = this.auth.TYPES.find(o => o.id === +item.type);
+          groups.push({
+            id: +item.id,
+            kfId: +item.kfId,
+            fcId: +item.fcId,
+            idSpec: item.idSpec,
+            speciality: item.speciality,
+            number: i + 1,
+            name: item.name,
+            degree: this.auth.DEGREES[+item.degree],
+            type: type ? type.name : '',
+            course: +item.course,
+            subgroup: +item.subgroup,
+            studentsAmount: +item.studentsAmount,
+            educationYear: item.educationYear,
+            extraction: +item.extraction,
+            load: +item.load
+          });
       });
 
       this.dataChange.next(groups);
@@ -179,12 +181,12 @@ export class GroupsService {
       .set('operation', 'update')
       .set('token', this.auth.token);
 
-    return this.auth.http.post(this.auth.host, body.toString(),
+    return this.auth.http
+      .post(this.auth.host, body.toString(),
       {
-        headers: new HttpHeaders()
-          .set('Content-Type', 'application/x-www-form-urlencoded')
-      }).pipe(map((response: UpdateResponse) => {
-      return response;
-    }));
+          headers: new HttpHeaders()
+            .set('Content-Type', 'application/x-www-form-urlencoded')
+        })
+      .pipe(map((response: UpdateResponse) => response));
   }
 }
