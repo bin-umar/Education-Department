@@ -91,13 +91,10 @@ export class LoadReportComponent implements OnInit {
   }
 
   loadData() {
-    this.ldReport.getLoadReport().subscribe(response => {
-      this.subjects = response;
-    });
+    this.ldReport.getLoadReport().subscribe(res => this.subjects = res);
   }
 
   getContentByKfId(data: {kf: Department, fc: Department}) {
-
     if (data.kf) {
       this.auth.getDepartmentInfo(data.kf.id).subscribe(response => {
         if (!response.error) {
@@ -106,7 +103,6 @@ export class LoadReportComponent implements OnInit {
         }
       });
     } else {
-
       this.depInfo.fcId = +data.fc.id;
       this.depInfo.fcFullName = data.fc.fullName;
       this.depInfo.fcShortName = data.fc.shortName;

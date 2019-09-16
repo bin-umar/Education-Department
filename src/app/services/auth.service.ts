@@ -9,8 +9,8 @@ import { IDepartmentInfo } from '../models/faculty';
 @Injectable()
 export class AuthService {
 
-  // public host = 'http://api.techuni.lo/';
-  public host = 'http://lms.tut.tj/jxapi/';
+  public host = 'http://asu.techuni.tj/jxapi/';
+  // public host = 'http://lms.tut.tj/jxapi/';
   public token: string;
 
   public DEGREES = ['бакалавр', 'магистр'];

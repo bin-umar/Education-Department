@@ -74,7 +74,8 @@ export class LoadKafReport {
   protected arrNewIds = new Set<string>();
 
   constructor(protected load: LoadKaf[],
-              protected coefs: ICoefficient) {
+              protected coefs: ICoefficient,
+              protected isTeacher = false) {
     load.forEach((item, id, array) => {
 
       if (+item.idGroup > 0) {
@@ -197,11 +198,15 @@ export class LoadKafReport {
               subject.practical.plan = +o.hour;
               subject.practical.total += this.ToFixed(+o.hour);
 
-              if (+o.isArch > 0 && subject.exam === null) {
+              if ((+o.isArch > 0 && subject.exam === null) || !subject.lecture.plan) {
                 if (o.exam !== '') {
                   if (+o.type === 1 || +o.type === 135) {
                     if (subject.degree === 'бакалавр') {
-                      subject.exam = this.ToFixed(this.coefs.bachelor.exam * subject.groupsAmount);
+                      if (subject.lecture.plan || !this.isTeacher) {
+                        subject.exam = this.ToFixed(this.coefs.bachelor.exam * subject.groupsAmount);
+                      } else {
+                        subject.exam = this.ToFixed(this.coefs.bachelor.exam / subject.subgroups);
+                      }
                     } else if (subject.degree === 'магистр') {
                       subject.exam = this.ToFixed(this.coefs.master.exam * subject.studentsAmount);
                     }
@@ -253,7 +258,7 @@ export class LoadKafReport {
   }
 
   private ToFixed(value: number): number {
-    return +value.toFixed(1);
+    return +value.toFixed(2);
   }
 
   private hasError(subject: ILoadKafSubject) {

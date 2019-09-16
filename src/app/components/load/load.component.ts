@@ -33,7 +33,7 @@ export class LoadComponent {
               private authService: AuthService) {
   }
 
-  filteredSubjects() {
+  get filteredSubjects() {
     return this.subjects.filter( x => +x.idGroup === 0);
   }
 
@@ -49,25 +49,35 @@ export class LoadComponent {
   }
 
   findSimilarSubjects(subject: Load) {
-    return this.filteredSubjects().filter(x => (
-        x.degree === subject.degree &&
-        x.type === subject.type &&
-        +x.course === +subject.course &&
-        +x.hour === +subject.hour &&
-        +x.term === +subject.term &&
-        +x.fcId === +subject.fcId &&
-        x.subjectName === subject.subjectName &&
-        +x.id !== +subject.id &&
-        +x.idGroup === 0));
+    return this.filteredSubjects.filter(x => {
+      if (subject.degree === 'бакалавр') {
+        return x.degree === subject.degree &&
+          x.type === subject.type &&
+          +x.course === +subject.course &&
+          +x.hour === +subject.hour &&
+          +x.term === +subject.term &&
+          +x.fcId === +subject.fcId &&
+          x.subjectName === subject.subjectName &&
+          +x.id !== +subject.id &&
+          +x.idGroup === 0;
+      } else {
+        return x.degree === subject.degree &&
+          x.type === subject.type &&
+          +x.course === +subject.course &&
+          +x.hour === +subject.hour &&
+          +x.term === +subject.term &&
+          x.subjectName === subject.subjectName &&
+          +x.id !== +subject.id &&
+          +x.idGroup === 0;
+      }
+    });
   }
 
   sumStudentsAmount(id: number) {
     let sum = 0;
-    this.subjects.filter(x => (
-      +x.id === id || +x.idGroup === id
-    )).forEach(x => {
-      sum += +x.studentsAmount;
-    });
+    this.subjects
+      .filter(x => +x.id === id || +x.idGroup === id)
+      .forEach(x => sum += +x.studentsAmount);
 
     return sum;
   }

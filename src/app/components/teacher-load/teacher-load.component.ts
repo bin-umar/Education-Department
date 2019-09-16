@@ -90,8 +90,9 @@ export class TeacherLoadComponent implements OnChanges {
                 subject.degree = this.auth.DEGREES[+subject.degree];
               });
 
-              const teacherLoad = new LoadKafReport(subjects, this.stService.coefs);
+              const teacherLoad = new LoadKafReport(subjects, this.stService.coefs, true);
               this.subjects = teacherLoad.getSubjects();
+              console.log(this.subjects);
               this.countTeacherLoad();
             }
           });

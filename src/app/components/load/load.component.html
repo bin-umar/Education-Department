@@ -39,7 +39,7 @@
       <th>Соат</th>
       <th>Селанамоӣ</th>
     </tr>
-    <ng-template ngFor let-i="index" let-subject [ngForOf]="filteredSubjects()">
+    <ng-template ngFor let-i="index" let-subject [ngForOf]="filteredSubjects">
         <tr [class.bg_eee]="i % 2 === 1">
           <td>{{ i + 1 }}</td>
           <td class="text-left" style="padding-left: 10px;">
