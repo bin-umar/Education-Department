@@ -110,12 +110,12 @@ export class StandardComponent implements OnInit {
       }
     });
 
-    return sum;
+    return +sum.toFixed(2);
   }
 
   romanize (num) {
     if (!+num) { return false; }
-    const	digits = String(+num).split(''),
+    const digits = String(+num).split(''),
       key = ["", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM",
         "", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC",
         "", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"];

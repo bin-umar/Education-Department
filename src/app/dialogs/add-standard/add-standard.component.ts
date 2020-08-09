@@ -57,7 +57,7 @@ export class AddStandardComponent implements OnInit {
     this.terms = this.data.creditDividing.terms.toString();
     this.checked = (this.data.selective === 1);
 
-    this.selectedSubject = this.options.find(x => x.name === this.data.name);
+    this.selectedSubject = this.options.find(x => x.name.includes(this.data.name));
 
     this.filteredOptions = this.myControl.valueChanges
       .pipe(
