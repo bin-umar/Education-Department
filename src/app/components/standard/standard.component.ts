@@ -27,7 +27,7 @@ export class StandardComponent implements OnInit {
 
   courses: number[] = [];
   _terms: number[] = [];
-  columns: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  columns: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 
   constructor(public dialog: MatDialog,
               private mainService: MainService,
@@ -70,7 +70,9 @@ export class StandardComponent implements OnInit {
           credits: +item.credits,
           typeOfMonitoring: {
             exam: item.tExam,
-            goUpIWS: item.goUpIWS
+            goUpIWS: item.goUpIWS,
+            checkoutBntu: item.checkout_b,
+            checkoutDiff: item.checkout_diff
           },
           toTeacher: {
             total: +item.tTotal,
@@ -184,7 +186,7 @@ export class StandardComponent implements OnInit {
         width: '610px',
         data: {
           data: {
-            id: 0,
+            id: '0',
             idStandard: this.Standard.id,
             selective: 0,
             name: '',
@@ -192,7 +194,9 @@ export class StandardComponent implements OnInit {
             credits: 0,
             typeOfMonitoring: {
               exam: '',
-              goUpIWS: ''
+              goUpIWS: '',
+              checkoutBntu: '',
+              checkoutDiff: ''
             },
             toTeacher: {
               total: 0,

@@ -1,6 +1,6 @@
 <div mat-dialog-title>
-  <div *ngIf="add">Иловакунии фанни нав</div>
-  <div *ngIf="!add">Тағйирдиҳии фанни стандарт</div>
+  <div *ngIf="add" class="title">Иловакунии фанни нав</div>
+  <div *ngIf="!add" class="title">Тағйирдиҳии фанни стандарт</div>
   <div *ngIf="error" class="text-danger text-right error">{{errorText}}</div>
 </div>
 
@@ -75,6 +75,29 @@
                      name="goUpIWS"
                      [(ngModel)]="data.typeOfMonitoring.goUpIWS"
                      placeholder="Ҳимояи КМД"
+                     value="">
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>
+            <mat-form-field class="full-width">
+              <input type="text"
+                     matInput
+                     name="checkoutBntu"
+                     [(ngModel)]="data.typeOfMonitoring.checkoutBntu"
+                     placeholder="Санҷиш"
+                     value="">
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field class="full-width">
+              <input type="text"
+                     matInput
+                     name="checkoutDiff"
+                     [(ngModel)]="data.typeOfMonitoring.checkoutDiff"
+                     placeholder="Санҷиши дифф"
                      value="">
             </mat-form-field>
           </td>

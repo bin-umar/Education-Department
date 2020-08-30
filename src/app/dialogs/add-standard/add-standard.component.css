@@ -30,7 +30,10 @@ mat-form-field  {
   font-style: oblique;
 }
 
-.mat-dialog-title div {
-  display: inline-block;
-  width: 49.5%;
+.mat-dialog-title .title {
+  width: 60%;
+}
+
+.mat-dialog-title .error {
+  width: 38%;
 }

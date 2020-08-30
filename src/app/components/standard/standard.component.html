@@ -40,7 +40,7 @@
         <h4>Номгӯи фанҳо</h4>
       </th>
       <th rowspan="3">Ҳаҷми кредитҳо</th>
-      <th rowspan="2" colspan="2">Шаклҳои назорат аз рӯи семестрҳо</th>
+      <th rowspan="2" colspan="4">Шаклҳои назорат аз рӯи семестрҳо</th>
       <th colspan="3">Ба омӯзгор</th>
       <th rowspan="3">КМД</th>
       <th [attr.colspan]="_terms.length">Тақсимоти кредитҳо ба курсҳо ва семестрҳо</th>
@@ -53,6 +53,8 @@
     <tr>
       <th>Имтиҳон</th>
       <th>Ҳимояи КМД</th>
+      <th>Санҷиш</th>
+      <th>Санҷиши дифф</th>
       <th>Аудиторӣ</th>
       <th>КМРО</th>
       <th *ngFor="let i of _terms">{{i}}</th>
@@ -64,6 +66,8 @@
       <tr class="bg-eee text-total" [class.hovered]="type.showConfigIcons && (Standard.locked === 0)">
         <td colspan="2">{{romanize(j + 1) + "." + type.name}}</td>
         <td>{{ sum(type.id, 'credits') }}</td>
+        <td></td>
+        <td></td>
         <td></td>
         <td></td>
         <td>{{ sum(type.id, 'total') }}</td>
@@ -95,6 +99,8 @@
           <td>{{ subject.credits }}</td>
           <td>{{ subject.typeOfMonitoring.exam }}</td>
           <td>{{ subject.typeOfMonitoring.goUpIWS }}</td>
+          <td>{{ subject.typeOfMonitoring.checkoutBntu }}</td>
+          <td>{{ subject.typeOfMonitoring.checkoutDiff }}</td>
           <td>{{ subject.toTeacher.total }}</td>
           <td>{{ subject.toTeacher.including.audit }}</td>
           <td>{{ subject.toTeacher.including.kmro }}</td>
@@ -128,7 +134,7 @@
       <td>{{ sum(0, 'audit') }}</td>
       <td>{{ sum(0, 'kmro') }}</td>
       <td>{{ sum(0, 'iws') }}</td>
-      <ng-template ngFor let-i="index" let-term [ngForOf]="_terms">
+      <ng-template ngFor let-term [ngForOf]="_terms">
         <td>
           <span *ngIf="sumTerms(0, term) !== 0">
             {{ sumTerms(0, term) }}

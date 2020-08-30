@@ -6,8 +6,10 @@ export interface ISubject {
   selective: number;
   credits: number;
   typeOfMonitoring: {
-    exam: string,
-    goUpIWS: string
+    exam: string;
+    goUpIWS: string;
+    checkoutBntu: string;
+    checkoutDiff: string;
   };
   toTeacher: {
     total: number,
@@ -86,6 +88,8 @@ export interface IStSubjectResp {
   credits: number;
   tExam: string;
   goUpIWS: string;
+  checkout_b: string;
+  checkout_diff: string;
   tTotal: number;
   tAudit: number;
   tKmro: number;

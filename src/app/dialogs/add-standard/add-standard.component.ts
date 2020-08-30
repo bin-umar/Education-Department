@@ -103,39 +103,50 @@ export class AddStandardComponent implements OnInit {
     } else {
       if (credits.length === terms.length) {
 
-        if (subject.typeOfMonitoring.goUpIWS === ''
-          && subject.typeOfMonitoring.exam === '') {
-          this.showError('Ҳам имтиҳон ва ҳам КМД холӣ будан наметавонад!!!');
+        switch (true) {
+          case
+            subject.typeOfMonitoring.goUpIWS === '' &&
+            subject.typeOfMonitoring.exam === '': {
+            this.showError('Ҳам имтиҳон ва ҳам КМД холӣ будан наметавонад!!!');
+          }
+          break;
 
-        } else if (subject.typeOfMonitoring.exam !== this.terms &&
-          subject.typeOfMonitoring.goUpIWS === '' &&
-          subject.typeOfMonitoring.exam !== '') {
-          this.showError('Семестрҳо ба семестрҳои имтиҳон баробар нестанд!!!');
+          case
+            subject.typeOfMonitoring.exam !== this.terms &&
+            subject.typeOfMonitoring.goUpIWS === '' &&
+            subject.typeOfMonitoring.exam !== '': {
+            this.showError('Семестрҳо ба семестрҳои имтиҳон баробар нестанд!!!');
+          }
+          break;
 
-        } else if (subject.typeOfMonitoring.goUpIWS !== this.terms &&
-          subject.typeOfMonitoring.exam === '' &&
-          subject.typeOfMonitoring.goUpIWS !== '') {
-          this.showError('Семестрҳо ба семестрҳои КМД баробар нестанд!!!');
+          case
+            subject.typeOfMonitoring.goUpIWS !== this.terms &&
+            subject.typeOfMonitoring.exam === '' &&
+            subject.typeOfMonitoring.goUpIWS !== '': {
+            this.showError('Семестрҳо ба семестрҳои КМД баробар нестанд!!!');
+          }
+          break;
 
-        } else {
-          terms.forEach((el, i) => {
-            creditSum += +credits[i];
-          });
+          default: {
+            terms.forEach((el, i) => {
+              creditSum += +credits[i];
+            });
 
-          if (creditSum !== subject.credits ) {
-            this.showError('Суммаи кредитҳои семестрҳо ба кредитҳои умумӣ баробар нест!!!');
-          } else {
-            subject.creditDividing.credits = [];
-            subject.creditDividing.terms = [];
-            for (let i = 0; i < credits.length; i++) {
-              subject.creditDividing.credits.push(+credits[i]);
-              subject.creditDividing.terms.push(+terms[i]);
-            }
-
-            if (this.selectedSubject === undefined) {
-              this.showError('Фаннро интихоб намоед!!!');
+            if (creditSum !== subject.credits ) {
+              this.showError('Суммаи кредитҳои семестрҳо ба кредитҳои умумӣ баробар нест!!!');
             } else {
-              return true;
+              subject.creditDividing.credits = [];
+              subject.creditDividing.terms = [];
+              for (let i = 0; i < credits.length; i++) {
+                subject.creditDividing.credits.push(+credits[i]);
+                subject.creditDividing.terms.push(+terms[i]);
+              }
+
+              if (this.selectedSubject === undefined) {
+                this.showError('Фаннро интихоб намоед!!!');
+              } else {
+                return true;
+              }
             }
           }
         }
@@ -146,19 +157,19 @@ export class AddStandardComponent implements OnInit {
   }
 
   confirmAddSubject(): void {
-    if (this.checkValidation()) {
-      const subject = this.data;
-      subject.name = this.selectedSubject.id.toString();
-
-      if (this.checked) { subject.selective = 1;
-      } else { this.data.selective = 0; }
-
-      this.stSubjectService.addSubject(subject).subscribe( resp => {
-        subject.id = resp.data.id;
-        subject.name = this.selectedSubject.name;
-        this.dialogRef.close(subject);
-      });
+    if (!this.checkValidation()) {
+      return;
     }
+
+    const subject = this.data;
+    subject.name = this.selectedSubject.id.toString();
+    subject.selective = +this.checked;
+
+    this.stSubjectService.addSubject(subject).subscribe( resp => {
+      subject.id = resp.data.id;
+      subject.name = this.selectedSubject.name;
+      this.dialogRef.close(subject);
+    });
   }
 
   confirmSavingSubject() {
