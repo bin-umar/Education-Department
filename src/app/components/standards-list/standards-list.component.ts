@@ -138,17 +138,15 @@ export class StandardsListComponent implements OnInit {
 
     if (+data.fc.id === 0) {
       this.filteredOptions = of(this.options);
-    } else {
-
+    } else if (data.kf) {
       if (+data.kf.id === 0) {
         this.filteredOptions = of(this.options.filter(option => +option.fcId === +data.fc.id));
       } else {
-
         this.filteredOptions = of(this.options.filter(option => +option.kfId === +data.kf.id));
       }
     }
 
-    this.dataSource.filterByKf = +data.kf.id;
+    this.dataSource.filterByKf = data.kf ? +data.kf.id : 0;
     this.dataSource.filterByFc = +data.fc.id;
 
     this.refreshTable();

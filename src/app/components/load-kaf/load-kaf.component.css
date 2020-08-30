@@ -3,16 +3,22 @@ table th, table td{
   border: 1px solid #000;
 }
 
-table th{
+table th {
   background-color: #343a40;
   color: #167F92;
 }
 
-table{
+table {
   width: 100%;
   text-align: center;
   margin: 20px 0;
+  position: relative;
   /*font-size: 14px;*/
+}
+
+th {
+  position: sticky;
+  top: 0;
 }
 
 .alert:first-child {

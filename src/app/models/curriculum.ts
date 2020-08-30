@@ -1,6 +1,8 @@
 /**
  * Curriculum interfaces
  */
+import {IStSubjectResp} from './standards';
+
 export interface CurriculumList {
   id: number;
   number: number;
@@ -21,7 +23,7 @@ export interface ICurriculumList {
   data: [CurriculumList];
 }
 
-export interface ExtractionSubject {
+export interface ExtractionSubject extends Pick<IStSubjectResp, 'checkout_b' | 'checkout_diff'>{
   id: number;
   name: string;
   idStSubject: number;

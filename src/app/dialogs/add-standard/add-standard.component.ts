@@ -106,8 +106,10 @@ export class AddStandardComponent implements OnInit {
         switch (true) {
           case
             subject.typeOfMonitoring.goUpIWS === '' &&
-            subject.typeOfMonitoring.exam === '': {
-            this.showError('Ҳам имтиҳон ва ҳам КМД холӣ будан наметавонад!!!');
+            subject.typeOfMonitoring.exam === '' &&
+            subject.typeOfMonitoring.checkoutDiff === '' &&
+            subject.typeOfMonitoring.checkoutBntu === '': {
+            this.showError('Шакли назоратиро муайян кунед!!!');
           }
           break;
 

@@ -155,7 +155,7 @@ export class StandardComponent implements OnInit {
       }
     });
 
-    return sum;
+    return +sum.toFixed(2);
   }
 
   editSubject(subject: ISubject, index: number) {

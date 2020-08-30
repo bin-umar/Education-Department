@@ -92,7 +92,6 @@ export class TeacherLoadComponent implements OnChanges {
 
               const teacherLoad = new LoadKafReport(subjects, this.stService.coefs, true);
               this.subjects = teacherLoad.getSubjects();
-              console.log(this.subjects);
               this.countTeacherLoad();
             }
           });

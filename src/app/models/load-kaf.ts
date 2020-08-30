@@ -7,6 +7,8 @@ export interface LoadKaf {
   idExSubject: number;
   exam: string;
   kmd: string;
+  checkout_b: string;
+  checkout_diff: string;
   term: number;
   course: number;
   group: string;
@@ -56,6 +58,8 @@ export interface ILoadKafSubject {
   totalAuditHour: number;
   exam: number;
   checkout: number;
+  checkout_b: number;
+  checkout_diff: number;
   advice: number;
   practices: number;
   gosExam: number;
@@ -98,6 +102,10 @@ export class LoadKafReport {
     this.combineSubjects();
   }
 
+  protected isBntu(fcId: number) {
+    return [1, 9].includes(fcId);
+  }
+
   protected combineSubjects() {
     this.arrNewIds.forEach(id => {
 
@@ -123,6 +131,8 @@ export class LoadKafReport {
         totalAuditHour: null,
         exam: null,
         checkout: null,
+        checkout_b: null,
+        checkout_diff: null,
         advice: null,
         practices: null,
         gosExam: null,
@@ -155,6 +165,18 @@ export class LoadKafReport {
             subject.course = o.course;
             subject.term = +o.term - (+o.course - 1) * 2;
             subject.isArch = +o.isArch;
+
+            if (this.isBntu(+o.fcId) && o.exam !== '') {
+              subject.exam = this.ToFixed(this.coefs.examBNTU * subject.studentsAmount);
+            }
+
+            if (o.checkout_b) {
+              subject.checkout_b = this.ToFixed(this.coefs.checkoutBNTU * subject.studentsAmount);
+            }
+
+            if (o.checkout_diff) {
+              subject.checkout_diff = this.ToFixed(this.coefs.checkoutDiffBNTU * subject.studentsAmount);
+            }
 
             if (o.kmd !== '' && o.subjectName === 'Тарбияи ҷисмонӣ') {
               subject.checkout = this.coefs.checkout * subject.groupsAmount;
@@ -311,7 +333,7 @@ export class LoadKafReport {
 
   private countTotal(subject: ILoadKafSubject): number {
     return this.ToFixed(subject.totalAuditHour + +subject.gosExam + +subject.diploma + +subject.practices
-      + +subject.exam + subject.advice + subject.checkout);
+      + +subject.exam + subject.advice + subject.checkout + +subject.checkout_diff + +subject.checkout_b);
   }
 
   private findGroups(subjects: LoadKaf[]) {
