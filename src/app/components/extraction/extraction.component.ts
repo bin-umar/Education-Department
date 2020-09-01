@@ -81,7 +81,7 @@ export class ExtractionComponent implements OnInit {
             const checkout_b = separateIfMoreThanOne(item.checkout_b, i);
             const checkout_diff = separateIfMoreThanOne(item.checkout_diff, i);
             const exam = separateIfMoreThanOne(item.exam, i);
-            let kmd = separateIfMoreThanOne(item.exam, i);
+            let kmd = separateIfMoreThanOne(item.kmd, i);
 
             if (exam !== kmd && exam !== '') { kmd = ''; }
 

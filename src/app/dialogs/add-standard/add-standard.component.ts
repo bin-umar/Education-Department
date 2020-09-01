@@ -102,54 +102,46 @@ export class AddStandardComponent implements OnInit {
       this.showError('Семестрҳо холӣ ҳастанд!!!');
     } else {
       if (credits.length === terms.length) {
-
-        switch (true) {
-          case
-            subject.typeOfMonitoring.goUpIWS === '' &&
-            subject.typeOfMonitoring.exam === '' &&
-            subject.typeOfMonitoring.checkoutDiff === '' &&
-            subject.typeOfMonitoring.checkoutBntu === '': {
-            this.showError('Шакли назоратиро муайян кунед!!!');
+        const {
+          typeOfMonitoring: {
+            goUpIWS,
+            exam,
+            checkoutBntu,
+            checkoutDiff
           }
-          break;
+        } = this.data;
 
-          case
-            subject.typeOfMonitoring.exam !== this.terms &&
-            subject.typeOfMonitoring.goUpIWS === '' &&
-            subject.typeOfMonitoring.exam !== '': {
-            this.showError('Семестрҳо ба семестрҳои имтиҳон баробар нестанд!!!');
+        const controlFormTermsArray = [exam, goUpIWS, checkoutBntu, checkoutDiff]
+            .filter(Boolean)
+            .join(',')
+            .split(',');
+
+        // @ts-ignore
+        const controlFormTerms = Array.from(new Set(controlFormTermsArray)).sort().join(',');
+
+        if (controlFormTerms !== this.terms) {
+          this.showError('Семестрҳо ба семестрҳои шакли назорат баробар нестанд!!!');
+          return;
+        }
+
+        terms.forEach((el, i) => {
+          creditSum += +credits[i];
+        });
+
+        if (creditSum !== subject.credits ) {
+          this.showError('Суммаи кредитҳои семестрҳо ба кредитҳои умумӣ баробар нест!!!');
+        } else {
+          subject.creditDividing.credits = [];
+          subject.creditDividing.terms = [];
+          for (let i = 0; i < credits.length; i++) {
+            subject.creditDividing.credits.push(+credits[i]);
+            subject.creditDividing.terms.push(+terms[i]);
           }
-          break;
 
-          case
-            subject.typeOfMonitoring.goUpIWS !== this.terms &&
-            subject.typeOfMonitoring.exam === '' &&
-            subject.typeOfMonitoring.goUpIWS !== '': {
-            this.showError('Семестрҳо ба семестрҳои КМД баробар нестанд!!!');
-          }
-          break;
-
-          default: {
-            terms.forEach((el, i) => {
-              creditSum += +credits[i];
-            });
-
-            if (creditSum !== subject.credits ) {
-              this.showError('Суммаи кредитҳои семестрҳо ба кредитҳои умумӣ баробар нест!!!');
-            } else {
-              subject.creditDividing.credits = [];
-              subject.creditDividing.terms = [];
-              for (let i = 0; i < credits.length; i++) {
-                subject.creditDividing.credits.push(+credits[i]);
-                subject.creditDividing.terms.push(+terms[i]);
-              }
-
-              if (this.selectedSubject === undefined) {
-                this.showError('Фаннро интихоб намоед!!!');
-              } else {
-                return true;
-              }
-            }
+          if (this.selectedSubject === undefined) {
+            this.showError('Фаннро интихоб намоед!!!');
+          } else {
+            return true;
           }
         }
       } else {

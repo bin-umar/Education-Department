@@ -9,6 +9,7 @@ export interface LoadKaf {
   kmd: string;
   checkout_b: string;
   checkout_diff: string;
+  haslk: number;
   term: number;
   course: number;
   group: string;
@@ -40,6 +41,7 @@ export interface ILoadKafSubject {
   id: string;
   subjectName: string;
   term: number;
+  haslk: number;
   course: number;
   groups: string[];
   groupsAmount: number;
@@ -113,6 +115,7 @@ export class LoadKafReport {
         id: null,
         subjectName: null,
         term: null,
+        haslk: null,
         course: null,
         groups: null,
         groupsAmount: null,
@@ -148,6 +151,7 @@ export class LoadKafReport {
       this.load.filter(o => o.newId === id)
         .forEach((o, index, array) => {
 
+          const isExamInThisTerm = o.exam.includes(o.term.toString());
           if (index === 0) {
             const groupInfo = this.findGroups(array);
 
@@ -166,15 +170,15 @@ export class LoadKafReport {
             subject.term = +o.term - (+o.course - 1) * 2;
             subject.isArch = +o.isArch;
 
-            if (this.isBntu(+o.fcId) && o.exam !== '') {
+            if (this.isBntu(+o.fcId) && isExamInThisTerm) {
               subject.exam = this.ToFixed(this.coefs.examBNTU * subject.studentsAmount);
             }
 
-            if (o.checkout_b) {
+            if (o.checkout_b && o.checkout_b.includes(o.term.toString())) {
               subject.checkout_b = this.ToFixed(this.coefs.checkoutBNTU * subject.studentsAmount);
             }
 
-            if (o.checkout_diff) {
+            if (o.checkout_diff && o.checkout_diff.includes(o.term.toString())) {
               subject.checkout_diff = this.ToFixed(this.coefs.checkoutDiffBNTU * subject.studentsAmount);
             }
 
@@ -191,7 +195,7 @@ export class LoadKafReport {
             } break;
             case 4: {
 
-              if (o.exam !== '') {
+              if (subject.exam === null && isExamInThisTerm) {
                 if (+o.type === 1 || +o.type === 135) {
                   if (subject.degree === 'бакалавр') {
                     subject.exam = this.ToFixed(this.coefs.bachelor.exam * subject.groupsAmount);
@@ -220,22 +224,20 @@ export class LoadKafReport {
               subject.practical.plan = +o.hour;
               subject.practical.total += this.ToFixed(+o.hour);
 
-              if ((+o.isArch > 0 && subject.exam === null) || (!subject.lecture.plan && +o.isArch > 0)) {
-                if (o.exam !== '') {
-                  if (+o.type === 1 || +o.type === 135) {
-                    if (subject.degree === 'бакалавр') {
-                      if (subject.lecture.plan || !this.isTeacher) {
-                        subject.exam = this.ToFixed(this.coefs.bachelor.exam * subject.groupsAmount);
-                      } else {
-                        subject.exam = this.ToFixed(this.coefs.bachelor.exam / subject.subgroups);
-                      }
-                    } else if (subject.degree === 'магистр') {
-                      subject.exam = this.ToFixed(this.coefs.master.exam * subject.studentsAmount);
+              if (+o.haslk === 0 && +o.isArch > 0 && subject.exam === null && isExamInThisTerm) {
+                if (+o.type === 1 || +o.type === 135) {
+                  if (subject.degree === 'бакалавр') {
+                    if (subject.lecture.plan || !this.isTeacher) {
+                      subject.exam = this.ToFixed(this.coefs.bachelor.exam * subject.groupsAmount);
+                    } else {
+                      subject.exam = this.ToFixed(this.coefs.bachelor.exam / subject.subgroups);
                     }
-
-                  } else if (+o.type === 2 || +o.type === 25) {
-                    subject.exam = this.ToFixed(this.coefs.distanceExam * subject.studentsAmount);
+                  } else if (subject.degree === 'магистр') {
+                    subject.exam = this.ToFixed(this.coefs.master.exam * subject.studentsAmount);
                   }
+
+                } else if (+o.type === 2 || +o.type === 25) {
+                  subject.exam = this.ToFixed(this.coefs.distanceExam * subject.studentsAmount);
                 }
               }
             } break;
