@@ -52,8 +52,7 @@ export class CurriculumListComponent implements OnInit {
   dataSource: CurriculumDataSource | null;
   panelOpenState = false;
 
-  displayedColumns = ['number', 'speciality', 'course', 'degree',
-    'type', 'educationYear', 'dateOfStandard', 'actions'];
+  displayedColumns = ['number', 'speciality', 'course', 'degree', 'type', 'educationYear', 'dateOfStandard', 'actions'];
   selectedSpec: Spec;
   curriculumList: CurriculumList;
 
@@ -78,7 +77,6 @@ export class CurriculumListComponent implements OnInit {
   }
 
   ngOnInit() {
-
     this.setStToDefault();
 
     this.mainService.getSpecialityList().subscribe((response) => {
