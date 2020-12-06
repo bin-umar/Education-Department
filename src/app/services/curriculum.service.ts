@@ -50,6 +50,7 @@ export class CurriculumService {
       }).subscribe(response => {
         const curriculums: CurriculumList[] = [];
         response.data.forEach( (item, i) => {
+          const type = this.auth.TYPES.find(o => o.id === +item.type);
           curriculums.push({
             id: item.id,
             number: i + 1,
@@ -58,7 +59,7 @@ export class CurriculumService {
             speciality: item.speciality,
             course: item.course,
             degree: this.auth.DEGREES[+item.degree],
-            type: this.auth.TYPES.find(o => o.id === +item.type).name,
+            type: type && type.name,
             educationYear: item.educationYear,
             idStandard: item.idStandard,
             dateOfStandard: item.dateOfStandard,

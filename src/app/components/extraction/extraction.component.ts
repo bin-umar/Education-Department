@@ -211,9 +211,7 @@ export class ExtractionComponent implements OnInit {
         +subject.prTotal +
         +subject.trainingPrac +
         +subject.manuPrac +
-        +subject.kmroHour +
-        +subject.checkout_b +
-        +subject.checkout_diff
+        +subject.kmroHour
     );
 
     return subject.total;

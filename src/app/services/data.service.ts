@@ -41,6 +41,7 @@ export class DataService {
       }).subscribe(response => {
         const standards: StandardList[] = [];
         response.data.forEach( (item, i) => {
+          const type = this.auth.TYPES.find(o => o.id === +item.typeOfStudying);
           standards.push({
             id: item.ids,
             number: i + 1,
@@ -50,7 +51,7 @@ export class DataService {
             degreeOfStudying: this.auth.DEGREES[Number(item.degreeOfStudying)],
             profession: '',
             timeOfStudying: item.timeOfStudying,
-            typeOfStudying: this.auth.TYPES.find(o => o.id === +item.typeOfStudying).name,
+            typeOfStudying: type && type.name,
             dateOfAcceptance: item.dateOfAcceptance,
             locked: +item.locked
           });
