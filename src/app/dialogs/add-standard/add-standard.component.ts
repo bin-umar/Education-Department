@@ -57,7 +57,7 @@ export class AddStandardComponent implements OnInit {
     this.terms = this.data.creditDividing.terms.toString();
     this.checked = (this.data.selective === 1);
 
-    this.selectedSubject = this.options.find(x => x.name === this.data.name);
+    this.selectedSubject = this.options.find(x => x.name.includes(this.data.name));
 
     this.filteredOptions = this.myControl.valueChanges
       .pipe(
@@ -102,41 +102,46 @@ export class AddStandardComponent implements OnInit {
       this.showError('Семестрҳо холӣ ҳастанд!!!');
     } else {
       if (credits.length === terms.length) {
+        const {
+          typeOfMonitoring: {
+            goUpIWS,
+            exam,
+            checkoutBntu,
+            checkoutDiff
+          }
+        } = this.data;
 
-        if (subject.typeOfMonitoring.goUpIWS === ''
-          && subject.typeOfMonitoring.exam === '') {
-          this.showError('Ҳам имтиҳон ва ҳам КМД холӣ будан наметавонад!!!');
+        const controlFormTermsArray = [exam, goUpIWS, checkoutBntu, checkoutDiff]
+            .filter(Boolean)
+            .join(',')
+            .split(',');
 
-        } else if (subject.typeOfMonitoring.exam !== this.terms &&
-          subject.typeOfMonitoring.goUpIWS === '' &&
-          subject.typeOfMonitoring.exam !== '') {
-          this.showError('Семестрҳо ба семестрҳои имтиҳон баробар нестанд!!!');
+        // @ts-ignore
+        const controlFormTerms = Array.from(new Set(controlFormTermsArray)).sort().join(',');
 
-        } else if (subject.typeOfMonitoring.goUpIWS !== this.terms &&
-          subject.typeOfMonitoring.exam === '' &&
-          subject.typeOfMonitoring.goUpIWS !== '') {
-          this.showError('Семестрҳо ба семестрҳои КМД баробар нестанд!!!');
+        if (controlFormTerms !== this.terms) {
+          this.showError('Семестрҳо ба семестрҳои шакли назорат баробар нестанд!!!');
+          return;
+        }
 
+        terms.forEach((el, i) => {
+          creditSum += +credits[i];
+        });
+
+        if (creditSum !== subject.credits ) {
+          this.showError('Суммаи кредитҳои семестрҳо ба кредитҳои умумӣ баробар нест!!!');
         } else {
-          terms.forEach((el, i) => {
-            creditSum += +credits[i];
-          });
+          subject.creditDividing.credits = [];
+          subject.creditDividing.terms = [];
+          for (let i = 0; i < credits.length; i++) {
+            subject.creditDividing.credits.push(+credits[i]);
+            subject.creditDividing.terms.push(+terms[i]);
+          }
 
-          if (creditSum !== subject.credits ) {
-            this.showError('Суммаи кредитҳои семестрҳо ба кредитҳои умумӣ баробар нест!!!');
+          if (this.selectedSubject === undefined) {
+            this.showError('Фаннро интихоб намоед!!!');
           } else {
-            subject.creditDividing.credits = [];
-            subject.creditDividing.terms = [];
-            for (let i = 0; i < credits.length; i++) {
-              subject.creditDividing.credits.push(+credits[i]);
-              subject.creditDividing.terms.push(+terms[i]);
-            }
-
-            if (this.selectedSubject === undefined) {
-              this.showError('Фаннро интихоб намоед!!!');
-            } else {
-              return true;
-            }
+            return true;
           }
         }
       } else {
@@ -146,19 +151,19 @@ export class AddStandardComponent implements OnInit {
   }
 
   confirmAddSubject(): void {
-    if (this.checkValidation()) {
-      const subject = this.data;
-      subject.name = this.selectedSubject.id.toString();
-
-      if (this.checked) { subject.selective = 1;
-      } else { this.data.selective = 0; }
-
-      this.stSubjectService.addSubject(subject).subscribe( resp => {
-        subject.id = resp.data.id;
-        subject.name = this.selectedSubject.name;
-        this.dialogRef.close(subject);
-      });
+    if (!this.checkValidation()) {
+      return;
     }
+
+    const subject = this.data;
+    subject.name = this.selectedSubject.id.toString();
+    subject.selective = +this.checked;
+
+    this.stSubjectService.addSubject(subject).subscribe( resp => {
+      subject.id = resp.data.id;
+      subject.name = this.selectedSubject.name;
+      this.dialogRef.close(subject);
+    });
   }
 
   confirmSavingSubject() {

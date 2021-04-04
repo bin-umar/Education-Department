@@ -52,8 +52,7 @@ export class CurriculumListComponent implements OnInit {
   dataSource: CurriculumDataSource | null;
   panelOpenState = false;
 
-  displayedColumns = ['number', 'speciality', 'course', 'degree',
-    'type', 'educationYear', 'dateOfStandard', 'actions'];
+  displayedColumns = ['number', 'speciality', 'course', 'degree', 'type', 'educationYear', 'dateOfStandard', 'actions'];
   selectedSpec: Spec;
   curriculumList: CurriculumList;
 
@@ -78,7 +77,6 @@ export class CurriculumListComponent implements OnInit {
   }
 
   ngOnInit() {
-
     this.setStToDefault();
 
     this.mainService.getSpecialityList().subscribe((response) => {
@@ -111,17 +109,15 @@ export class CurriculumListComponent implements OnInit {
 
     if (+data.fc.id === 0) {
       this.filteredOptions = of(this.options);
-    } else {
-
+    } else if (data.kf) {
       if (+data.kf.id === 0) {
         this.filteredOptions = of(this.options.filter(option => +option.fcId === +data.fc.id));
       } else {
-
         this.filteredOptions = of(this.options.filter(option => +option.kfId === +data.kf.id));
       }
     }
 
-    this.dataSource.filterByKf = +data.kf.id;
+    this.dataSource.filterByKf = data.kf ? +data.kf.id : 0;
     this.dataSource.filterByFc = +data.fc.id;
 
     this.refreshTable();

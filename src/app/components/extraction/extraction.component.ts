@@ -8,6 +8,13 @@ import { ExtractionService } from '../../services/extraction.service';
 import { CurriculumList, ExtractionSubject, PrintInfo } from '../../models/curriculum';
 import { AuthService } from '../../services/auth.service';
 
+const separateIfMoreThanOne = (item, index) => {
+  if (item.length > 1) {
+    return  item.split(',')[index];
+  }
+  return item;
+}
+
 @Component({
   selector: 'app-extraction',
   templateUrl: './extraction.component.html',
@@ -55,8 +62,9 @@ export class ExtractionComponent implements OnInit {
       }
     });
 
-    this.isStupidSpec = ((this.idSpec === 299 && this.Curriculum.course === 4) ||
-                          (this.idSpec === 298 && this.Curriculum.course === 4));
+    this.isStupidSpec = (
+        (this.idSpec === 299 && this.Curriculum.course === 4) || (this.idSpec === 298 && this.Curriculum.course === 4)
+    );
 
     this.extractionService.getSubjectsByExtractionId(this.Curriculum.id).subscribe(resp => {
       if (!resp.error) {
@@ -70,16 +78,10 @@ export class ExtractionComponent implements OnInit {
           } else {
             const credits = item.credits.toString().split(',')[i];
             const term = item.terms.toString().split(',')[i];
-            let exams, kmds, exam, kmd;
-
-            if (item.exam.length > 1) {
-              exams = item.exam.toString().split(',');
-            } else if (item.kmd.length > 1) {
-              kmds = item.kmd.toString().split(',');
-            }
-
-            exam = (exams === undefined ? item.exam : exams[i] );
-            kmd = (kmds === undefined ? item.kmd : kmds[i]);
+            const checkout_b = separateIfMoreThanOne(item.checkout_b, i);
+            const checkout_diff = separateIfMoreThanOne(item.checkout_diff, i);
+            const exam = separateIfMoreThanOne(item.exam, i);
+            let kmd = separateIfMoreThanOne(item.kmd, i);
 
             if (exam !== kmd && exam !== '') { kmd = ''; }
 
@@ -95,8 +97,10 @@ export class ExtractionComponent implements OnInit {
               lessonHours: +item.lessonHours,
               kmroCredits: +item.kmroCredits,
               kmroHour: +item.kmroHour,
-              exam: exam,
-              kmd: kmd,
+              exam,
+              kmd,
+              checkout_diff,
+              checkout_b,
               courseProject: +item.courseProject,
               courseWork: +item.courseWork,
               workKont: +item.workKont,
@@ -196,13 +200,21 @@ export class ExtractionComponent implements OnInit {
   }
 
   total(subject: ExtractionSubject) {
-    const result = +subject.lkTotal + +subject.lkPlan + +subject.smTotal +
-      +subject.smPlan + +subject.lbPlan + +subject.lbTotal +
-      +subject.prPlan + +subject.prTotal + +subject.trainingPrac +
-      +subject.manuPrac + +subject.kmroHour;
+    subject.total = (
+        +subject.lkTotal +
+        +subject.lkPlan +
+        +subject.smTotal +
+        +subject.smPlan +
+        +subject.lbPlan +
+        +subject.lbTotal +
+        +subject.prPlan +
+        +subject.prTotal +
+        +subject.trainingPrac +
+        +subject.manuPrac +
+        +subject.kmroHour
+    );
 
-    subject.total = result;
-    return result;
+    return subject.total;
   }
 
   editSubject(subject: ExtractionSubject) {
@@ -223,6 +235,8 @@ export class ExtractionComponent implements OnInit {
             kmroHour: subject.kmroHour,
             exam: subject.exam,
             kmd: subject.kmd,
+            checkout_b: subject.checkout_b,
+            checkout_diff: subject.checkout_diff,
             courseProject: subject.courseProject,
             courseWork: subject.courseWork,
             workKont: subject.workKont,
@@ -260,8 +274,11 @@ export class ExtractionComponent implements OnInit {
       });
   }
 
+  isBntu() {
+    return [1, 9].includes(+this.Curriculum.fcId);
+  }
+
   print() {
     window.print();
   }
-
 }
