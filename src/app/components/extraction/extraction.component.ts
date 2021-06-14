@@ -245,6 +245,7 @@ export class ExtractionComponent implements OnInit {
             lkTotal: subject.lkTotal,
             lbPlan: subject.lbPlan,
             lbTotal: subject.lbTotal,
+            lb_subgroup: subject.lb_subgroup,
             prPlan: subject.prPlan,
             prTotal: subject.prTotal,
             smPlan: subject.smPlan,
